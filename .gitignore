@@ -7,6 +7,33 @@
 node_modules/
 dist/
 
+# SW temporary files
+~$*
+
+# SW simulation files
+*.DSP
+*.ELF
+*.GEN
+*.IDA
+*.LCD
+*.MAX
+*.OUT
+*.PCO
+*.STE
+*.STG
+*.LOG
+*.CWR
+*.MFC
+*.PGF
+*.BD2
+*.BDF
+*.GCF
+*.LDS
+*.MAS
+*.SL3
+*.MS2
+PerformanceLog.txt
+
 # Compiled Java class files
 *.class
 
