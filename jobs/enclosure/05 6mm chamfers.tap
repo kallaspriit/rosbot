@@ -1,0 +1,21 @@
+[01 2mm flat screw holes]
+[T2  D=6. CR=0. TAPER=90deg - ZMIN=-3.3 - spot drill]
+G90
+G22
+G53
+[05 6mm chamfers]
+T2
+S10000 M3
+M37 H2
+G0 X-9.8 Y41.2
+G43 Z15.
+Z5.
+G81 X-9.8 Y41.2 Z-3.3 R-0.3 F30
+X-35.8
+Y107.2
+X-9.8
+G80
+Z15.
+M5
+G53
+G28
