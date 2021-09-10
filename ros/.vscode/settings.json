@@ -1,0 +1,72 @@
+{
+    "editor.tabSize": 8,
+    "editor.rulers": [
+        100
+    ],
+    "editor.defaultFormatter": "zachflower.uncrustify",
+    "files.associations": {
+        "*.repos": "yaml",
+        "*.world": "xml",
+        "*.xacro": "xml"
+    },
+    // Autocomplete from ros python packages
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/foxy/lib/python3.8/site-packages/"
+    ],
+    // Environment file lets vscode find python files within workspace
+    "python.envFile": "${workspaceFolder}/.env",
+    // Use the system installed version of autopep8
+    "python.formatting.autopep8Path": "/usr/bin/autopep8",
+    "python.formatting.autopep8Args": [
+        "--max-line-length=100"
+    ],
+    "C_Cpp.default.intelliSenseMode": "clang-x64",
+    "C_Cpp.formatting": "Disabled",
+    "uncrustify.useReplaceOption": true,
+    "uncrustify.configPath.linux": "/opt/ros/foxy/lib/python3.8/site-packages/ament_uncrustify/configuration/ament_code_style.cfg",
+    "[cpp]": {
+        "editor.defaultFormatter": "zachflower.uncrustify"
+    },
+    "cSpell.words": [
+        "RTPS",
+        "athackst",
+        "autopep",
+        "cmake",
+        "cppcheck",
+        "cpplint",
+        "deque",
+        "devcontainer",
+        "ints",
+        "noqa",
+        "pytest",
+        "rclcpp",
+        "rclpy",
+        "repos",
+        "rosdistro",
+        "rosidl",
+        "uncrustify",
+        "xmllint"
+    ],
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/build": true,
+        "**/install": true,
+        "**/log": true
+    },
+    "python.analysis.extraPaths": [
+        "/opt/ros/foxy/lib/python3.8/site-packages/"
+    ],
+    "cSpell.allowCompoundWords": true,
+    "cSpell.ignorePaths": [
+        "**/package-lock.json",
+        "**/node_modules/**",
+        "**/vscode-extension/**",
+        "**/.git/objects/**",
+        ".vscode",
+        ".vscode-insiders",
+        ".devcontainer/devcontainer.json"
+    ],
+    "cmake.sourceDirectory": "${workspaceFolder}/src/chat"
+}
