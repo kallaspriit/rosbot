@@ -1,0 +1,20 @@
+{
+  "name": "rosjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently -n TALK,LIST \"npm run talker\" \"npm run listener\"",
+    "talker": "ts-node src/talker.ts",
+    "listener": "ts-node src/listener.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.2.1",
+    "rclnodejs": "^0.20.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}

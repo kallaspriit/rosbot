@@ -37,3 +37,10 @@ ros2 pkg create --build-type ament_cmake --node-name talker test_chat
 https://github.com/ros2/rclcpp
 http://docs.ros2.org/latest/api/rclcpp/
 http://wiki.ros.org/std_msgs
+
+## Develop nodejs
+
+https://github.com/RobotWebTools/rclnodejs
+https://github.com/RobotWebTools/rclnodejs-cli
+http://robotwebtools.org/rclnodejs/docs/0.20.0/index.html
+npx generate-ros-messages
