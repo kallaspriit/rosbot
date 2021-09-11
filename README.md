@@ -31,3 +31,9 @@ cd ~/dev_ws/src
 ros2 pkg create --build-type ament_cmake <package_name>
 ros2 pkg create --build-type ament_cmake --node-name my_node my_package
 ros2 pkg create --build-type ament_cmake --node-name talker test_chat
+
+## Develop C++
+
+https://github.com/ros2/rclcpp
+http://docs.ros2.org/latest/api/rclcpp/
+http://wiki.ros.org/std_msgs

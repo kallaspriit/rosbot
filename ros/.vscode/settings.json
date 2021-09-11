@@ -7,7 +7,8 @@
     "files.associations": {
         "*.repos": "yaml",
         "*.world": "xml",
-        "*.xacro": "xml"
+        "*.xacro": "xml",
+        "functional": "cpp"
     },
     // Autocomplete from ros python packages
     "python.autoComplete.extraPaths": [
@@ -68,5 +69,6 @@
         ".vscode-insiders",
         ".devcontainer/devcontainer.json"
     ],
-    "cmake.sourceDirectory": "${workspaceFolder}/src/chat"
+    "cmake.sourceDirectory": "${workspaceFolder}/src/chat",
+    "editor.formatOnSave": true
 }
