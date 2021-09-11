@@ -43,4 +43,5 @@ http://wiki.ros.org/std_msgs
 https://github.com/RobotWebTools/rclnodejs
 https://github.com/RobotWebTools/rclnodejs-cli
 http://robotwebtools.org/rclnodejs/docs/0.20.0/index.html
+https://github.com/RobotWebTools/rclnodejs/tree/develop/example
 npx generate-ros-messages

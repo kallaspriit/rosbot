@@ -1,6 +1,6 @@
 # configure project
 cmake_minimum_required(VERSION 3.5)
-project(chat)
+project(client_service)
 
 # default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -20,26 +20,26 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
+find_package(example_interfaces REQUIRED)
 
-# configure talker
-add_executable(talker src/talker.cpp)
-ament_target_dependencies(talker rclcpp std_msgs)
-target_include_directories(talker PUBLIC
+# configure sum server
+add_executable(sum_server src/sum_server.cpp)
+ament_target_dependencies(sum_server rclcpp example_interfaces)
+target_include_directories(sum_server PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-# configure listener
-add_executable(listener src/listener.cpp)
-ament_target_dependencies(listener rclcpp std_msgs)
-target_include_directories(listener PUBLIC
+# configure sum client
+add_executable(sum_client src/sum_client.cpp)
+ament_target_dependencies(sum_client rclcpp example_interfaces)
+target_include_directories(sum_client PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
 # install targets 
 install(TARGETS
-  talker
-  listener
+  sum_server
+  sum_client
   DESTINATION lib/${PROJECT_NAME})
 
 # configuretesting
