@@ -26,11 +26,11 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - cd ~/dev_ws
 
 ## Build package
-- create directory
+- create workspace directory `mkdir ros2_ws` etc
 - create "src" in this directory
 - copy the library/package into src
 - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
-- `colcon build` to build the package
+- cd back to workspace and run `colcon build` to build the package
 
 ## Create package
 
