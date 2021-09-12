@@ -25,6 +25,13 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - open new terminal to source overlay
 - cd ~/dev_ws
 
+## Build package
+- create directory
+- create "src" in this directory
+- copy the library/package into src
+- `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
+- `colcon build` to build the package
+
 ## Create package
 
 cd ~/dev_ws/src
@@ -45,3 +52,7 @@ https://github.com/RobotWebTools/rclnodejs-cli
 http://robotwebtools.org/rclnodejs/docs/0.20.0/index.html
 https://github.com/RobotWebTools/rclnodejs/tree/develop/example
 npx generate-ros-messages
+
+## Run odrive
+
+ros2 launch odrive_bringup odrive.launch.py enable_joint1:=true
