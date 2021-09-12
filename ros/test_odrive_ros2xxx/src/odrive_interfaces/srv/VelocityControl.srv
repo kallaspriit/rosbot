@@ -1,0 +1,5 @@
+int32 axis # axis index
+float32 turns_s # turns/s
+---
+bool success    # indicate successful run of triggered service
+string message  # informational, e.g. for error messages
