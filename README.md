@@ -32,6 +32,14 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
 - cd back to workspace and run `colcon build` to build the package
 
+## Rus odrive_ros2 package
+- `ros2 run odrive_ros2 odrive_node`
+- `ros2 service call /connect_odrive std_srvs/srv/Trigger`
+- `ros2 service call /request_state odrive_interfaces/srv/AxisState "{axis: 0, state: 8}"` (not needed if started in closed loop control)
+- `ros2 service call /velocity_cmd odrive_interfaces/srv/VelocityControl "{axis: 0, turns_s: 0.5}"`
+- `ros2 topic echo /barrery_percentage` (typo.. and not sure of the format, returns something like 3.5)
+- `ros2 topic echo /joint_state`
+
 ## Create package
 
 cd ~/dev_ws/src
