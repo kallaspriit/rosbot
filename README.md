@@ -32,7 +32,43 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
 - cd back to workspace and run `colcon build` to build the package
 
-## Rus odrive_ros2 package
+## Teleop robot controller
+- https://github.com/ros-teleop/teleop_tools/tree/foxy-devel
+- https://ubuntu.com/blog/the-teleop_tools-arrive-in-ros-2-dashing
+- `ros2 run mouse_teleop mouse_teleop`
+- `ros2 run mouse_teleop mouse_teleop --ros-args -r holonomic:=true`
+- `ros2 topic echo /mouse_vel`
+
+## Joystick teleop
+- https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
+- https://github.com/ros2/teleop_twist_joy/tree/foxy/
+- http://wiki.ros.org/joy
+- `sudo apt install ros-foxy-teleop-twist-joy`
+- `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox' joy_dev:='dev/input/js1'`
+- `jstest-gtk`
+- `ros2 topic echo /joy`
+- `ros2 topic echo /cmd_vel`
+
+# run ros/test_odrive_ros2_control package
+- https://ros-controls.github.io/control.ros.org/getting_started.html
+- https://github.com/ros-controls/ros2_control
+- https://github.com/ros-controls/ros2_controllers
+- https://github.com/ros-controls/ros2_control_demos
+- https://github.com/ros-controls/ros2_controllers/tree/master/diff_drive_controller
+- http://wiki.ros.org/urdf
+- https://github.com/ros-controls/roadmap/blob/master/design_drafts/components_architecture_and_urdf_examples.md
+- https://github.com/ros-controls/ros2_control_demos/blob/master/ros2_control_demo_bringup/config/diffbot_diff_drive_controller.yaml
+- https://github.com/ros-controls/ros2_control_demos/tree/master/ros2_control_demo_description/diffbot_description
+- https://github.com/ros-controls/ros2_control_demos/blob/master/ros2_control_demo_bringup/launch/diffbot_system.launch.py
+- https://ros-controls.github.io/control.ros.org/ros2_control/ros2controlcli/doc/userdoc.html#ros2controlcli-userdoc CLI
+- `cd ~/rosbot/ros/test_odrive_ros2_control/`
+- `sudo apt install ros-foxy-ros2-control ros-foxy-ros2-controllers`
+- `ros2 launch odrive_bringup odrive.launch.py enable_joint1:=true`
+- `ros2 topic pub -r 100 /joint0_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
+- `ros2 topic pub -r 100 /joint1_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
+
+## Run ros/test_odrive_ros2 package
+- `cd ~/rosbot/ros/test_odrive_ros2/`
 - `ros2 run odrive_ros2 odrive_node`
 - `ros2 service call /connect_odrive std_srvs/srv/Trigger`
 - `ros2 service call /request_state odrive_interfaces/srv/AxisState "{axis: 0, state: 8}"` (not needed if started in closed loop control)
