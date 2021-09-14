@@ -2,6 +2,211 @@
 
 ROS 2 based robot learning platform.
 
+## Install ROS
+
+[Installation guide](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html).
+
+- Enable universe (probably not needed)
+  - `sudo apt install software-properties-common`
+  - `sudo add-apt-repository universe`
+- Add repository
+  - `sudo apt update && sudo apt install curl gnupg2 lsb-release`
+  - `sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg`
+- Add repository to sources list
+  - `echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null`
+- Install ROS
+  - `sudo apt update`
+  - `sudo apt install ros-galactic-desktop`
+- Install autocomplete
+  - `sudo apt install -y python3-argcomplete`
+- Add sourcing ROS to bashrc
+  - `echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc`
+- Add colcom_cd to bashrc
+  - `echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc`
+  - `echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc`
+- Check environment variables
+  - `printenv | grep -i ROS`
+- Set domain id (random number between 0-101 inclusive)
+  - `echo "export ROS_DOMAIN_ID=<your_domain_id>" >> ~/.bashrc`
+- Test ROS (open in separate terminals)
+  - `ros2 run demo_nodes_cpp talker`
+  - `ros2 run demo_nodes_py listener`
+- Install ros bag for data recording/playback
+  - `sudo apt-get install ros-galactic-ros2bag ros-galactic-rosbag2-storage-default-plugins`
+
+## Install tools
+
+- Install VSCode
+  - `sudo snap install --classic code`
+
+## Install TurtleSim
+
+- Install
+  - `sudo apt install ros-foxy-turtlesim`
+- Check the package installed
+  - `ros2 pkg executables turtlesim`
+- Start turtlesim
+  - `ros2 run turtlesim turtlesim_node`
+- Start teleop to control the turtle
+  - `ros2 run turtlesim turtle_teleop_key`
+
+## Install RQT
+
+- Install rqt
+  - `sudo apt update`
+  - `sudo apt install ~nros-foxy-rqt*`
+- Run rqt
+  - `rqt`
+- Add service called
+  - `select Plugins > Services > Service Caller`
+  - Call `/spawn` with `x=1.0, y=1.0, name='turtle2'`
+- Remap control to turtle 2
+  - `ros2 run turtlesim turtle_teleop_key --ros-args --remap turtle1/cmd_vel:=turtle2/cmd_vel`
+- Render rtq graph
+  - `rqt_graph`
+  - can also add to `rtq` by `Plugins > Introspection > Nodes Graph`
+
+## ROS Command line
+
+- Run node
+  - `ros2 run turtlesim turtlesim_node`
+  - `ros2 run turtlesim turtle_teleop_key`
+  - `ros2 run turtlesim turtlesim_node --ros-args --log-level WARN` to run with custom log level
+- List resources
+  - `ros2 node list`
+  - `ros2 topic list`
+  - `ros2 topic list -t` to also show message types
+  - `ros2 service list`
+  - `ros2 service list -t` to also show service types
+  - `ros2 action list`
+  - `ros2 param list`
+- Get node info
+  - `ros2 node info /my_turtle`
+- Show data published to topic
+  - `ros2 topic echo /turtle1/cmd_vel` to see velocity commands
+  - `ros2 topic echo /turtle1/pose` to see changing pose
+- Get topic info
+  - `ros2 topic info /turtle1/cmd_vel`
+- Show messsage interface
+  - `ros2 interface show geometry_msgs/msg/Twist`
+- Publish message to topic
+  - `ros2 topic pub <topic_name> <msg_type> '<args>'` where args is in YAML syntax
+  - `ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"` publishes once
+  - `ros2 topic pub --rate 1 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"` publishes continuosly at 1Hz
+- Show how often data is published to a topic
+  - `ros2 topic hz /turtle1/pose`
+- Get service type info
+  - `ros2 service type <service_name>`
+  - `ros2 service type /clear`
+- Find service by type
+  - `ros2 service find <type_name>`
+  - `ros2 service find std_srvs/srv/Empty`
+- Show service type structure
+  - `ros2 interface show <type_name>.srv` where request and response structure is separated by ---
+  - `ros2 interface show std_srvs/srv/Empty.srv`
+  - `ros2 interface show turtlesim/srv/TeleportAbsolute.srv`
+  - `ros2 interface show turtlesim/srv/Spawn`
+- Call service
+  - `ros2 service call <service_name> <service_type> <arguments>`
+  - `ros2 service call /clear std_srvs/srv/Empty`
+  - `ros2 service call /spawn turtlesim/srv/Spawn "{x: 2, y: 2, theta: 0.2, name: ''}"`
+- Get param list
+  - `ros2 param list`
+- Get param value
+  - `ros2 param get <node_name> <parameter_name>`
+  - `ros2 param get /turtlesim background_g`
+- Set param value
+  - `ros2 param set <node_name> <parameter_name> <value>`
+  - `ros2 param set /turtlesim background_r 150`
+- Dump node parameters
+  - `ros2 param dump <node_name>`
+  - `ros2 param dump /turtlesim`
+- Start node using parameters from dumped file
+  - `ros2 run <package_name> <executable_name> --ros-args --params-file <file_name>`
+  - `ros2 run turtlesim turtlesim_node --ros-args --params-file ./turtlesim.yaml`
+- Get list of node actions
+  - `ros2 node info /turtlesim`
+  - `ros2 node info /teleop_turtle`
+- Get list of all actions
+  - `ros2 action list`
+  - `ros2 action list -t` to also show action types
+- Get action info
+  - `ros2 action info /turtle1/rotate_absolute`
+- Get action interface info
+  - `ros2 interface show turtlesim/action/RotateAbsolute`
+- Call action
+  - `ros2 action send_goal <action_name> <action_type> <values>`
+  - `ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"`
+  - `ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 3.14}" --feedback` to also get feedback
+- Run rqt console
+  - `ros2 run rqt_console rqt_console`
+- Start node
+  - `ros2 run rqt_console rqt_console`
+- Launch launch file
+  - `ros2 topic pub -r 1 /turtlesim1/turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: -1.8}}"`
+- Record topic to bag
+  - `ros2 bag record <topic_name>` to record a topic
+  - `ros2 bag record /turtle1/cmd_vel`
+  - `ros2 bag record -o subset /turtle1/cmd_vel /turtle1/pose` top choose filename `subset` and record multiple topics
+- Get bag info
+  - `ros2 bag info <bag_file_name>`
+  - `ros2 bag info subset`
+- Play back bag recording
+  - `ros2 bag play <bag_file_name>`
+  - `ros2 bag play subset`
+
+## Example launch file
+
+Starts two turtlesim nodes with different namespace names and a mimic node that makes the second turtle mimic first one.
+
+```py
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package='turtlesim',
+            namespace='turtlesim1',
+            executable='turtlesim_node',
+            name='sim'
+        ),
+        Node(
+            package='turtlesim',
+            namespace='turtlesim2',
+            executable='turtlesim_node',
+            name='sim'
+        ),
+        Node(
+            package='turtlesim',
+            executable='mimic',
+            name='mimic',
+            remappings=[
+                ('/input/pose', '/turtlesim1/turtle1/pose'),
+                ('/output/cmd_vel', '/turtlesim2/turtle1/cmd_vel'),
+            ]
+        )
+    ])
+```
+
+## TMUX terminal splitter
+
+- Install
+  - `sudo apt install tmux`
+- Start
+  - `tmux`
+- Split terminal
+  - horizonal `ctrl+b %`
+  - vertical `ctrl+b "`
+- Manage windows
+  - create `ctrl+b c`
+  - close `exit`
+  - rename `ctrl+b ,`
+- Navigate
+  - between panels `ctrl+b ARROWS`
+  - between windows `ctrl+b N` where first N=0, second N=1 etc
+
+
 ## Base ros setup
 
 https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Binary.html#linux-install-binary-install-missing-dependencies
