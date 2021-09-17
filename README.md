@@ -248,13 +248,26 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
 - https://github.com/ros2/teleop_twist_joy/tree/foxy/
 - http://wiki.ros.org/joy
+- https://github.com/medusalix/xow need xow to use xbox bluetooth controller
 - `sudo apt install ros-foxy-teleop-twist-joy`
 - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox' joy_dev:='dev/input/js1'`
 - `jstest-gtk`
 - `ros2 topic echo /joy`
 - `ros2 topic echo /cmd_vel`
 
-# run ros/test_odrive_ros2_control package
+## Run experiments/test_odrive_ros2 package
+- `cd ~/rosbot/experiments/test_odrive_ros2/`
+- `ros2 run odrive_ros2 odrive_node`
+- `ros2 service call /connect_odrive std_srvs/srv/Trigger`
+- `ros2 service call /request_state odrive_interfaces/srv/AxisState "{axis: 0, state: 8}"` (not needed if started in closed loop control)
+- `ros2 service call /velocity_cmd odrive_interfaces/srv/VelocityControl "{axis: 0, turns_s: 0.5}"`
+- `ros2 topic echo /barrery_percentage` (typo.. and not sure of the format, returns something like 3.5)
+- `ros2 topic echo /joint_state`
+
+## RVIZ2
+- https://www.stereolabs.com/docs/ros2/rviz2/
+
+# Run experiments/test_odrive_ros2_control package
 - https://ros-controls.github.io/control.ros.org/getting_started.html
 - https://github.com/ros-controls/ros2_control
 - https://github.com/ros-controls/ros2_controllers
@@ -266,20 +279,54 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - https://github.com/ros-controls/ros2_control_demos/tree/master/ros2_control_demo_description/diffbot_description
 - https://github.com/ros-controls/ros2_control_demos/blob/master/ros2_control_demo_bringup/launch/diffbot_system.launch.py
 - https://ros-controls.github.io/control.ros.org/ros2_control/ros2controlcli/doc/userdoc.html#ros2controlcli-userdoc CLI
-- `cd ~/rosbot/ros/test_odrive_ros2_control/`
+- `cd ~/rosbot/experiments/test_odrive_ros2_control/`
 - `sudo apt install ros-foxy-ros2-control ros-foxy-ros2-controllers`
 - `ros2 launch odrive_bringup odrive.launch.py enable_joint1:=true`
 - `ros2 topic pub -r 100 /joint0_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
 - `ros2 topic pub -r 100 /joint1_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
 
-## Run ros/test_odrive_ros2 package
-- `cd ~/rosbot/ros/test_odrive_ros2/`
-- `ros2 run odrive_ros2 odrive_node`
-- `ros2 service call /connect_odrive std_srvs/srv/Trigger`
-- `ros2 service call /request_state odrive_interfaces/srv/AxisState "{axis: 0, state: 8}"` (not needed if started in closed loop control)
-- `ros2 service call /velocity_cmd odrive_interfaces/srv/VelocityControl "{axis: 0, turns_s: 0.5}"`
-- `ros2 topic echo /barrery_percentage` (typo.. and not sure of the format, returns something like 3.5)
-- `ros2 topic echo /joint_state`
+## Run ros2_control_demos
+- copy repo https://github.com/ros-controls/ros2_control_demos
+- create workspace folder, move demo repo folders under `src`
+- `cd ros2_control_demos/`
+- `rosdep install -i --from-path src --rosdistro foxy -y`
+- `colcon build`
+- open new terminal
+- `cd ros2_control_demos/`
+- `. install/local_setup.bash`
+- `ros2 launch ros2_control_demo_bringup diffbot_system.launch.py start_rviz:=true`
+- list ros control hardware interfaces `ros2 control list_hardware_interfaces`
+- list ros control controllers `ros2 control list_controllers`
+- publish velocity command
+
+```
+ros2 topic pub --rate 30 /diffbot_base_controller/cmd_vel_unstamped geometry_msgs/msg/Twist "linear:
+ x: 0.7
+ y: 0.0
+ z: 0.0
+angular:
+ x: 0.0
+ y: 0.0
+ z: 1.0"
+```
+
+- control with mouse_teleop, remapping /mouse_vel to /diffbot_base_controller/cmd_vel_unstamped
+- `ros2 run mouse_teleop mouse_teleop --ros-args -r /mouse_vel:=/diffbot_base_controller/cmd_vel_unstamped`
+
+## Run rosbot/ros workspace
+- Build
+  - `cd ~/rosbot/ros/rosbot` to open workspace
+  - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
+  - `colcon build` to build workspace
+- Run joystick teleop
+  - Open new terminal
+  - `. install/local_setup.bash` to load workspace overlay
+  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot'` to launch joystick teleop
+  - Hold down left trigger and use left and right joysticks to control speed and rotation
+
+## Open VSCode from Ubuntu explorer context menu
+- Run the following in terminal
+- `wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash`
 
 ## Create package
 
