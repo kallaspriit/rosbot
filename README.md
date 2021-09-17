@@ -295,8 +295,8 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `cd ros2_control_demos/`
 - `. install/local_setup.bash`
 - `ros2 launch ros2_control_demo_bringup diffbot_system.launch.py start_rviz:=true`
-- list ros control hardware interfaces `ros2 control list_hardware_interfaces`
-- list ros control controllers `ros2 control list_controllers`
+- `ros2 control list_hardware_interfaces` to list ros control hardware interfaces
+- `ros2 control list_controllers` to list ros control controllers
 - publish velocity command
 
 ```
@@ -313,14 +313,15 @@ angular:
 - control with mouse_teleop, remapping /mouse_vel to /diffbot_base_controller/cmd_vel_unstamped
 - `ros2 run mouse_teleop mouse_teleop --ros-args -r /mouse_vel:=/diffbot_base_controller/cmd_vel_unstamped`
 
-## Run rosbot/ros workspace
+## Run main rosbot/ros workspace
 - Build
-  - `cd ~/rosbot/ros/rosbot` to open workspace
+  - `cd ~/rosbot/ros` to open workspace
   - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
   - `colcon build` to build workspace
 - Run joystick teleop
   - Open new terminal
   - `. install/local_setup.bash` to load workspace overlay
+  - `ros2 launch odrive_bringup odrive.launch.py enable_joint1:=true` to launch workspace
   - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot'` to launch joystick teleop
   - Hold down left trigger and use left and right joysticks to control speed and rotation
 

@@ -25,36 +25,36 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "enable_joint0",
+            "enable_left_wheel_joint",
             default_value="true",
         )
     )
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "enable_joint1",
+            "enable_right_wheel_joint",
             default_value="false",
         )
     )
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "joint0_controller",
-            default_value="joint0_velocity_controller",
+            "left_wheel_joint_controller",
+            default_value="left_wheel_joint_velocity_controller",
         )
     )
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "joint1_controller",
-            default_value="joint1_velocity_controller",
+            "right_wheel_joint_controller",
+            default_value="right_wheel_joint_velocity_controller",
         )
     )
 
-    enable_joint0 = LaunchConfiguration("enable_joint0")
-    enable_joint1 = LaunchConfiguration("enable_joint1")
-    joint0_controller = LaunchConfiguration("joint0_controller")
-    joint1_controller = LaunchConfiguration("joint1_controller")
+    enable_left_wheel_joint = LaunchConfiguration("enable_left_wheel_joint")
+    enable_right_wheel_joint = LaunchConfiguration("enable_right_wheel_joint")
+    left_wheel_joint_controller = LaunchConfiguration("left_wheel_joint_controller")
+    right_wheel_joint_controller = LaunchConfiguration("right_wheel_joint_controller")
 
     robot_description_content = Command(
         [
@@ -68,11 +68,11 @@ def generate_launch_description():
                 ]
             ),
             " ",
-            "enable_joint0:=",
-            enable_joint0,
+            "enable_left_wheel_joint:=",
+            enable_left_wheel_joint,
             " ",
-            "enable_joint1:=",
-            enable_joint1,
+            "enable_right_wheel_joint:=",
+            enable_right_wheel_joint,
         ]
     )
     robot_description = {"robot_description": robot_description_content}
@@ -108,26 +108,26 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    joint0_controller_spawner = Node(
+    left_wheel_joint_controller_spawner = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=[joint0_controller, "-c", "/controller_manager"],
-        condition=IfCondition(enable_joint0),
+        arguments=[left_wheel_joint_controller, "-c", "/controller_manager"],
+        condition=IfCondition(enable_left_wheel_joint),
     )
 
-    joint1_controller_spawner = Node(
+    right_wheel_joint_controller_spawner = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=[joint1_controller, "-c", "/controller_manager"],
-        condition=IfCondition(enable_joint1),
+        arguments=[right_wheel_joint_controller, "-c", "/controller_manager"],
+        condition=IfCondition(enable_right_wheel_joint),
     )
 
     nodes = [
         control_node,
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
-        joint0_controller_spawner,
-        joint1_controller_spawner,
+        left_wheel_joint_controller_spawner,
+        right_wheel_joint_controller_spawner,
     ]
 
     return LaunchDescription(declared_arguments + nodes)
