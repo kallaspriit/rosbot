@@ -101,20 +101,29 @@ def generate_launch_description():
     robot_description = {"robot_description": robot_description_content}
 
     # get odrive controllers configuration
-    odrive_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare("odrive_bringup"),
-            "config",
-            "odrive_controllers.yaml",
-        ]
-    )
+    # odrive_controllers = PathJoinSubstitution(
+    #     [
+    #         FindPackageShare("odrive_bringup"),
+    #         "config",
+    #         "odrive_controllers.yaml",
+    #     ]
+    # )
 
     # get diffbot diff controllers configuration
-    diffbot_diff_drive_controller = PathJoinSubstitution(
+    # diffbot_diff_drive_controller = PathJoinSubstitution(
+    #     [
+    #         FindPackageShare("odrive_bringup"),
+    #         "config",
+    #         "diffbot_diff_drive_controller.yaml",
+    #     ]
+    # )
+
+    # get rosbot controllers configuration path
+    rosbot_controllers = PathJoinSubstitution(
         [
             FindPackageShare("odrive_bringup"),
             "config",
-            "diffbot_diff_drive_controller.yaml",
+            "rosbot_controllers.yaml",
         ]
     )
 
@@ -122,9 +131,8 @@ def generate_launch_description():
     controller_manager_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[
-            robot_description, odrive_controllers,
-            diffbot_diff_drive_controller],
+        # parameters=[robot_description, odrive_controllers, diffbot_diff_drive_controller],
+        parameters=[robot_description, rosbot_controllers],
         output={
             "stdout": "screen",
             "stderr": "screen",
