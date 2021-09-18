@@ -321,12 +321,13 @@ angular:
 - Run joystick teleop
   - Open new terminal
   - `. install/local_setup.bash` to load workspace overlay
-  - `ros2 launch odrive_bringup odrive.launch.py` to launch odrive workspace
-  - `ros2 launch odrive_bringup rosbot.launch.py` to launch rosbot workspace
+  - `ros2 launch odrive_bringup odrive.launch.py` to launch odrive (old)
+  - `ros2 launch odrive_bringup rosbot.launch.py` to launch rosbot
+  - `ros2 launch odrive_bringup rviz.launch.py` to launch rviz (remote pc)
   - `ros2 topic pub -r 100 /left_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
   - `ros2 topic pub -r 100 /right_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
-  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot'` to launch joystick teleop
-  - Hold down left trigger and use left and right joysticks to control speed and rotation
+  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot' cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped` to launch joystick teleop
+  - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
 
 ## Open VSCode from Ubuntu explorer context menu
 - Run the following in terminal

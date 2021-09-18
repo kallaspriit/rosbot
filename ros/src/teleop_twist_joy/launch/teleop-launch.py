@@ -7,13 +7,19 @@ import launch_ros.actions
 
 
 def generate_launch_description():
+    cmd_vel = launch.substitutions.LaunchConfiguration('cmd_vel')
     joy_config = launch.substitutions.LaunchConfiguration('joy_config')
     joy_dev = launch.substitutions.LaunchConfiguration('joy_dev')
-    config_filepath = launch.substitutions.LaunchConfiguration('config_filepath')
+    config_filepath = launch.substitutions.LaunchConfiguration(
+        'config_filepath')
 
     return launch.LaunchDescription([
-        launch.actions.DeclareLaunchArgument('joy_config', default_value='ps3'),
-        launch.actions.DeclareLaunchArgument('joy_dev', default_value='/dev/input/js0'),
+        launch.actions.DeclareLaunchArgument(
+            'cmd_vel', default_value='cmd_vel'),
+        launch.actions.DeclareLaunchArgument(
+            'joy_config', default_value='ps3'),
+        launch.actions.DeclareLaunchArgument(
+            'joy_dev', default_value='/dev/input/js0'),
         launch.actions.DeclareLaunchArgument('config_filepath', default_value=[
             launch.substitutions.TextSubstitution(text=os.path.join(
                 get_package_share_directory('teleop_twist_joy'), 'config', '')),
@@ -28,5 +34,8 @@ def generate_launch_description():
             }]),
         launch_ros.actions.Node(
             package='teleop_twist_joy', executable='teleop_node',
-            name='teleop_twist_joy_node', parameters=[config_filepath]),
+            name='teleop_twist_joy_node', parameters=[config_filepath],
+            remappings={('/cmd_vel', cmd_vel)},
+        ),
+
     ])
