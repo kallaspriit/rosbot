@@ -2,14 +2,14 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="diffdrive_robot">
   <!-- from diffbot_system.urdf.xacro -->
   <xacro:arg name="use_sim" default="false" />
-  <xacro:arg name="use_fake_hardware" default="true" />
+  <xacro:arg name="use_fake_hardware" default="false" />
   <xacro:arg name="fake_sensor_commands" default="false" />
   <xacro:arg name="prefix" default="" />
 
-  <xacro:include filename="$(find rosbot_description)/urdf/diffbot.urdf.xacro" />
-  <xacro:include filename="$(find rosbot_description)/gazebo/diffbot.gazebo.xacro" />
-  <xacro:include filename="$(find rosbot_description)/gazebo/diffbot.materials.xacro" />
-  <xacro:include filename="$(find rosbot_description)/ros2_control/diffbot_system.ros2_control.xacro" />
+  <xacro:include filename="$(find rosbot_description)/urdf/rosbot.urdf.xacro" />
+  <xacro:include filename="$(find rosbot_description)/gazebo/rosbot.gazebo.xacro" />
+  <xacro:include filename="$(find rosbot_description)/gazebo/rosbot.materials.xacro" />
+  <xacro:include filename="$(find rosbot_description)/ros2_control/rosbot_system.ros2_control.xacro" />
 
   <xacro:diffbot prefix="$(arg prefix)" />
   <xacro:diffbot_gazebo prefix="$(arg prefix)" />

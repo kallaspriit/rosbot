@@ -56,12 +56,12 @@ def generate_launch_description():
     # get launch argument values
     enable_left_wheel_joint = LaunchConfiguration("enable_left_wheel_joint")
     enable_right_wheel_joint = LaunchConfiguration("enable_right_wheel_joint")
-    left_wheel_joint_controller = LaunchConfiguration(
-        "left_wheel_joint_controller"
-    )
-    right_wheel_joint_controller = LaunchConfiguration(
-        "right_wheel_joint_controller"
-    )
+    # left_wheel_joint_controller = LaunchConfiguration(
+    #     "left_wheel_joint_controller"
+    # )
+    # right_wheel_joint_controller = LaunchConfiguration(
+    #     "right_wheel_joint_controller"
+    # )
 
     # get robot description from urdf xacro file
     # TODO: add stuff from diffbot_system.urdf.xacro to rosbot.urdf.xacro
