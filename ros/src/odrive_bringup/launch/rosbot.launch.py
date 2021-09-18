@@ -87,7 +87,7 @@ def generate_launch_description():
                 [
                     FindPackageShare("rosbot_description"),
                     "urdf",
-                    "rosbot.urdf.xacro",
+                    "rosbot_system.urdf.xacro",
                 ]
             ),
             " ",
@@ -181,7 +181,7 @@ def generate_launch_description():
 
     # get path to rviz configuration file
     rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare("diffbot_description"), "config", "diffbot.rviz"]
+        [FindPackageShare("rosbot_description"), "config", "rosbot.rviz"]
     )
 
     # setup rviz node
