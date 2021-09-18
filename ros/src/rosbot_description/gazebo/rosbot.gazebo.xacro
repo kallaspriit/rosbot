@@ -5,7 +5,7 @@ https://github.com/ros-simulation/gazebo_ros_demos/blob/kinetic-devel/diffbot_de
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="diffbot_gazebo" params="prefix">
+  <xacro:macro name="rosbot_gazebo" params="prefix">
 
     <!-- Link1 -->
     <gazebo reference="${prefix}base_link">

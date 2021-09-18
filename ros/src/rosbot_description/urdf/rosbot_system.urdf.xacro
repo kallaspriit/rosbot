@@ -11,9 +11,9 @@
   <xacro:include filename="$(find rosbot_description)/gazebo/rosbot.materials.xacro" />
   <xacro:include filename="$(find rosbot_description)/ros2_control/rosbot_system.ros2_control.xacro" />
 
-  <xacro:diffbot prefix="$(arg prefix)" />
-  <xacro:diffbot_gazebo prefix="$(arg prefix)" />
-  <xacro:diffbot_system name="DiffBotSystem" prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
+  <xacro:rosbot prefix="$(arg prefix)" />
+  <xacro:rosbot_gazebo prefix="$(arg prefix)" />
+  <xacro:rosbot_system name="DiffBotSystem" prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
 
 
   <!--
