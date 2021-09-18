@@ -148,20 +148,20 @@ def generate_launch_description():
     )
 
     # setup left wheel joint controller spawner node
-    left_wheel_controller_node = Node(
-        package="controller_manager",
-        executable="spawner.py",
-        arguments=[left_wheel_joint_controller, "-c", "/controller_manager"],
-        condition=IfCondition(enable_left_wheel_joint),
-    )
+    # left_wheel_controller_node = Node(
+    #     package="controller_manager",
+    #     executable="spawner.py",
+    #     arguments=[left_wheel_joint_controller, "-c", "/controller_manager"],
+    #     condition=IfCondition(enable_left_wheel_joint),
+    # )
 
     # setup right wheel joint controller spawner node
-    right_wheel_controller_node = Node(
-        package="controller_manager",
-        executable="spawner.py",
-        arguments=[right_wheel_joint_controller, "-c", "/controller_manager"],
-        condition=IfCondition(enable_right_wheel_joint),
-    )
+    # right_wheel_controller_node = Node(
+    #     package="controller_manager",
+    #     executable="spawner.py",
+    #     arguments=[right_wheel_joint_controller, "-c", "/controller_manager"],
+    #     condition=IfCondition(enable_right_wheel_joint),
+    # )
 
     # setup diffbot base controller
     diffbot_base_controller_node = Node(
@@ -189,8 +189,8 @@ def generate_launch_description():
         controller_manager_node,
         robot_state_publisher_node,
         joint_state_broadcaster_node,
-        left_wheel_controller_node,
-        right_wheel_controller_node,
+        # left_wheel_controller_node,
+        # right_wheel_controller_node,
         diffbot_base_controller_node,
         rviz_node,
     ]
