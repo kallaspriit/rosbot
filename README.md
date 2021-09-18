@@ -321,13 +321,28 @@ angular:
 - Run joystick teleop
   - Open new terminal
   - `. install/local_setup.bash` to load workspace overlay
-  - `ros2 launch odrive_bringup odrive.launch.py enable_joint1:=true` to launch workspace
+  - `ros2 launch odrive_bringup odrive.launch.py` to launch odrive workspace
+  - `ros2 launch odrive_bringup rosbot.launch.py` to launch rosbot workspace
+  - `ros2 topic pub -r 100 /left_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
+  - `ros2 topic pub -r 100 /right_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
   - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot'` to launch joystick teleop
   - Hold down left trigger and use left and right joysticks to control speed and rotation
 
 ## Open VSCode from Ubuntu explorer context menu
 - Run the following in terminal
 - `wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash`
+
+## Configure ssh
+- `ssh-keygen -t rsa` to create ssh key in `~/.ssh` if not already present
+- `cat ~/.ssh/id_rsa.pub` to get public key from computer that wants to access robot
+- add the public key to robot's `~/.ssh/authorized_keys` file
+- create `~/.ssh/config` file on the remote computer with contents like
+```
+Host rosbot
+    HostName rosbot
+    User ubuntu
+```
+- `ssh rosbot` to open ssh connection to robot using the configuration and ssh key
 
 ## Create package
 
@@ -349,7 +364,3 @@ https://github.com/RobotWebTools/rclnodejs-cli
 http://robotwebtools.org/rclnodejs/docs/0.20.0/index.html
 https://github.com/RobotWebTools/rclnodejs/tree/develop/example
 npx generate-ros-messages
-
-## Run odrive
-
-ros2 launch odrive_bringup odrive.launch.py enable_joint1:=true

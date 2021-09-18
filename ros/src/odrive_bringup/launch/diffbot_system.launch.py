@@ -22,6 +22,7 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
 
+    # added
     arg_show_rviz = DeclareLaunchArgument(
         "start_rviz",
         default_value="false",
@@ -29,17 +30,20 @@ def generate_launch_description():
     )
 
     # Get URDF via xacro
+    # added
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
             PathJoinSubstitution(
-                [FindPackageShare("diffbot_description"), "urdf", "diffbot_system.urdf.xacro"]
+                [FindPackageShare("diffbot_description"),
+                 "urdf", "diffbot_system.urdf.xacro"]
             ),
         ]
     )
     robot_description = {"robot_description": robot_description_content}
 
+    # added
     diffbot_diff_drive_controller = PathJoinSubstitution(
         [
             FindPackageShare("ros2_control_demo_bringup"),
@@ -48,6 +52,7 @@ def generate_launch_description():
         ]
     )
 
+    # added
     node_robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
@@ -55,6 +60,7 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
+    # added
     controller_manager_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -65,12 +71,15 @@ def generate_launch_description():
         },
     )
 
+    # added
     spawn_dd_controller = Node(
         package="controller_manager",
         executable="spawner.py",
         arguments=["diffbot_base_controller"],
         output="screen",
     )
+
+    # existed
     spawn_jsb_controller = Node(
         package="controller_manager",
         executable="spawner.py",
@@ -78,9 +87,12 @@ def generate_launch_description():
         output="screen",
     )
 
+    # added
     rviz_config_file = PathJoinSubstitution(
         [FindPackageShare("diffbot_description"), "config", "diffbot.rviz"]
     )
+
+    # added
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
