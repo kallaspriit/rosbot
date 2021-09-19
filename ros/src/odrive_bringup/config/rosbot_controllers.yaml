@@ -13,6 +13,7 @@ diffbot_base_controller:
     left_wheel_names: ["left_wheel_joint"]
     right_wheel_names: ["right_wheel_joint"]
 
+    # TODO: set correct robot parameters
     wheel_separation: 0.10
     #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
     wheel_radius: 0.015
