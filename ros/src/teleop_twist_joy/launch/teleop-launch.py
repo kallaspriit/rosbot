@@ -15,9 +15,9 @@ def generate_launch_description():
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
-            'cmd_vel', default_value='cmd_vel'),
+            'cmd_vel', default_value='diffbot_base_controller/cmd_vel_unstamped'),
         launch.actions.DeclareLaunchArgument(
-            'joy_config', default_value='ps3'),
+            'joy_config', default_value='rosbot'),
         launch.actions.DeclareLaunchArgument(
             'joy_dev', default_value='/dev/input/js0'),
         launch.actions.DeclareLaunchArgument('config_filepath', default_value=[
