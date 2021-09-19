@@ -2,6 +2,33 @@
 
 ROS 2 based robot learning platform.
 
+## Run main rosbot/ros workspace
+- Build rosbot (on both the robot and the remote PC)
+  - `cd ~/rosbot/ros` to open workspace
+  - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
+  - `git pull && colcon build` to pull changes and build workspace
+- Launch rosbot on the robot
+  - First build it if there have been any changes
+  - Open new terminal
+  - `cd ~/rosbot/ros` to open workspace
+  - `. install/local_setup.bash` to load workspace overlay (on both robot and remote pc)
+  - `ros2 launch odrive_bringup rosbot.launch.py` to launch rosbot (run on robot)
+  - `ros2 launch odrive_bringup rviz.launch.py` to launch rviz (run on remote pc)
+- Run joystick teleop
+  - Open new terminal
+  - `. install/local_setup.bash` to load workspace overlay
+  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot' cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped` to launch joystick teleop
+  - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
+  - Hold down right trigger (button 7) for boost (faster movements)
+- Launch odrive manual control (for testing only)
+  - Open new terminal
+  - `. install/local_setup.bash` to load workspace overlay
+  - `ros2 launch odrive_bringup odrive.launch.py` to launch odrive test ()
+  - `ros2 topic pub -r 100 /left_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
+  - `ros2 topic pub -r 100 /right_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
+  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot' cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped` to launch joystick teleop
+  - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
+
 ## Install ROS
 
 [Installation guide](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html).
@@ -325,22 +352,6 @@ angular:
 
 - control with mouse_teleop, remapping /mouse_vel to /diffbot_base_controller/cmd_vel_unstamped
 - `ros2 run mouse_teleop mouse_teleop --ros-args -r /mouse_vel:=/diffbot_base_controller/cmd_vel_unstamped`
-
-## Run main rosbot/ros workspace
-- Build
-  - `cd ~/rosbot/ros` to open workspace
-  - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
-  - `colcon build` to build workspace
-- Run joystick teleop
-  - Open new terminal
-  - `. install/local_setup.bash` to load workspace overlay
-  - `ros2 launch odrive_bringup odrive.launch.py` to launch odrive (old)
-  - `ros2 launch odrive_bringup rosbot.launch.py` to launch rosbot
-  - `ros2 launch odrive_bringup rviz.launch.py` to launch rviz (remote pc)
-  - `ros2 topic pub -r 100 /left_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
-  - `ros2 topic pub -r 100 /right_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
-  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot' cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped` to launch joystick teleop
-  - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
 
 ## Open VSCode from Ubuntu explorer context menu
 - Run the following in terminal
