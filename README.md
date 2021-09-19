@@ -29,6 +29,34 @@ ROS 2 based robot learning platform.
   - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot' cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped` to launch joystick teleop
   - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
 
+## Joystick teleop
+- https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
+- https://github.com/ros2/teleop_twist_joy/tree/foxy/
+- http://wiki.ros.org/joy
+- https://github.com/medusalix/xow need xow to use xbox bluetooth controller
+- Configure XOW to use xbox controller over bluetooth
+  - `git clone https://github.com/medusalix/xow`
+  - `cd xow`
+  - `make BUILD=RELEASE`
+  - `sudo make install`
+  - `sudo systemctl enable xow`
+  - `sudo systemctl start xow`
+  - `sudo systemctl kill -s SIGUSR1 xow` to enable XOW pairing mode (generally not needed)
+- Also disable ERTM permanently
+  - https://www.addictivetips.com/ubuntu-linux-tips/xbox-one-controllers-over-bluetooth-linux/
+  - `sudo apt install dkms git linux-headers-`uname -r``
+  - `git clone https://github.com/atar-axis/xpadneo.git`
+  - `cd xpadneo`
+  - `sudo ./install.sh`
+  - reboot
+- Test joystick visually
+  - `sudo apt install jstest-gtk`
+  - `jstest-gtk`
+- Test joystick messages
+  - `ros2 topic echo /joy`
+  - `ros2 topic echo /cmd_vel`
+  - `ros2 topic echo /diffbot_base_controller/cmd_vel_unstamped`
+
 ## Install ROS
 
 [Installation guide](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html).
@@ -270,30 +298,6 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `ros2 run mouse_teleop mouse_teleop`
 - `ros2 run mouse_teleop mouse_teleop --ros-args -r holonomic:=true`
 - `ros2 topic echo /mouse_vel`
-
-## Joystick teleop
-- https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
-- https://github.com/ros2/teleop_twist_joy/tree/foxy/
-- http://wiki.ros.org/joy
-- https://github.com/medusalix/xow need xow to use xbox bluetooth controller
-  - `git clone https://github.com/medusalix/xow`
-  - `cd xow`
-  - `make BUILD=RELEASE`
-  - `sudo make install`
-  - `sudo systemctl enable xow`
-  - `sudo systemctl start xow`
-- Also disable ERTM permanently
-  - `sudo apt install dkms git linux-headers-`uname -r``
-  - `git clone https://github.com/atar-axis/xpadneo.git`
-  - `cd xpadneo`
-  - `sudo ./install.sh`
-  - reboot
-- You can enable XOW pairing mode with `sudo systemctl kill -s SIGUSR1 xow`
-- `sudo apt install ros-foxy-teleop-twist-joy`
-- `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox' joy_dev:='dev/input/js1'`
-- `jstest-gtk`
-- `ros2 topic echo /joy`
-- `ros2 topic echo /cmd_vel`
 
 ## Run experiments/test_odrive_ros2 package
 - `cd ~/rosbot/experiments/test_odrive_ros2/`
