@@ -65,28 +65,27 @@
             <state_interface name="motor_temperature" />
           </sensor> -->
           <!-- </xacro:if> -->
-        </ros2_control>
-      </xacro:unless>
-    </hardware>
-    <joint name="left_wheel_joint">
-      <command_interface name="velocity">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-      <!-- TODO: add extra joint interfaces, state from above? -->
-    </joint>
-    <joint name="right_wheel_joint">
-      <command_interface name="velocity">
-        <param name="min">-1</param>
-        <param name="max">1</param>
-      </command_interface>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-  </ros2_control>
+        </xacro:unless>
+      </hardware>
+      <joint name="left_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-1</param>
+          <param name="max">1</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <!-- TODO: add extra joint interfaces, state from above? -->
+      </joint>
+      <joint name="right_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-1</param>
+          <param name="max">1</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
 
-</xacro:macro>
+  </xacro:macro>
 
 </robot>
