@@ -21,7 +21,7 @@
           <plugin>odrive_hardware_interface/ODriveHardwareInterface</plugin>
           <!-- </hardware> -->
 
-          <!-- TODO: move out of <hardware/>? -->
+          <!-- TODO move out of <hardware/>? -->
           <!-- <xacro:if value="${enable_left_wheel_joint}"> -->
           <!-- <joint name="left_wheel_joint">
             <command_interface name="position" />
@@ -74,7 +74,7 @@
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
-        <!-- TODO: add extra joint interfaces, state from above? -->
+        <!-- TODO add extra joint interfaces, state from above? -->
       </joint>
       <joint name="right_wheel_joint">
         <command_interface name="velocity">
