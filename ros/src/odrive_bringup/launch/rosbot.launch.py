@@ -118,10 +118,10 @@ def generate_launch_description():
     # )
 
     # setup diffbot base controller
-    diffbot_base_controller_node = Node(
+    diff_drive_controller_node = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["diffbot_base_controller"],
+        arguments=["diff_drive_controller"],
         output="screen",
     )
 
@@ -145,7 +145,7 @@ def generate_launch_description():
         joint_state_broadcaster_node,
         # left_wheel_controller_node,
         # right_wheel_controller_node,
-        diffbot_base_controller_node,
+        diff_drive_controller_node,
         rviz_node,
     ]
 

@@ -15,7 +15,7 @@ def generate_launch_description():
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
-            'cmd_vel', default_value='diffbot_base_controller/cmd_vel_unstamped'),
+            'cmd_vel', default_value='diff_drive_controller/cmd_vel_unstamped'),
         launch.actions.DeclareLaunchArgument(
             'joy_config', default_value='rosbot'),
         launch.actions.DeclareLaunchArgument(
