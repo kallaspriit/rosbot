@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="diffdrive_robot">
-  <!-- from diffbot_system.urdf.xacro -->
   <xacro:arg name="use_sim" default="false" />
   <xacro:arg name="use_fake_hardware" default="false" />
   <xacro:arg name="fake_sensor_commands" default="false" />
@@ -15,33 +14,4 @@
   <xacro:rosbot_gazebo prefix="$(arg prefix)" />
   <xacro:rosbot_system name="DiffBotSystem" prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
 
-
-  <!--
-  <xacro:arg name="enable_left_wheel_joint" default="true" />
-  <xacro:arg name="enable_right_wheel_joint" default="true" />
-
-  <xacro:include filename="$(find rosbot_description)/urdf/rosbot.ros2_control.xacro" />
-
-  <link name="world" />
-
-  <xacro:if value="$(arg enable_left_wheel_joint)">
-    <link name="link0" />
-    <joint name="left_wheel_joint" type="continuous">
-      <parent link="world"/>
-      <child link="link0"/>
-      <axis xyz="0 0 1"/>
-    </joint>
-  </xacro:if>
-
-  <xacro:if value="$(arg enable_right_wheel_joint)">
-    <link name="link1" />
-    <joint name="right_wheel_joint" type="continuous">
-      <parent link="world"/>
-      <child link="link1"/>
-      <axis xyz="0 0 1"/>
-    </joint>
-  </xacro:if>
-
-  <xacro:odrive_ros2_control name="odrive_ros2_control" enable_left_wheel_joint="$(arg enable_left_wheel_joint)" enable_right_wheel_joint="$(arg enable_right_wheel_joint)" />
-  -->
 </robot>

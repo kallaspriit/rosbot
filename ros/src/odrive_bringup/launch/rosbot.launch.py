@@ -43,7 +43,6 @@ def generate_launch_description():
     enable_right_wheel_joint = LaunchConfiguration("enable_right_wheel_joint")
 
     # get robot description from urdf xacro file
-    # TODO: add stuff from diffbot_system.urdf.xacro to rosbot.urdf.xacro
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -117,7 +116,7 @@ def generate_launch_description():
     #     condition=IfCondition(enable_right_wheel_joint),
     # )
 
-    # setup diffbot base controller
+    # setup diff drive controller
     diff_drive_controller_node = Node(
         package="controller_manager",
         executable="spawner.py",
