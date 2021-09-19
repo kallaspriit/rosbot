@@ -249,6 +249,19 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - https://github.com/ros2/teleop_twist_joy/tree/foxy/
 - http://wiki.ros.org/joy
 - https://github.com/medusalix/xow need xow to use xbox bluetooth controller
+  - `git clone https://github.com/medusalix/xow`
+  - `cd xow`
+  - `make BUILD=RELEASE`
+  - `sudo make install`
+  - `sudo systemctl enable xow`
+  - `sudo systemctl start xow`
+- Also disable ERTM permanently
+  - `sudo apt install dkms git linux-headers-`uname -r``
+  - `git clone https://github.com/atar-axis/xpadneo.git`
+  - `cd xpadneo`
+  - `sudo ./install.sh`
+  - reboot
+- You can enable XOW pairing mode with `sudo systemctl kill -s SIGUSR1 xow`
 - `sudo apt install ros-foxy-teleop-twist-joy`
 - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox' joy_dev:='dev/input/js1'`
 - `jstest-gtk`
