@@ -29,24 +29,6 @@ def generate_launch_description():
         )
     )
 
-    # left wheel joint controller, defaults to velocity controller
-    # TODO: remove?
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "left_wheel_joint_controller",
-            default_value="left_wheel_joint_velocity_controller",
-        )
-    )
-
-    # right wheel joint controller, defaults to velocity controller
-    # TODO: remove?
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "right_wheel_joint_controller",
-            default_value="right_wheel_joint_velocity_controller",
-        )
-    )
-
     # should we open rviz visualizer
     declared_arguments.append(
         DeclareLaunchArgument(
@@ -59,12 +41,6 @@ def generate_launch_description():
     # get launch argument values
     enable_left_wheel_joint = LaunchConfiguration("enable_left_wheel_joint")
     enable_right_wheel_joint = LaunchConfiguration("enable_right_wheel_joint")
-    # left_wheel_joint_controller = LaunchConfiguration(
-    #     "left_wheel_joint_controller"
-    # )
-    # right_wheel_joint_controller = LaunchConfiguration(
-    #     "right_wheel_joint_controller"
-    # )
 
     # get robot description from urdf xacro file
     # TODO: add stuff from diffbot_system.urdf.xacro to rosbot.urdf.xacro
@@ -89,24 +65,6 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    # get odrive controllers configuration
-    # odrive_controllers = PathJoinSubstitution(
-    #     [
-    #         FindPackageShare("odrive_bringup"),
-    #         "config",
-    #         "odrive_controllers.yaml",
-    #     ]
-    # )
-
-    # get diffbot diff controllers configuration
-    # diffbot_diff_drive_controller = PathJoinSubstitution(
-    #     [
-    #         FindPackageShare("odrive_bringup"),
-    #         "config",
-    #         "diffbot_diff_drive_controller.yaml",
-    #     ]
-    # )
-
     # get rosbot controllers configuration path
     rosbot_controllers = PathJoinSubstitution(
         [
@@ -120,7 +78,6 @@ def generate_launch_description():
     controller_manager_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        # parameters=[robot_description, odrive_controllers, diffbot_diff_drive_controller],
         parameters=[robot_description, rosbot_controllers],
         output={
             "stdout": "screen",
