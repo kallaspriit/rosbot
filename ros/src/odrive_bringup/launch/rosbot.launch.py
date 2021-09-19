@@ -29,20 +29,20 @@ def generate_launch_description():
     )
 
     # left wheel joint controller, defaults to velocity controller
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "left_wheel_joint_controller",
-            default_value="left_wheel_joint_velocity_controller",
-        )
-    )
+    # declared_arguments.append(
+    #     DeclareLaunchArgument(
+    #         "left_wheel_joint_controller",
+    #         default_value="left_wheel_joint_velocity_controller",
+    #     )
+    # )
 
     # right wheel joint controller, defaults to velocity controller
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "right_wheel_joint_controller",
-            default_value="right_wheel_joint_velocity_controller",
-        )
-    )
+    # declared_arguments.append(
+    #     DeclareLaunchArgument(
+    #         "right_wheel_joint_controller",
+    #         default_value="right_wheel_joint_velocity_controller",
+    #     )
+    # )
 
     # should we open rviz visualizer
     declared_arguments.append(

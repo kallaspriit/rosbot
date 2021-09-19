@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
+<!-- TODO: add name here? -->
+<!-- <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rosbot"> -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:macro name="rosbot" params="prefix">
