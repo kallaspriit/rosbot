@@ -35,6 +35,7 @@ ROS 2 based robot learning platform.
 - http://wiki.ros.org/joy
 - https://github.com/medusalix/xow need xow to use xbox bluetooth controller
 - Configure XOW to use xbox controller over bluetooth
+  - `sudo apt install cabextract` to install dependencies 
   - `git clone https://github.com/medusalix/xow`
   - `cd xow`
   - `make BUILD=RELEASE`
@@ -49,6 +50,22 @@ ROS 2 based robot learning platform.
   - `cd xpadneo`
   - `sudo ./install.sh`
   - reboot
+- Connect to bluetooth xbox controller using terminal (on robot)
+  - https://simpleit.rocks/linux/shell/connect-to-bluetooth-from-cli/
+  - https://raspberrypi.stackexchange.com/questions/114586/rpi-4b-bluetooth-unavailable-on-ubuntu-20-04
+  - https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/
+  - `sudo apt install bluez pi-bluetooth joystick`
+  - Append "include btcfg.txt" to `sudoedit /boot/firmware/usrcfg.txt`
+  - reboot
+  - `hciconfig -a` or `hcitool dev` (from bluez) to check for bluetooth devices
+  - `bluetoothctl` to run interactive bluetooth controller
+  - `scan on`
+  - wait for xbox controller (make it pair by holding the pair button, starts to blink rapidly)
+  - `trust XX:XX:XX:XX:XX:XX` to trust the controller
+  - `connect XX:XX:XX:XX:XX:XX` to connect to the controller
+- Test joystick from terminal
+  - `sudo apt install joystick`
+  - `jstest /dev/input/js0`
 - Test joystick visually
   - `sudo apt install jstest-gtk`
   - `jstest-gtk`
