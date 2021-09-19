@@ -63,9 +63,12 @@ ROS 2 based robot learning platform.
   - wait for xbox controller (make it pair by holding the pair button, starts to blink rapidly)
   - `trust XX:XX:XX:XX:XX:XX` to trust the controller
   - `connect XX:XX:XX:XX:XX:XX` to connect to the controller
+  - `sudo chmod a+rw /dev/input/js0` to give everyone read-write permissions to joystick
+  - `sudo chmod a+rw /dev/input/event4` to give everyone read-write permissions to joystick (sometimes it's one of eventX)
 - Test joystick from terminal
   - `sudo apt install joystick`
   - `jstest /dev/input/js0`
+  - `ros2 run joy joy_enumerate_devices`
 - Test joystick visually
   - `sudo apt install jstest-gtk`
   - `jstest-gtk`
