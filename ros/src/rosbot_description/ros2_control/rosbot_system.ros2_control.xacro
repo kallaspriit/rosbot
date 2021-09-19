@@ -23,7 +23,7 @@
 
           <!-- TODO: move out of <hardware/>? -->
           <!-- <xacro:if value="${enable_left_wheel_joint}"> -->
-          <joint name="left_wheel_joint">
+          <!-- <joint name="left_wheel_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -41,11 +41,11 @@
             <state_interface name="controller_error" />
             <state_interface name="fet_temperature" />
             <state_interface name="motor_temperature" />
-          </sensor>
+          </sensor> -->
           <!-- </xacro:if> -->
 
           <!-- <xacro:if value="${enable_right_wheel_joint}"> -->
-          <joint name="right_wheel_joint">
+          <!-- <joint name="right_wheel_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -63,7 +63,7 @@
             <state_interface name="controller_error" />
             <state_interface name="fet_temperature" />
             <state_interface name="motor_temperature" />
-          </sensor>
+          </sensor> -->
           <!-- </xacro:if> -->
         </ros2_control>
       </xacro:unless>
@@ -75,6 +75,7 @@
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <!-- TODO: add extra joint interfaces, state from above? -->
     </joint>
     <joint name="right_wheel_joint">
       <command_interface name="velocity">
