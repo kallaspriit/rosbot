@@ -12,23 +12,6 @@ def generate_launch_description():
     # list of launch arguments
     declared_arguments = []
 
-    # should we enable the left wheel joint
-    # TODO: remove toggling wheels, always available
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "enable_left_wheel_joint",
-            default_value="true",
-        )
-    )
-
-    # should we enable the right wheel joint
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "enable_right_wheel_joint",
-            default_value="true",
-        )
-    )
-
     # should we open rviz visualizer
     declared_arguments.append(
         DeclareLaunchArgument(
@@ -37,10 +20,6 @@ def generate_launch_description():
             description="start RViz automatically with the launch file",
         )
     )
-
-    # get launch argument values
-    enable_left_wheel_joint = LaunchConfiguration("enable_left_wheel_joint")
-    enable_right_wheel_joint = LaunchConfiguration("enable_right_wheel_joint")
 
     # get robot description from urdf xacro file
     robot_description_content = Command(
@@ -54,12 +33,6 @@ def generate_launch_description():
                     "rosbot_system.urdf.xacro",
                 ]
             ),
-            " ",
-            "enable_left_wheel_joint:=",
-            enable_left_wheel_joint,
-            " ",
-            "enable_right_wheel_joint:=",
-            enable_right_wheel_joint,
         ]
     )
     robot_description = {"robot_description": robot_description_content}
@@ -100,22 +73,6 @@ def generate_launch_description():
                    "--controller-manager", "/controller_manager"],
     )
 
-    # setup left wheel joint controller spawner node
-    # left_wheel_controller_node = Node(
-    #     package="controller_manager",
-    #     executable="spawner.py",
-    #     arguments=[left_wheel_joint_controller, "-c", "/controller_manager"],
-    #     condition=IfCondition(enable_left_wheel_joint),
-    # )
-
-    # setup right wheel joint controller spawner node
-    # right_wheel_controller_node = Node(
-    #     package="controller_manager",
-    #     executable="spawner.py",
-    #     arguments=[right_wheel_joint_controller, "-c", "/controller_manager"],
-    #     condition=IfCondition(enable_right_wheel_joint),
-    # )
-
     # setup diff drive controller
     diff_drive_controller_node = Node(
         package="controller_manager",
@@ -142,8 +99,6 @@ def generate_launch_description():
         controller_manager_node,
         robot_state_publisher_node,
         joint_state_broadcaster_node,
-        # left_wheel_controller_node,
-        # right_wheel_controller_node,
         diff_drive_controller_node,
         rviz_node,
     ]
