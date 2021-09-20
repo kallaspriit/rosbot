@@ -41,9 +41,9 @@ diff_drive_controller:
     cmd_vel_timeout: 0.5
     # cmd_vel_timeout: 500 # milliseconds
 
-    #publish_limited_velocity: true
+    publish_limited_velocity: true
     use_stamped_vel: false
-    #velocity_rolling_window_size: 10
+    velocity_rolling_window_size: 10
 
     # Preserve turning radius when limiting speed/acceleration/jerk
     preserve_turning_radius: true
