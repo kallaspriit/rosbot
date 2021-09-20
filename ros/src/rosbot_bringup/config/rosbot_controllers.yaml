@@ -63,8 +63,8 @@ diff_drive_controller:
     linear.x.min_velocity: -1.0
     # linear.x.min_acceleration: -1.0
     # linear.x.max_acceleration: 1.0
-    linear.x.min_acceleration: -0.0001
-    linear.x.max_acceleration: 0.0001
+    # linear.x.min_acceleration: -0.0001
+    linear.x.max_acceleration: 10
     linear.x.max_jerk: 0.0
     linear.x.min_jerk: 0.0
 
