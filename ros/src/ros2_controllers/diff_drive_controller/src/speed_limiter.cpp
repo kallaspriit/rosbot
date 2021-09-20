@@ -21,6 +21,7 @@
 
 #include "diff_drive_controller/speed_limiter.hpp"
 #include "rcppmath/clamp.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 namespace diff_drive_controller
 {
@@ -101,6 +102,8 @@ double SpeedLimiter::limit_velocity(double & v)
 double SpeedLimiter::limit_acceleration(double & v, double v0, double dt)
 {
   const double tmp = v;
+
+  RCLCPP_INFO(rclcpp::get_logger("SpeedLimiter"), "Limiting acceleration: %s", has_acceleration_limits_ ? "yes" : "no");
 
   if (has_acceleration_limits_)
   {

@@ -65,11 +65,11 @@ ROS 2 based robot learning platform.
   - `connect XX:XX:XX:XX:XX:XX` to connect to the controller
   - `sudo chmod a+rw /dev/input/js0` to give everyone read-write permissions to joystick
   - `sudo chmod a+rw /dev/input/event4` to give everyone read-write permissions to joystick (sometimes it's one of eventX)
-- If the joystick `/dev/input/eventX` does not have correct permissions then
+- If the joystick `/dev/input/eventX` does not have correct permissions then (this does not seem to actually work)
   - `sudo apt install input-utils` to install `lsinput` tool
   - `sudo lsinput` to get list of inputs, note the vendor and product of "Xbox Wireless Controller"
-  - `sudoedit 50-xow.rules` or create a new config file like it
-  - add `SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="02e0", MODE:="0666"` etc that mathes vendor and product
+  - `sudoedit 80-xbox-controller.rules`
+  - add `KERNEL=="event*", ATTRS{idProduct}=="02e0", ATTRS{idVendor}=="045e", MODE="0666"` etc that mathes vendor and product
 - Test joystick from terminal
   - `sudo apt install joystick`
   - `jstest /dev/input/js0`
