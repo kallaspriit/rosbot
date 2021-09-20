@@ -16,8 +16,9 @@
     <!-- arbitrary value for wheel mass -->
     <xacro:property name="wheel_len" value="0.05" />
     <xacro:property name="wheel_radius" value="0.0975" />
-    <!-- <xacro:property name="z_offset" value="-${base_height/2}" /> -->
-    <xacro:property name="z_offset" value="-0.0975" />
+    <xacro:property name="rear_wheel_ground_offset" value="0.0975" />
+    <xacro:property name="rear_wheels_axis_offset" value="0.1" />
+    <xacro:property name="rear_wheels_distance" value="0.24" />
     <!-- Space btw top of beam and the each joint -->
 
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
@@ -59,7 +60,7 @@
     <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}left_wheel"/>
-      <origin xyz="0 -${base_width/2} ${z_offset}" rpy="0 0 0"/>
+      <origin xyz="-${rear_wheels_axis_offset} -${rear_wheels_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -91,7 +92,7 @@
     <joint name="${prefix}right_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}right_wheel"/>
-      <origin xyz="0 ${base_width/2} ${z_offset}" rpy="0 0 0"/>
+      <origin xyz="-${rear_wheels_axis_offset} ${rear_wheels_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
