@@ -40,7 +40,7 @@ def generate_launch_description():
     # get rosbot controllers configuration path
     rosbot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare("odrive_bringup"),
+            FindPackageShare("rosbot_bringup"),
             "config",
             "rosbot_controllers.yaml",
         ]

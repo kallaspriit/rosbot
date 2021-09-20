@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(odrive_bringup)
+project(rosbot_bringup)
 
 find_package(ament_cmake REQUIRED)
 
