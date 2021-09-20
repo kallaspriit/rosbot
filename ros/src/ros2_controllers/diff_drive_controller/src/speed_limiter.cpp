@@ -103,8 +103,6 @@ double SpeedLimiter::limit_acceleration(double & v, double v0, double dt)
 {
   const double tmp = v;
 
-  RCLCPP_INFO(rclcpp::get_logger("SpeedLimiter"), "Limiting acceleration: %s", has_acceleration_limits_ ? "yes" : "no");
-
   if (has_acceleration_limits_)
   {
     const double dv_min = min_acceleration_ * dt;
@@ -114,6 +112,8 @@ double SpeedLimiter::limit_acceleration(double & v, double v0, double dt)
 
     v = v0 + dv;
   }
+
+  RCLCPP_INFO(rclcpp::get_logger("SpeedLimiter"), "Limiting acceleration: %s, min: %f, max: %f, tmp: %f, v: %f", has_acceleration_limits_ ? "yes" : "no", min_acceleration_, max_acceleration_, tmp, v);
 
   return tmp != 0.0 ? v / tmp : 1.0;
 }
