@@ -21,8 +21,8 @@ diff_drive_controller:
     wheel_separation_multiplier: 1.0
     # left_wheel_radius_multiplier: 1.0
     # right_wheel_radius_multiplier: 1.0
-    left_wheel_radius_multiplier: 4.5
-    right_wheel_radius_multiplier: 4.5
+    left_wheel_radius_multiplier: 0.222222222
+    right_wheel_radius_multiplier: 0.222222222
 
     publish_rate: 50.0
     odom_frame_id: odom
