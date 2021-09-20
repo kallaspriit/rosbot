@@ -112,7 +112,7 @@ double SpeedLimiter::limit_acceleration(double & v, double v0, double dt)
 
     v = v0 + dv;
 
-    RCLCPP_INFO(rclcpp::get_logger("SpeedLimiter"), "Limiting acceleration: dv: %f, v0: %f, before: %f, after: %f, dt: %f", dv, v0, tmp, v, dt);
+    RCLCPP_INFO(rclcpp::get_logger("SpeedLimiter"), "Acc: dv: %f, v0: %f, before: %f, after: %f", dv, v0, tmp, v);
   }
 
   return tmp != 0.0 ? v / tmp : 1.0;
