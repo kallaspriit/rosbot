@@ -12,6 +12,7 @@ diff_drive_controller:
   ros__parameters:
     left_wheel_names: ["left_wheel_joint"]
     right_wheel_names: ["right_wheel_joint"]
+    # write_op_modes: ["motor_controller"]
 
     # TODO: set correct robot parameters
     wheel_separation: 0.2476
@@ -28,13 +29,18 @@ diff_drive_controller:
     publish_rate: 50.0
     odom_frame_id: odom
     base_frame_id: base_link
-    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
-    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    # pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    # twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    pose_covariance_diagonal: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    twist_covariance_diagonal: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     open_loop: true
     enable_odom_tf: true
 
+    # which one is correct format?
     cmd_vel_timeout: 0.5
+    # cmd_vel_timeout: 500 # milliseconds
+
     #publish_limited_velocity: true
     use_stamped_vel: false
     #velocity_rolling_window_size: 10
