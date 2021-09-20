@@ -16,9 +16,10 @@
     <!-- arbitrary value for wheel mass -->
     <xacro:property name="wheel_len" value="0.05" />
     <xacro:property name="wheel_radius" value="0.0975" />
+    <xacro:property name="frame_ground_offset" value="0.0575" />
     <xacro:property name="rear_wheel_ground_offset" value="0.0975" />
     <xacro:property name="rear_wheels_axis_offset" value="0.1" />
-    <xacro:property name="rear_wheels_distance" value="0.24" />
+    <xacro:property name="rear_wheels_distance" value="0.2476" />
     <!-- Space btw top of beam and the each joint -->
 
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
@@ -36,14 +37,14 @@
     <!-- Base Link -->
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 ${frame_ground_offset}" rpy="0 0 0"/>
         <geometry>
           <box size="${base_width} ${base_length} ${base_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 ${frame_ground_offset}" rpy="0 0 0"/>
         <geometry>
           <box size="${base_width} ${base_length} ${base_height}"/>
         </geometry>
@@ -51,7 +52,7 @@
       </visual>
 
       <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 ${frame_ground_offset}" rpy="0 0 0"/>
         <mass value="${base_mass}"/>
         <inertia ixx="${base_mass / 12.0 * (base_length*base_length + base_height*base_height)}" ixy="0.0" ixz="0.0" iyy="${base_mass / 12.0 * (base_height*base_height + base_width*base_width)}" iyz="0.0" izz="${base_mass / 12.0 * (base_width*base_width + base_length*base_length)}"/>
       </inertial>

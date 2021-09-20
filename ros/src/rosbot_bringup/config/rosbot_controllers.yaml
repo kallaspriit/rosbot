@@ -16,7 +16,7 @@ diff_drive_controller:
     # TODO: set correct robot parameters
     wheel_separation: 0.2476
     #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
-    wheel_radius: 0.195
+    wheel_radius: 0.0975
 
     wheel_separation_multiplier: 1.0
     left_wheel_radius_multiplier: 1.0
