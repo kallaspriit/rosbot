@@ -3,6 +3,9 @@
 ROS 2 based robot learning platform.
 
 ## Run main rosbot/ros workspace
+- Add user to usb serial and input groups
+  - `sudo usermod -a -G dialout input`
+  - `sudo usermod -a -G dialout ubuntu`
 - Build rosbot (on both the robot and the remote PC)
   - `cd ~/rosbot/ros` to open workspace
   - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
