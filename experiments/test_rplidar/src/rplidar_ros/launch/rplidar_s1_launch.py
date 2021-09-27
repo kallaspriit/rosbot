@@ -11,8 +11,9 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    serial_port = LaunchConfiguration('serial_port', default='/dev/ttyUSB0')
-    serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000') 
+    # serial_port = LaunchConfiguration('serial_port', default='/dev/ttyUSB0')
+    serial_port = LaunchConfiguration('serial_port', default='/dev/ttyS0')
+    serial_baudrate = LaunchConfiguration('serial_baudrate', default='256000')
     frame_id = LaunchConfiguration('frame_id', default='laser')
     inverted = LaunchConfiguration('inverted', default='false')
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
@@ -28,7 +29,7 @@ def generate_launch_description():
             'serial_baudrate',
             default_value=serial_baudrate,
             description='Specifying usb port baudrate to connected lidar'),
-        
+
         DeclareLaunchArgument(
             'frame_id',
             default_value=frame_id,
@@ -48,11 +49,10 @@ def generate_launch_description():
             package='rplidar_ros2',
             executable='rplidar_scan_publisher',
             name='rplidar_scan_publisher',
-            parameters=[{'serial_port': serial_port, 
-                         'serial_baudrate': serial_baudrate, 
+            parameters=[{'serial_port': serial_port,
+                         'serial_baudrate': serial_baudrate,
                          'frame_id': frame_id,
-                         'inverted': inverted, 
+                         'inverted': inverted,
                          'angle_compensate': angle_compensate}],
             output='screen'),
     ])
-

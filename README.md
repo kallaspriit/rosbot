@@ -4,8 +4,9 @@ ROS 2 based robot learning platform.
 
 ## Run main rosbot/ros workspace
 - Add user to usb serial and input groups
-  - `sudo usermod -a -G dialout input`
+  - `sudo usermod -a -G input ubuntu`
   - `sudo usermod -a -G dialout ubuntu`
+  - `sudo usermod -a -G tty ubuntu`
 - Build rosbot (on both the robot and the remote PC)
   - `cd ~/rosbot/ros` to open workspace
   - `rosdep install -i --from-path src --rosdistro foxy -y` to install dependencies
@@ -84,6 +85,24 @@ ROS 2 based robot learning platform.
   - `ros2 topic echo /joy`
   - `ros2 topic echo /cmd_vel`
   - `ros2 topic echo /diff_drive_controller/cmd_vel_unstamped`
+
+## Setup Raspberry PI UART
+
+- https://askubuntu.com/questions/1254376/enable-uart-communication-on-pi4-ubuntu-20-04
+- Create boot configuration backups
+  - `cd /boot/firmware`
+  - `sudo cp usrcfg.txt usrconfig.backup.txt`
+  - `sudo cp cmdline.txt cmdline.backup.txt`
+- Disable console UART 
+  - add `enable_uart=0` to `/boot/firmware/usrcfg.txt`
+  - remove `console=serial0,115200` from `/boot/firmware/cmdline.txt`
+- Disable the Serial Service which used the miniUART
+  - `sudo systemctl stop serial-getty@ttyS0.service`
+  - `sudo systemctl disable serial-getty@ttyS0.service`
+  - `sudo systemctl mask serial-getty@ttyS0.service`
+- UART Pins
+  - Pin 8 TXD GPIO14
+  - Pin 10 RXD GPIO15
 
 ## Install ROS
 
