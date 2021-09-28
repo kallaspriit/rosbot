@@ -9,9 +9,9 @@
     <xacro:property name="PI" value="3.1415926535897931"/>
     <xacro:property name="base_mass" value="6.0" />
 
-    <xacro:property name="base_width" value="0.46" />
-    <xacro:property name="base_length" value="0.3" />
-    <xacro:property name="base_height" value="0.17" />
+    <xacro:property name="body_width" value="0.46" />
+    <xacro:property name="body_length" value="0.3" />
+    <xacro:property name="body_height" value="0.17" />
 
     <xacro:property name="lidar_width" value="0.055" />
     <xacro:property name="lidar_length" value="0.055" />
@@ -41,29 +41,52 @@
     <!-- large wheel pulley has 72 teeth -->
     <!-- motor to wheel gear ratio is 72/16 = 4.5 -->
 
-    <!-- Base Link -->
+    <!-- base link -->
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${base_height/2 + frame_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
         <geometry>
-          <box size="${base_width} ${base_length} ${base_height}"/>
+          <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${base_height/2 + frame_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
         <geometry>
-          <box size="${base_width} ${base_length} ${base_height}"/>
+          <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
         <material name="orange"/>
       </visual>
 
-      <inertial>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${base_height/2 + frame_ground_offset}" rpy="0 0 0"/>
+      <!-- <inertial>
+        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
         <mass value="${base_mass}"/>
-        <inertia ixx="${base_mass / 12.0 * (base_length*base_length + base_height*base_height)}" ixy="0.0" ixz="0.0" iyy="${base_mass / 12.0 * (base_height*base_height + base_width*base_width)}" iyz="0.0" izz="${base_mass / 12.0 * (base_width*base_width + base_length*base_length)}"/>
-      </inertial>
+        <inertia ixx="${base_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${base_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${base_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
+      </inertial> -->
     </link>
+
+    <!-- body -->
+    <!-- <joint name="${prefix}body_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}body"/>
+      <origin xyz="0 0 ${body_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+    <link name="${prefix}body">
+      <visual>
+        <origin xyz="0 0 ${body_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${lidar_width} ${lidar_length} ${lidar_height}"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+
+      <inertial>
+        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
+        <mass value="${base_mass}"/>
+        <inertia ixx="${base_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${base_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${base_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
+      </inertial>
+    </link> -->
 
     <!-- left wheel -->
     <joint name="${prefix}left_wheel_joint" type="continuous">
@@ -129,14 +152,14 @@
 
     <!-- lidar -->
     <joint name="${prefix}lidar_joint" type="fixed">
-      <parent link="${prefix}odom"/>
+      <parent link="${prefix}base_link"/>
       <child link="${prefix}lidar"/>
-      <origin xyz="0 0 ${base_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${body_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
     <link name="${prefix}lidar">
       <visual>
-        <origin xyz="0 0 ${base_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${body_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
         <geometry>
           <box size="${lidar_width} ${lidar_length} ${lidar_height}"/>
         </geometry>
