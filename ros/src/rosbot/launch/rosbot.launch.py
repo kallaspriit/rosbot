@@ -164,7 +164,7 @@ def generate_launch_description():
             'serial_port': LaunchConfiguration('lidar_dev'),
             'serial_baudrate': 256000,
             # 'frame_id': 'laser',
-            'frame_id': 'lidar',
+            'frame_id': 'odom',
             'inverted': False,
             'angle_compensate': True
         }],
