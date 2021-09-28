@@ -118,14 +118,12 @@ def generate_launch_description():
     )
 
     # setup joystick node
-    joy_dev = LaunchConfiguration('joy_dev')
-
     joy_node = Node(
         package='joy',
         executable='joy_node',
         name='joy_node',
         parameters=[{
-            'dev': joy_dev,
+            'dev': LaunchConfiguration('joy_dev'),
             'deadzone': 0.3,
             'autorepeat_rate': 20.0,
         }],
@@ -144,7 +142,7 @@ def generate_launch_description():
                 'rosbot.config.yaml'
             ),
         ],
-        remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
+        remappings={('/cmd_vel', '/diff_drive_controller/cmd_vel_unstamped')},
         condition=IfCondition(LaunchConfiguration("teleop")),
     )
 
