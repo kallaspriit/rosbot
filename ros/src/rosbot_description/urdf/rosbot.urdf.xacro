@@ -8,15 +8,22 @@
     <!-- Constants for robot dimensions -->
     <xacro:property name="PI" value="3.1415926535897931"/>
     <xacro:property name="base_mass" value="6.0" />
-    <!-- arbitrary value for base mass -->
+
     <xacro:property name="base_width" value="0.46" />
     <xacro:property name="base_length" value="0.3" />
     <xacro:property name="base_height" value="0.17" />
+
+    <xacro:property name="lidar_width" value="0.055" />
+    <xacro:property name="lidar_length" value="0.055" />
+    <xacro:property name="lidar_height" value="0.055" />
+
     <xacro:property name="wheel_mass" value="0.5" />
     <!-- arbitrary value for wheel mass -->
     <xacro:property name="wheel_len" value="0.05" />
     <xacro:property name="wheel_radius" value="0.0975" />
+
     <xacro:property name="frame_ground_offset" value="0.0575" />
+
     <xacro:property name="rear_wheel_ground_offset" value="0.0975" />
     <xacro:property name="rear_wheels_axis_offset" value="0.1" />
     <xacro:property name="rear_wheels_distance" value="0.241" />
@@ -58,6 +65,7 @@
       </inertial>
     </link>
 
+    <!-- left wheel -->
     <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}left_wheel"/>
@@ -65,8 +73,6 @@
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
-
-    <!-- left wheel Link -->
     <link name="${prefix}left_wheel">
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
@@ -90,6 +96,7 @@
       </inertial>
     </link>
 
+    <!-- right wheel -->
     <joint name="${prefix}right_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}right_wheel"/>
@@ -97,8 +104,6 @@
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
-
-    <!-- right wheel Link -->
     <link name="${prefix}right_wheel">
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
@@ -120,6 +125,23 @@
         <mass value="${wheel_mass}"/>
         <inertia ixx="${wheel_mass / 12.0 * (3*wheel_radius + wheel_len*wheel_len)}" ixy="0.0" ixz="0.0" iyy="${wheel_mass / 12.0 * wheel_radius*wheel_radius}" iyz="0.0" izz="${wheel_mass / 12.0 * wheel_radius*wheel_radius}"/>
       </inertial>
+    </link>
+
+    <!-- lidar -->
+    <joint name="${prefix}lidar_joint" type="continuous">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}lidar"/>
+      <origin xyz="0 0 ${base_height + frame_ground_offset}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+    <link name="${prefix}lidar">
+      <visual>
+        <origin xyz="0 0 ${base_height + frame_ground_offset}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${lidar_width} ${lidar_length} ${lidar_height}"/>
+        </geometry>
+        <material name="orange"/>
+      </visual>
     </link>
 
   </xacro:macro>
