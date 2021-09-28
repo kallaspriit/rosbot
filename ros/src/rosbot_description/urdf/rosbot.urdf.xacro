@@ -128,8 +128,8 @@
     </link>
 
     <!-- lidar -->
-    <joint name="${prefix}lidar_joint" type="continuous">
-      <parent link="${prefix}base_link"/>
+    <joint name="${prefix}lidar_joint" type="fixed">
+      <parent link="${prefix}odom"/>
       <child link="${prefix}lidar"/>
       <origin xyz="0 0 ${base_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
