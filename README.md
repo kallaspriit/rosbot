@@ -34,7 +34,8 @@ ROS 2 based robot learning platform.
   - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
 - Debugging
   - `ros2 topic echo /joint_states` to show joint states including velocity etc 
-  - `ros2 topic echo /dynamic_joint_states` to show dynamic joint states including axis error etc  
+  - `ros2 topic echo /dynamic_joint_states` to show dynamic joint states including axis error etc
+  - `ros2 run tf2_tools view_frames.py` to generate `frames.pdf` frame tree
 
 ## Joystick teleop
 - https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/

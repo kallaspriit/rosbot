@@ -12,6 +12,6 @@
 
   <xacro:rosbot prefix="$(arg prefix)" />
   <xacro:rosbot_gazebo prefix="$(arg prefix)" />
-  <xacro:rosbot_system name="DiffBotSystem" prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
+  <xacro:rosbot_system name="RosbotSystem" prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
 
 </robot>
