@@ -27,7 +27,7 @@
         <state_interface name="effort" />
         <param name="axis">0</param>
         <param name="enable_watchdog">1</param>
-        <param name="watchdog_timeout">0.1</param>
+        <param name="watchdog_timeout">0.2</param>
       </joint>
       <sensor name="axis0">
         <state_interface name="axis_error" />
@@ -50,7 +50,7 @@
         <state_interface name="effort" />
         <param name="axis">1</param>
         <param name="enable_watchdog">1</param>
-        <param name="watchdog_timeout">0.1</param>
+        <param name="watchdog_timeout">0.2</param>
       </joint>
       <sensor name="axis1">
         <state_interface name="axis_error" />
