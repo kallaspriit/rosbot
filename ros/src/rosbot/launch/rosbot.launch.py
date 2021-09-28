@@ -1,9 +1,12 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution, TextSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
+
+from os.path import join
 
 # generates the robot launch description with arguments and nodes
 
@@ -12,12 +15,31 @@ def generate_launch_description():
     # list of launch arguments
     declared_arguments = []
 
-    # should we open rviz visualizer
+    # should we open rviz visualizer (disabled by default)
+    # `ros2 launch rosbot rviz.py` on remote pc instead
     declared_arguments.append(
         DeclareLaunchArgument(
-            "start_rviz",
+            "rviz",
             default_value="false",
-            description="start RViz automatically with the launch file",
+            description="Start RViz automatically with the launch file",
+        )
+    )
+
+    # should we start teleop (enabled by default)
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "teleop",
+            default_value="true",
+            description="Start joystick teleop automatically with the launch file",
+        )
+    )
+
+    # joystick device to use
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "joy_dev",
+            default_value="/dev/input/js0",
+            description="Joystick device to use",
         )
     )
 
@@ -92,15 +114,44 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         arguments=["-d", rviz_config_file],
-        condition=IfCondition(LaunchConfiguration("start_rviz")),
+        condition=IfCondition(LaunchConfiguration("rviz")),
     )
 
+    # setup joystick node
+    joy_dev = LaunchConfiguration('joy_dev')
+
+    joy_node = Node(
+        package='joy',
+        executable='joy_node',
+        name='joy_node',
+        parameters=[{
+            'dev': joy_dev,
+            'deadzone': 0.3,
+            'autorepeat_rate': 20.0,
+        }],
+        condition=IfCondition(LaunchConfiguration("teleop")),
+    )
+
+    # setup teleop node
+    teleop_node = Node(
+        package='teleop_twist_joy', executable='teleop_node',
+        name='teleop_twist_joy_node', parameters=[
+            TextSubstitution(text=join(get_package_share_directory(
+                'teleop_twist_joy'), 'config', '')),
+            "rosbot", TextSubstitution(text='.config.yaml')],
+        remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
+        condition=IfCondition(LaunchConfiguration("teleop")),
+    )
+
+    # setup list of nodes to launch
     nodes = [
         controller_manager_node,
         robot_state_publisher_node,
         joint_state_broadcaster_node,
         diff_drive_controller_node,
         rviz_node,
+        joy_node,
+        teleop_node,
     ]
 
     return LaunchDescription(declared_arguments + nodes)
