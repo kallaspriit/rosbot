@@ -162,7 +162,7 @@ def generate_launch_description():
         name='rplidar_scan_publisher',
         parameters=[{
             'serial_port': LaunchConfiguration('lidar_dev'),
-            'serial_baudrate': '256000',
+            'serial_baudrate': 256000,
             'frame_id': 'laser',
             'inverted': False,
             'angle_compensate': True
@@ -179,7 +179,7 @@ def generate_launch_description():
         rviz_node,
         joy_node,
         teleop_node,
-        lidar_node
+        lidar_node,
     ]
 
     return LaunchDescription(declared_arguments + nodes)
