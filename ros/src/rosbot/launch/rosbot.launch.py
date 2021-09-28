@@ -19,7 +19,7 @@ def generate_launch_description():
     # `ros2 launch rosbot rviz.py` on remote pc instead
     declared_arguments.append(
         DeclareLaunchArgument(
-            "rviz",
+            "launch_rviz",
             default_value="false",
             description="Start RViz automatically with the launch file",
         )
@@ -28,7 +28,7 @@ def generate_launch_description():
     # should we start teleop (enabled by default)
     declared_arguments.append(
         DeclareLaunchArgument(
-            "teleop",
+            "launch_teleop",
             default_value="true",
             description="Start joystick teleop automatically with the launch file",
         )
@@ -114,7 +114,7 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         arguments=["-d", rviz_config_file],
-        condition=IfCondition(LaunchConfiguration("rviz")),
+        condition=IfCondition(LaunchConfiguration("launch_rviz")),
     )
 
     # setup joystick node
@@ -127,7 +127,7 @@ def generate_launch_description():
             'deadzone': 0.3,
             'autorepeat_rate': 20.0,
         }],
-        condition=IfCondition(LaunchConfiguration("teleop")),
+        condition=IfCondition(LaunchConfiguration("launch_teleop")),
     )
 
     # setup teleop node
@@ -143,7 +143,7 @@ def generate_launch_description():
             ),
         ],
         remappings={('/cmd_vel', '/diff_drive_controller/cmd_vel_unstamped')},
-        condition=IfCondition(LaunchConfiguration("teleop")),
+        condition=IfCondition(LaunchConfiguration("launch_teleop")),
     )
 
     # setup list of nodes to launch
