@@ -43,6 +43,15 @@ def generate_launch_description():
         )
     )
 
+    # lidar device to use
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "lidar_dev",
+            default_value="/dev/ttyS0",
+            description="Lidar device to use",
+        )
+    )
+
     # get robot description from urdf xacro file
     robot_description_content = Command(
         [
@@ -114,7 +123,7 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         arguments=["-d", rviz_config_file],
-        condition=IfCondition(LaunchConfiguration("launch_rviz")),
+        condition=IfCondition(LaunchConfiguration('launch_rviz')),
     )
 
     # setup joystick node
@@ -127,7 +136,7 @@ def generate_launch_description():
             'deadzone': 0.3,
             'autorepeat_rate': 20.0,
         }],
-        condition=IfCondition(LaunchConfiguration("launch_teleop")),
+        condition=IfCondition(LaunchConfiguration('launch_teleop')),
     )
 
     # setup teleop node
@@ -143,7 +152,22 @@ def generate_launch_description():
             ),
         ],
         remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
-        condition=IfCondition(LaunchConfiguration("launch_teleop")),
+        condition=IfCondition(LaunchConfiguration('launch_teleop')),
+    )
+
+    # setup lidar node
+    lidar_node = Node(
+        package='rplidar_ros2',
+        executable='rplidar_scan_publisher',
+        name='rplidar_scan_publisher',
+        parameters=[{
+            'serial_port': LaunchConfiguration('lidar_dev'),
+            'serial_baudrate': '256000',
+            'frame_id': 'laser',
+            'inverted': False,
+            'angle_compensate': True
+        }],
+        output='screen'
     )
 
     # setup list of nodes to launch
@@ -155,6 +179,7 @@ def generate_launch_description():
         rviz_node,
         joy_node,
         teleop_node,
+        lidar_node
     ]
 
     return LaunchDescription(declared_arguments + nodes)
