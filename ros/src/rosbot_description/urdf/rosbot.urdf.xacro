@@ -159,7 +159,7 @@
     </joint>
     <link name="${prefix}lidar">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 ${body_height/2 + lidar_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${lidar_width} ${lidar_length} ${lidar_height}"/>
         </geometry>
