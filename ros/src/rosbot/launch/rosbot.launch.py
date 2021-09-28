@@ -134,11 +134,16 @@ def generate_launch_description():
 
     # setup teleop node
     teleop_node = Node(
-        package='teleop_twist_joy', executable='teleop_node',
-        name='teleop_twist_joy_node', parameters=[
-            TextSubstitution(text=join(get_package_share_directory(
-                'teleop_twist_joy'), 'config', '')),
-            "rosbot", TextSubstitution(text='.config.yaml')],
+        package='teleop_twist_joy',
+        executable='teleop_node',
+        name='teleop_twist_joy_node',
+        parameters=[
+            join(
+                get_package_share_directory('teleop_twist_joy'),
+                'config',
+                'rosbot.config.yaml'
+            ),
+        ],
         remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
         condition=IfCondition(LaunchConfiguration("teleop")),
     )
