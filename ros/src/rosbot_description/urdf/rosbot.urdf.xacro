@@ -55,7 +55,7 @@
         <geometry>
           <!-- <box size="${body_width} ${body_length} ${body_height}"/> -->
           <!-- TODO replace simple box with robot mesh -->
-          <mesh filename="package://rosbot_description/meshes/rosbot_body.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://rosbot_description/meshes/rosbot_body.stl" scale="1 1 1"/>
         </geometry>
         <material name="orange"/>
       </visual>
