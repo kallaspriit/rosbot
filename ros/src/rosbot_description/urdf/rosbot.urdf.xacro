@@ -5,29 +5,29 @@
 
   <xacro:macro name="rosbot" params="prefix">
 
-    <!-- Constants for robot dimensions -->
+    <!-- constants -->
     <xacro:property name="PI" value="3.1415926535897931"/>
-    <xacro:property name="base_mass" value="6.0" />
 
+    <!-- body properties -->
+    <xacro:property name="body_mass" value="6.0" />
     <xacro:property name="body_width" value="0.46" />
     <xacro:property name="body_length" value="0.3" />
     <xacro:property name="body_height" value="0.17" />
+    <xacro:property name="body_ground_offset" value="0.0575" />
 
-    <xacro:property name="lidar_width" value="0.055" />
-    <xacro:property name="lidar_length" value="0.055" />
+    <!-- lidar properties -->
+    <!-- <xacro:property name="lidar_width" value="0.055" /> -->
+    <!-- <xacro:property name="lidar_length" value="0.055" /> -->
     <xacro:property name="lidar_height" value="0.055" />
+    <xacro:property name="lidar_radius" value="0.0275" />
 
-    <xacro:property name="wheel_mass" value="0.5" />
-    <!-- arbitrary value for wheel mass -->
-    <xacro:property name="wheel_len" value="0.05" />
-    <xacro:property name="wheel_radius" value="0.0975" />
-
-    <xacro:property name="frame_ground_offset" value="0.0575" />
-
+    <!-- rear wheel properties -->
+    <xacro:property name="real_wheel_mass" value="0.5" />
+    <xacro:property name="rear_wheel_width" value="0.05" />
+    <xacro:property name="rear_wheel_radius" value="0.0975" />
     <xacro:property name="rear_wheel_ground_offset" value="0.0975" />
-    <xacro:property name="rear_wheels_axis_offset" value="0.1" />
-    <xacro:property name="rear_wheels_distance" value="0.241" />
-    <!-- Space btw top of beam and the each joint -->
+    <xacro:property name="rear_wheel_axis_offset" value="0.1" />
+    <xacro:property name="rear_wheel_distance" value="0.241" />
 
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
     <!-- front wheels are 38.5mm off the ground surface -->
@@ -44,24 +44,26 @@
     <!-- base link -->
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
         <geometry>
-          <box size="${body_width} ${body_length} ${body_height}"/>
+          <!-- <box size="${body_width} ${body_length} ${body_height}"/> -->
+          <!-- TODO: replace simple box with robot mesh -->
+          <mesh filename="package://rosbot_description/meshes/rosbot_body.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="orange"/>
       </visual>
 
       <!-- <inertial>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
-        <mass value="${base_mass}"/>
-        <inertia ixx="${base_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${base_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${base_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
+        <mass value="${body_mass}"/>
+        <inertia ixx="${body_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${body_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${body_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
       </inertial> -->
     </link>
 
@@ -69,12 +71,12 @@
     <!-- <joint name="${prefix}body_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}body"/>
-      <origin xyz="0 0 ${body_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${body_height + body_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
     <link name="${prefix}body">
       <visual>
-        <origin xyz="0 0 ${body_height + frame_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${body_height + body_ground_offset + lidar_height / 2}" rpy="0 0 0"/>
         <geometry>
           <box size="${lidar_width} ${lidar_length} ${lidar_height}"/>
         </geometry>
@@ -82,9 +84,9 @@
       </visual>
 
       <inertial>
-        <origin xyz="${rear_wheels_axis_offset} 0 ${body_height/2 + frame_ground_offset}" rpy="0 0 0"/>
-        <mass value="${base_mass}"/>
-        <inertia ixx="${base_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${base_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${base_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
+        <mass value="${body_mass}"/>
+        <inertia ixx="${body_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${body_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${body_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
       </inertial>
     </link> -->
 
@@ -92,7 +94,7 @@
     <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}left_wheel"/>
-      <origin xyz="0 -${rear_wheels_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -100,22 +102,22 @@
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
       </collision>
 
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
         <material name="black"/>
       </visual>
 
       <inertial>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <mass value="${wheel_mass}"/>
-        <inertia ixx="${wheel_mass / 12.0 * (3*wheel_radius + wheel_len*wheel_len)}" ixy="0.0" ixz="0.0" iyy="${wheel_mass / 12.0 * wheel_radius*wheel_radius}" iyz="0.0" izz="${wheel_mass / 12.0 * wheel_radius*wheel_radius}"/>
+        <mass value="${real_wheel_mass}"/>
+        <inertia ixx="${real_wheel_mass / 12.0 * (3*rear_wheel_radius + rear_wheel_width*rear_wheel_width)}" ixy="0.0" ixz="0.0" iyy="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}" iyz="0.0" izz="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}"/>
       </inertial>
     </link>
 
@@ -123,7 +125,7 @@
     <joint name="${prefix}right_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}right_wheel"/>
-      <origin xyz="0 ${rear_wheels_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -131,22 +133,22 @@
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
       </collision>
 
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
         <material name="black"/>
       </visual>
 
       <inertial>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <mass value="${wheel_mass}"/>
-        <inertia ixx="${wheel_mass / 12.0 * (3*wheel_radius + wheel_len*wheel_len)}" ixy="0.0" ixz="0.0" iyy="${wheel_mass / 12.0 * wheel_radius*wheel_radius}" iyz="0.0" izz="${wheel_mass / 12.0 * wheel_radius*wheel_radius}"/>
+        <mass value="${real_wheel_mass}"/>
+        <inertia ixx="${real_wheel_mass / 12.0 * (3*rear_wheel_radius + rear_wheel_width*rear_wheel_width)}" ixy="0.0" ixz="0.0" iyy="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}" iyz="0.0" izz="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}"/>
       </inertial>
     </link>
 
@@ -154,14 +156,15 @@
     <joint name="${prefix}lidar_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}lidar"/>
-      <origin xyz="${rear_wheels_axis_offset} 0 ${frame_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
+      <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
       <axis xyz="0 0 1"/>
     </joint>
     <link name="${prefix}lidar">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="${lidar_width} ${lidar_length} ${lidar_height}"/>
+          <!-- <box size="${lidar_width} ${lidar_length} ${lidar_height}"/> -->
+          <cylinder length="${lidar_height}" radius="${lidar_radius}"/>
         </geometry>
         <material name="green"/>
       </visual>

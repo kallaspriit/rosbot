@@ -108,6 +108,14 @@ ROS 2 based robot learning platform.
   - Pin 8 TXD GPIO14
   - Pin 10 RXD GPIO15
 
+## Setup ROS2 Navigation2 Nav2
+
+- https://navigation.ros.org/getting_started/index.html
+- Install dependencies
+  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup`
+  - `sudo apt install ros-foxy-turtlebot3*` for testing on remote pc only
+- 
+
 ## Install ROS
 
 [Installation guide](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html).
