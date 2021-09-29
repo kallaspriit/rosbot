@@ -10,6 +10,8 @@ Panels:
         - /LaserScan1
         - /LaserScan1/Topic1
         - /TF1
+        - /TF1/Tree1/odom1
+        - /TF1/Tree1/odom1/base_link1
       Splitter Ratio: 0.5
     Tree Height: 782
   - Class: rviz_common/Selection
@@ -137,11 +139,11 @@ Visualization Manager:
           Value: true
         right_wheel:
           Value: true
-      Marker Scale: 0.25
+      Marker Scale: 1
       Name: TF
       Show Arrows: true
-      Show Axes: true
-      Show Names: true
+      Show Axes: false
+      Show Names: false
       Tree:
         odom:
           base_link:
@@ -196,7 +198,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.23592472076416
+      Distance: 4.405043601989746
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -211,10 +213,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.29039838910102844
+      Pitch: 0.4403983950614929
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.273571491241455
+      Yaw: 3.9935595989227295
     Saved: ~
 Window Geometry:
   Displays:
