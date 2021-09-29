@@ -54,7 +54,7 @@
         <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
         <geometry>
           <!-- <box size="${body_width} ${body_length} ${body_height}"/> -->
-          <!-- TODO: replace simple box with robot mesh -->
+          <!-- TODO replace simple box with robot mesh -->
           <mesh filename="package://rosbot_description/meshes/rosbot_body.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="orange"/>
