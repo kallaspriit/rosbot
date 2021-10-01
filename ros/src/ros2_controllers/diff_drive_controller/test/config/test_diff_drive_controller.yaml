@@ -5,7 +5,7 @@ diff_drive_controller:
     write_op_modes: ["motor_controller"]
 
     wheel_separation: 0.40
-    wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
+    wheels_per_side: 1 # actually 2, but both are controlled by 1 signal
     wheel_radius: 0.02
 
     wheel_separation_multiplier: 1.0
@@ -42,3 +42,9 @@ diff_drive_controller:
     angular.z.min_acceleration: 0.0
     angular.z.max_jerk: 0.0
     angular.z.min_jerk: 0.0
+
+    odometry:
+      publish_tf: true
+      use_imu: true
+      frame_id: "odom"
+      child_frame_id: "base_footprint"
