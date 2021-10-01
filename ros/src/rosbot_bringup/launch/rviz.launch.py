@@ -14,7 +14,7 @@ def generate_launch_description():
 
     # get path to rviz configuration file
     rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare("rosbot_description"), "config", "rosbot.rviz"]
+        [FindPackageShare("rosbot_description"), "rviz", "rosbot.rviz"]
     )
 
     # setup rviz node
