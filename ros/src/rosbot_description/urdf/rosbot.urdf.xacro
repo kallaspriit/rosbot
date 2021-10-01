@@ -58,7 +58,7 @@
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 ${body_height/2 - (rear_wheel_ground_offset - body_ground_offset)}"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 - (rear_wheel_ground_offset - body_ground_offset)}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
