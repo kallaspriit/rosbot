@@ -36,6 +36,7 @@ ROS 2 based robot learning platform.
   - `ros2 topic echo /joint_states` to show joint states including velocity etc 
   - `ros2 topic echo /dynamic_joint_states` to show dynamic joint states including axis error etc
   - `ros2 run tf2_tools view_frames.py` to generate `frames.pdf` frame tree
+  - `rqt` to open RQT, add plugins such as `Topics > Topic Monitor`
 
 ## Joystick teleop
 - https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
@@ -112,7 +113,7 @@ ROS 2 based robot learning platform.
 
 - https://navigation.ros.org/getting_started/index.html
 - Install dependencies
-  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup`
+  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros`
   - `sudo apt install ros-foxy-turtlebot3*` for testing on remote pc only
 - 
 
