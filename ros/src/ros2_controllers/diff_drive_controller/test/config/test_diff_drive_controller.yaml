@@ -13,7 +13,7 @@ diff_drive_controller:
     right_wheel_radius_multiplier: 1.0
 
     odom_frame_id: odom
-    base_frame_id: base_link
+    base_frame_id: base_footprint
     pose_covariance_diagonal: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     twist_covariance_diagonal: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
@@ -42,9 +42,3 @@ diff_drive_controller:
     angular.z.min_acceleration: 0.0
     angular.z.max_jerk: 0.0
     angular.z.min_jerk: 0.0
-
-    odometry:
-      publish_tf: true
-      use_imu: true
-      frame_id: "odom"
-      child_frame_id: "base_footprint"
