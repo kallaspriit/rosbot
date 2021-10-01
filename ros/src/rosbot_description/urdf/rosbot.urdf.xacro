@@ -3,6 +3,9 @@
 <!-- <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rosbot"> -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- include inertia calculation macros -->
+  <xacro:include filename="$(find rosbot_description)/urdf/inertia.urdf.xacro" />
+
   <xacro:macro name="rosbot" params="prefix">
 
     <!-- constants -->
@@ -67,11 +70,7 @@
         <material name="orange"/>
       </visual>
 
-      <!-- <inertial>
-        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
-        <mass value="${body_mass}"/>
-        <inertia ixx="${body_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${body_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${body_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
-      </inertial> -->
+      <xacro:box_inertia m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
     </link>
 
     <!-- body -->
