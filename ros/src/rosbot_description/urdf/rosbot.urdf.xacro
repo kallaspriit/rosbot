@@ -47,7 +47,7 @@
     <joint name="${prefix}base_joint" type="fixed">
       <parent link="${prefix}base_footprint"/>
       <child link="${prefix}base_link" />
-      <origin xyz="${-rear_wheel_axis_offset} 0 ${body_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${body_ground_offset}" rpy="0 0 0"/>
     </joint>
     <link name="${prefix}base_link">
       <collision>
