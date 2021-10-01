@@ -47,18 +47,18 @@
     <joint name="${prefix}base_joint" type="fixed">
       <parent link="${prefix}base_footprint"/>
       <child link="${prefix}base_link" />
-      <origin xyz="0 0 ${body_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset}" rpy="0 0 0"/>
     </joint>
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${body_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${body_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
