@@ -100,7 +100,8 @@ def generate_launch_description():
     joint_state_broadcaster_node = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["joint_state_broadcaster"],
+        arguments=["joint_state_broadcaster",
+                   "--controller-manager", "/controller_manager"],
     )
 
     # setup diff drive controller
