@@ -120,11 +120,7 @@
         <material name="black"/>
       </visual>
 
-      <inertial>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <mass value="${real_wheel_mass}"/>
-        <inertia ixx="${real_wheel_mass / 12.0 * (3*rear_wheel_radius + rear_wheel_width*rear_wheel_width)}" ixy="0.0" ixz="0.0" iyy="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}" iyz="0.0" izz="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}"/>
-      </inertial>
+      <xacro:cylinder_inertia m="${real_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
 
     <!-- right wheel -->
@@ -151,11 +147,7 @@
         <material name="black"/>
       </visual>
 
-      <inertial>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <mass value="${real_wheel_mass}"/>
-        <inertia ixx="${real_wheel_mass / 12.0 * (3*rear_wheel_radius + rear_wheel_width*rear_wheel_width)}" ixy="0.0" ixz="0.0" iyy="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}" iyz="0.0" izz="${real_wheel_mass / 12.0 * rear_wheel_radius*rear_wheel_radius}"/>
-      </inertial>
+      <xacro:cylinder_inertia m="${real_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
 
     <!-- lidar -->
