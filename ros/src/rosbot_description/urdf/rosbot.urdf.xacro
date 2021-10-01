@@ -40,17 +40,25 @@
     <!-- large wheel pulley has 72 teeth -->
     <!-- motor to wheel gear ratio is 72/16 = 4.5 -->
 
+    <!-- base footprint -->
+    <link name="base_footprint"/>
+
     <!-- base link -->
+    <joint name="base_joint" type="fixed">
+      <parent link="base_footprint"/>
+      <child link="base_link" />
+      <origin xyz="0 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
+    </joint>
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
@@ -60,7 +68,7 @@
       </visual>
 
       <!-- <inertial>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 + body_ground_offset}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
         <mass value="${body_mass}"/>
         <inertia ixx="${body_mass / 12.0 * (body_length*body_length + body_height*body_height)}" ixy="0.0" ixz="0.0" iyy="${body_mass / 12.0 * (body_height*body_height + body_width*body_width)}" iyz="0.0" izz="${body_mass / 12.0 * (body_width*body_width + body_length*body_length)}"/>
       </inertial> -->
