@@ -51,14 +51,14 @@
     </joint>
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${(rear_wheel_ground_offset - body_ground_offset) + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_height/2 - (rear_wheel_ground_offset - body_ground_offset)}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 ${(rear_wheel_ground_offset - body_ground_offset) + body_height/2}"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 ${body_height/2 - (rear_wheel_ground_offset - body_ground_offset)}"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
@@ -163,7 +163,7 @@
     <joint name="${prefix}lidar_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base_laser"/>
-      <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
+      <origin xyz="${rear_wheel_axis_offset} 0 ${body_height / 2 + lidar_height / 2}" rpy="0 0 ${PI}"/>
       <axis xyz="0 0 1"/>
     </joint>
     <link name="${prefix}base_laser">
