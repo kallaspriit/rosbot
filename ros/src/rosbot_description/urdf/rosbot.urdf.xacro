@@ -163,7 +163,7 @@
     <joint name="${prefix}lidar_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base_laser"/>
-      <origin xyz="${rear_wheel_axis_offset} 0 ${body_height / 2 + lidar_height / 2}" rpy="0 0 ${PI}"/>
+      <origin xyz="${rear_wheel_axis_offset} 0 ${body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
       <axis xyz="0 0 1"/>
     </joint>
     <link name="${prefix}base_laser">
