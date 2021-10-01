@@ -16,8 +16,6 @@
     <xacro:property name="body_ground_offset" value="0.0575" />
 
     <!-- lidar properties -->
-    <!-- <xacro:property name="lidar_width" value="0.055" /> -->
-    <!-- <xacro:property name="lidar_length" value="0.055" /> -->
     <xacro:property name="lidar_height" value="0.055" />
     <xacro:property name="lidar_radius" value="0.0275" />
 
@@ -29,6 +27,7 @@
     <xacro:property name="rear_wheel_axis_offset" value="0.1" />
     <xacro:property name="rear_wheel_distance" value="0.241" />
 
+    <!-- PHYSICAL ROBOT MEASUREMENTS -->
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
     <!-- front wheels are 38.5mm off the ground surface -->
     <!-- robot body is 57.5mm off the ground surface -->

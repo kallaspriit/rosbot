@@ -88,7 +88,7 @@ def generate_launch_description():
         },
     )
 
-    # setup robot state publisher node
+    # setup robot state publisher node (publishes transforms)
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
@@ -100,8 +100,7 @@ def generate_launch_description():
     joint_state_broadcaster_node = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["joint_state_broadcaster",
-                   "--controller-manager", "/controller_manager"],
+        arguments=["joint_state_broadcaster"],
     )
 
     # setup diff drive controller
