@@ -115,7 +115,24 @@ ROS 2 based robot learning platform.
 - Install dependencies
   - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros`
   - `sudo apt install ros-foxy-turtlebot3*` for testing on remote pc only
-- 
+
+## Setup Arduino
+- Install Arduino IDE
+- Add `https://www.adafruit.com/package_adafruit_index.json` to Arduino preferences additional boards URLs
+- Install board `Adafruit nRF52`
+- Install `pip3 install --user adafruit-nrfutil`
+- Update bootloader
+  - https://learn.adafruit.com/introducing-the-adafruit-nrf52840-feather/update-bootloader
+  - Double press reset to enter DFU mode
+- Install Micro-XRCE-DDS Agent
+  - `git clone https://github.com/eProsima/Micro-XRCE-DDS-Agent.git`
+  - `cd Micro-XRCE-DDS-Agent && git checkout foxy`
+  - `mkdir build && cd build`
+  - `source /opt/ros/dashing/setup.bash # to share libraries with ros2`
+  - `cmake ..`
+  - `make`
+  - `sudo make install`
+  - `sudo ldconfig /usr/local/lib/`
 
 ## Install ROS
 
