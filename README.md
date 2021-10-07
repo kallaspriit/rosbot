@@ -52,6 +52,15 @@ ROS 2 based robot learning platform.
   - `sudo systemctl enable xow`
   - `sudo systemctl start xow`
   - `sudo systemctl kill -s SIGUSR1 xow` to enable XOW pairing mode (generally not needed)
+- Disable ERTM
+  - `sudoedit /sys/module/bluetooth/parameters/disable_ertm`
+  - replace `N` with `Y`
+  - reboot
+- Restart bluetooth
+  - `sudo service bluetooth restart`
+  - `sudo rmmod btusb`
+- Test controller
+  - `jstest /dev/input/js0`
 - Also disable ERTM permanently
   - https://www.addictivetips.com/ubuntu-linux-tips/xbox-one-controllers-over-bluetooth-linux/
   - `sudo apt install dkms git linux-headers-`uname -r``
