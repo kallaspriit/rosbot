@@ -106,6 +106,9 @@ ROS 2 based robot learning platform.
   - `ros2 topic echo /cmd_vel`
   - `ros2 topic echo /diff_drive_controller/cmd_vel_unstamped`
 
+## Setup Gazebo simulator
+- `sudo apt install ros-foxy-gazebo-ros-pkgs`
+
 ## Setup Raspberry PI UART
 
 - https://askubuntu.com/questions/1254376/enable-uart-communication-on-pi4-ubuntu-20-04

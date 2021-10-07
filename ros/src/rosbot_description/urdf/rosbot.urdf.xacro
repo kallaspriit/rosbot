@@ -30,6 +30,9 @@
     <xacro:property name="rear_wheel_axis_offset" value="0.1" />
     <xacro:property name="rear_wheel_distance" value="0.241" />
 
+    <!-- imu properties -->
+    <xacro:property name="imu_size" value="0.01" />
+
     <!-- PHYSICAL ROBOT MEASUREMENTS -->
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
     <!-- front wheels are 38.5mm off the ground surface -->
@@ -166,6 +169,29 @@
         </geometry>
         <material name="green"/>
       </visual>
+    </link>
+
+    <!-- imu -->
+    <joint name="imu_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="imu_link"/>
+      <origin xyz="0 0 ${body_height + imu_size / 2}" rpy="0 0 ${PI}"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+    <link name="imu_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${imu_size} ${imu_size} ${imu_size}"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${imu_size} ${imu_size} ${imu_size}"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertia m="0.01" w="${imu_size}" d="${imu_size}" h="${imu_size}"/>
     </link>
 
   </xacro:macro>
