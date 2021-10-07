@@ -5,13 +5,11 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
+        - /Grid1
         - /RobotModel1
         - /LaserScan1
-        - /LaserScan1/Topic1
         - /TF1
-        - /TF1/Tree1/odom1
-        - /TF1/Tree1/odom1/base_link1
+        - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 782
   - Class: rviz_common/Selection
@@ -30,7 +28,7 @@ Panels:
 Visualization Manager:
   Class: ""
   Displays:
-    - Alpha: 0.5
+    - Alpha: 1
       Cell Size: 1
       Class: rviz_default_plugins/Grid
       Color: 160; 160; 164
@@ -45,10 +43,10 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 100
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 1
+    - Alpha: 0.5
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
       Description File: ""
@@ -66,17 +64,26 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_wheel:
+        imu_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        lidar:
+        left_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -129,30 +136,37 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_footprint:
+          Value: true
+        base_laser:
+          Value: true
         base_link:
           Value: true
-        left_wheel:
+        imu_link:
           Value: true
-        lidar:
+        left_wheel:
           Value: true
         odom:
           Value: true
         right_wheel:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 0.30000001192092896
       Name: TF
       Show Arrows: true
-      Show Axes: false
-      Show Names: false
+      Show Axes: true
+      Show Names: true
       Tree:
         odom:
-          base_link:
-            left_wheel:
-              {}
-            lidar:
-              {}
-            right_wheel:
-              {}
+          base_footprint:
+            base_link:
+              base_laser:
+                {}
+              imu_link:
+                {}
+              left_wheel:
+                {}
+              right_wheel:
+                {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -198,25 +212,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 4.405043601989746
+      Distance: 1.7579433917999268
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
+        X: 0.4999881684780121
         Y: 0
-        Z: 0
+        Z: 0.000244140625
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4403983950614929
+      Pitch: 0.5747971534729004
       Target Frame: <Fixed Frame>
-      Value: Orbit (rviz)
-      Yaw: 3.9935595989227295
+      Value: Orbit (rviz_default_plugins)
+      Yaw: 0.8115956783294678
     Saved: ~
 Window Geometry:
   Displays:
