@@ -4,7 +4,7 @@ project(rosbot_bringup)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY param launch
+  DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 
