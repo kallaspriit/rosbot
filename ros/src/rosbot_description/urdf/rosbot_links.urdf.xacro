@@ -46,8 +46,6 @@
     <!-- large wheel pulley has 72 teeth -->
     <!-- motor to wheel gear ratio is 72/16 = 4.5 -->
 
-
-
     <!-- base link and footprint -->
     <link name="${prefix}base_link">
       <collision>
@@ -56,7 +54,6 @@
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
-
       <visual>
         <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
         <geometry>
@@ -66,12 +63,9 @@
         </geometry>
         <material name="orange"/>
       </visual>
-
       <xacro:box_inertia m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
     </link>
-
     <link name="base_footprint"/>
-
     <joint name="${prefix}base_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base_footprint" />
@@ -79,13 +73,6 @@
     </joint>
 
     <!-- left wheel -->
-    <joint name="${prefix}left_wheel_joint" type="continuous">
-      <parent link="${prefix}base_link"/>
-      <child link="${prefix}left_wheel"/>
-      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
-      <axis xyz="0 1 0"/>
-      <dynamics damping="0.2"/>
-    </joint>
     <link name="${prefix}left_wheel">
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
@@ -93,7 +80,6 @@
           <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
       </collision>
-
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
@@ -101,18 +87,17 @@
         </geometry>
         <material name="black"/>
       </visual>
-
       <xacro:cylinder_inertia m="${real_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
-
-    <!-- right wheel -->
-    <joint name="${prefix}right_wheel_joint" type="continuous">
+    <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
-      <child link="${prefix}right_wheel"/>
-      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
+      <child link="${prefix}left_wheel"/>
+      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
+
+    <!-- right wheel -->
     <link name="${prefix}right_wheel">
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
@@ -120,7 +105,6 @@
           <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
       </collision>
-
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
@@ -128,17 +112,17 @@
         </geometry>
         <material name="black"/>
       </visual>
-
       <xacro:cylinder_inertia m="${real_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
+    <joint name="${prefix}right_wheel_joint" type="continuous">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}right_wheel"/>
+      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.2"/>
+    </joint>
 
     <!-- lidar -->
-    <joint name="${prefix}lidar_joint" type="fixed">
-      <parent link="${prefix}base_link"/>
-      <child link="${prefix}base_laser"/>
-      <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
-      <axis xyz="0 0 1"/>
-    </joint>
     <link name="${prefix}base_laser">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -149,14 +133,14 @@
         <material name="green"/>
       </visual>
     </link>
-
-    <!-- imu -->
-    <joint name="imu_joint" type="fixed">
-      <parent link="base_link"/>
-      <child link="imu_link"/>
-      <origin xyz="0 0 ${body_ground_offset + body_height + imu_size / 2}" rpy="0 0 ${PI}"/>
+    <joint name="${prefix}lidar_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base_laser"/>
+      <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
       <axis xyz="0 0 1"/>
     </joint>
+
+    <!-- imu -->
     <link name="imu_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -173,6 +157,12 @@
       </collision>
       <xacro:cylinder_inertia m="0.01" r="${imu_size}" h="${imu_size}"/>
     </link>
+    <joint name="imu_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="imu_link"/>
+      <origin xyz="0 0 ${body_ground_offset + body_height + imu_size / 2}" rpy="0 0 ${PI}"/>
+      <axis xyz="0 0 1"/>
+    </joint>
 
   </xacro:macro>
 
