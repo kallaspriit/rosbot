@@ -156,12 +156,13 @@
         </ros>
 
         <!-- wheels -->
-        <left_joint>drivewhl_l_joint</left_joint>
-        <right_joint>drivewhl_r_joint</right_joint>
+        <left_joint>left_wheel_joint</left_joint>
+        <right_joint>right_wheel_joint</right_joint>
 
-        <!-- kinematics -->
-        <wheel_separation>0.025</wheel_separation>
-        <wheel_diameter>0.2</wheel_diameter>
+        <!-- kinematics (note that using diameter not radius) -->
+        <!-- TODO use shared configuration, currently in rosbot_links.urdf.xacro -->
+        <wheel_separation>0.241</wheel_separation>
+        <wheel_diameter>0.195</wheel_diameter>
 
         <!-- limits -->
         <max_wheel_torque>20</max_wheel_torque>
@@ -176,6 +177,81 @@
         <robot_base_frame>base_link</robot_base_frame>
       </plugin>
     </gazebo>
+
+    <!-- lidar -->
+    <gazebo reference="base_laser">
+      <sensor name="lidar" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>5</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1.000000</resolution>
+              <min_angle>0.000000</min_angle>
+              <max_angle>6.280000</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.120000</min>
+            <max>3.5</max>
+            <resolution>0.015000</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>base_laser</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+    <!-- TODO camera and depth sensing
+    <gazebo reference="camera_link">
+      <sensor name="depth_camera" type="depth">
+        <visualize>true</visualize>
+        <update_rate>30.0</update_rate>
+        <camera name="camera">
+          <horizontal_fov>1.047198</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.05</near>
+            <far>3</far>
+          </clip>
+        </camera>
+        <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
+          <baseline>0.2</baseline>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <frameName>camera_depth_frame</frameName>
+          <pointCloudCutoff>0.5</pointCloudCutoff>
+          <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+          <distortionK1>0</distortionK1>
+          <distortionK2>0</distortionK2>
+          <distortionK3>0</distortionK3>
+          <distortionT1>0</distortionT1>
+          <distortionT2>0</distortionT2>
+          <CxPrime>0</CxPrime>
+          <Cx>0</Cx>
+          <Cy>0</Cy>
+          <focalLength>0</focalLength>
+          <hackBaseline>0</hackBaseline>
+        </plugin>
+      </sensor>
+    </gazebo>
+    -->
 
   </xacro:macro>
 
