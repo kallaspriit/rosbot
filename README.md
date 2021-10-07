@@ -59,6 +59,12 @@ ROS 2 based robot learning platform.
   - `cd xpadneo`
   - `sudo ./install.sh`
   - reboot
+- Disable internal bluetooth when using dongle
+  - `sudoedit /boot/firmware/usrcfg.txt`
+  - add line `dtoverlay=disable-bluetooth`
+  - reboot
+  - check with `hciconfig -a` and `hcitool dev`
+  - does not seem to actually work..
 - Connect to bluetooth xbox controller using terminal (on robot)
   - https://simpleit.rocks/linux/shell/connect-to-bluetooth-from-cli/
   - https://raspberrypi.stackexchange.com/questions/114586/rpi-4b-bluetooth-unavailable-on-ubuntu-20-04
@@ -133,6 +139,27 @@ ROS 2 based robot learning platform.
   - `make`
   - `sudo make install`
   - `sudo ldconfig /usr/local/lib/`
+
+## Update cmake
+- `cmake --version`
+- `sudo apt update`
+- `sudo apt install -y software-properties-common lsb-release`
+- `wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null`
+- `sudo apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main"`
+- `sudo apt update`
+- `sudo apt install kitware-archive-keyring`
+- `sudo rm /etc/apt/trusted.gpg.d/kitware.gpg`
+- `sudo apt update`
+- `sudo apt install cmake`
+- `cmake --version`
+
+## Build micro-ros on MBED
+- https://github.com/micro-ROS/micro_ros_mbed
+- `pip3 install catkin_pkg lark-parser empy colcon-common-extensions mbed-tools`
+- `sudo apt install gcc-arm-none-eabi`
+- clone repo and cd into it
+- `mbed-tools deploy`
+- `mbed-tools compile -m LPC1768 -t GCC_ARM -f`
 
 ## Install ROS
 
