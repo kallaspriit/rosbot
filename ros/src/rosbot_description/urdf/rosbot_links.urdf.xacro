@@ -51,14 +51,14 @@
     <!-- base link and footprint -->
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${rear_wheel_ground_offset + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
 
       <visual>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${rear_wheel_ground_offset + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
@@ -75,14 +75,14 @@
     <joint name="${prefix}base_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base_footprint" />
-      <origin xyz="${-rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
+      <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
     </joint>
 
     <!-- left wheel -->
     <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}left_wheel"/>
-      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_ground_offset - body_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -109,7 +109,7 @@
     <joint name="${prefix}right_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}right_wheel"/>
-      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_ground_offset - body_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
