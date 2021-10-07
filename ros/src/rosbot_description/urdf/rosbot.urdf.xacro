@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rosbot">
-  <xacro:arg name="use_sim" default="false" />
+  <!-- TODO not used? -->
+  <!-- <xacro:arg name="use_sim" default="false" /> -->
   <xacro:arg name="use_fake_hardware" default="false" />
   <xacro:arg name="fake_sensor_commands" default="false" />
   <xacro:arg name="prefix" default="" />
@@ -12,6 +13,6 @@
 
   <xacro:rosbot_links prefix="$(arg prefix)" />
   <xacro:rosbot_gazebo prefix="$(arg prefix)" />
-  <xacro:rosbot_system name="RosbotSystem" prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
+  <xacro:rosbot_system prefix="$(arg prefix)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)"/>
 
 </robot>

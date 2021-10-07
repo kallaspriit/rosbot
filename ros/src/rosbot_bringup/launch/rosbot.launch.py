@@ -61,7 +61,7 @@ def generate_launch_description():
                 [
                     FindPackageShare("rosbot_description"),
                     "urdf",
-                    "rosbot_system.urdf.xacro",
+                    "rosbot.urdf.xacro",
                 ]
             ),
         ]
