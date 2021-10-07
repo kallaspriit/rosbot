@@ -51,8 +51,8 @@
 
     <!-- base link -->
     <joint name="${prefix}base_joint" type="fixed">
-      <parent link="${prefix}base_footprint"/>
-      <child link="${prefix}base_link" />
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base_bootprint" />
       <origin xyz="0 0 ${body_ground_offset}" rpy="0 0 0"/>
     </joint>
     <link name="${prefix}base_link">
