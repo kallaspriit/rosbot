@@ -6,7 +6,7 @@
   <!-- include inertia calculation macros -->
   <xacro:include filename="$(find rosbot_description)/urdf/inertia.urdf.xacro" />
 
-  <xacro:macro name="rosbot" params="prefix">
+  <xacro:macro name="rosbot_links" params="prefix">
 
     <!-- constants -->
     <xacro:property name="PI" value="3.1415926535897931"/>
