@@ -165,7 +165,8 @@ def generate_launch_description():
             'serial_baudrate': 256000,
             'frame_id': 'base_laser',
             'inverted': False,
-            'angle_compensate': True
+            # 'angle_compensate': True
+            'angle_compensate': False
         }],
         output='screen'
     )
