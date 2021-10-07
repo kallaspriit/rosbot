@@ -31,7 +31,7 @@
     <xacro:property name="rear_wheel_distance" value="0.241" />
 
     <!-- imu properties -->
-    <xacro:property name="imu_size" value="0.01" />
+    <xacro:property name="imu_size" value="0.05" />
 
     <!-- PHYSICAL ROBOT MEASUREMENTS -->
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
@@ -189,9 +189,10 @@
       <collision>
         <geometry>
           <box size="${imu_size} ${imu_size} ${imu_size}"/>
+          <cylinder length="${imu_size}" radius="${imu_size / 2}"/>
         </geometry>
       </collision>
-      <xacro:box_inertia m="0.01" w="${imu_size}" d="${imu_size}" h="${imu_size}"/>
+      <xacro:cylinder_inertia m="0.01" r="${imu_size}" h="${imu_size}"/>
     </link>
 
   </xacro:macro>
