@@ -9,16 +9,23 @@
       <material>Gazebo/Orange</material>
     </gazebo>
 
-    <!-- configure wheels -->
+    <!-- configure rear wheels -->
     <gazebo reference="${prefix}left_wheel">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <mu>0.6</mu>
+      <mu2>0.6</mu2>
       <material>Gazebo/Black</material>
     </gazebo>
     <gazebo reference="${prefix}right_wheel">
-      <mu1>0.2</mu1>
-      <mu2>0.2</mu2>
+      <mu>0.6</mu>
+      <mu2>0.6</mu2>
       <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- configure caster wheel (use no friction) -->
+    <gazebo reference="${prefix}front_wheel">
+      <mu>0.0001</mu>
+      <mu2>0.0001</mu2>
+      <material>Gazebo/White</material>
     </gazebo>
 
     <!-- imu link -->
@@ -110,8 +117,8 @@
         <wheel_diameter>0.195</wheel_diameter>
 
         <!-- limits -->
-        <max_wheel_torque>20</max_wheel_torque>
-        <max_wheel_acceleration>1.0</max_wheel_acceleration>
+        <max_wheel_torque>50</max_wheel_torque>
+        <max_wheel_acceleration>2.0</max_wheel_acceleration>
 
         <!-- output -->
         <publish_odom>true</publish_odom>

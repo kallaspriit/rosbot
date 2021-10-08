@@ -6,9 +6,6 @@
 
   <xacro:macro name="rosbot_links" params="prefix">
 
-    <!-- constants -->
-    <xacro:property name="PI" value="3.1415926535897931"/>
-
     <!-- body properties -->
     <xacro:property name="body_mass" value="6.0" />
     <xacro:property name="body_width" value="0.46" />
@@ -21,12 +18,17 @@
     <xacro:property name="lidar_radius" value="0.0275" />
 
     <!-- rear wheel properties -->
-    <xacro:property name="real_wheel_mass" value="0.5" />
+    <xacro:property name="rear_wheel_mass" value="0.5" />
     <xacro:property name="rear_wheel_width" value="0.05" />
     <xacro:property name="rear_wheel_radius" value="0.0975" />
-    <xacro:property name="rear_wheel_ground_offset" value="0.0975" />
-    <xacro:property name="rear_wheel_axis_offset" value="0.1" />
+    <xacro:property name="rear_wheel_origin_x" value="-0.1" />
     <xacro:property name="rear_wheel_distance" value="0.241" />
+
+    <!-- front caster wheel properties -->
+    <xacro:property name="front_wheel_mass" value="0.2" />
+    <xacro:property name="front_wheel_width" value="0.025" />
+    <xacro:property name="front_wheel_radius" value="0.0385" />
+    <xacro:property name="front_wheel_origin_x" value="0.26757" />
 
     <!-- imu properties -->
     <xacro:property name="imu_size" value="0.02" />
@@ -38,7 +40,7 @@
     <!-- robot rear wheel diameter is 195mm (radius 97.5mm) -->
     <!-- robot rear wheels axis is 97.5mm off the ground surface -->
     <!-- robot rear wheels axis is 100mm from the center of the body -->
-    <!-- front wheel radius 77mm  -->
+    <!-- front wheel diameter 77mm (radius 38.5mm)  -->
     <!-- robot front wheels axis is -267.57mm from the center of the body -->
     <!-- small motor pulley has 16 teeth -->
     <!-- large wheel pulley has 72 teeth -->
@@ -47,13 +49,13 @@
     <!-- base link and footprint -->
     <link name="${prefix}base_link">
       <collision>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
       <visual>
-        <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
@@ -61,36 +63,36 @@
         </geometry>
         <material name="orange"/>
       </visual>
-      <xacro:box_inertia originXYZ="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height/2}" m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
+      <xacro:box_inertia originXYZ="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height/2}" m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
     </link>
     <link name="base_footprint"/>
     <joint name="${prefix}base_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base_footprint" />
-      <origin xyz="${rear_wheel_axis_offset} 0 0" rpy="0 0 0"/>
+      <origin xyz="${rear_wheel_origin_x * -1} 0 0" rpy="0 0 0"/>
     </joint>
 
     <!-- left wheel -->
     <link name="${prefix}left_wheel">
       <collision>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
       </collision>
       <visual>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
         <material name="black"/>
       </visual>
-      <xacro:cylinder_inertia m="${real_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
+      <xacro:cylinder_inertia m="${rear_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
     <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}left_wheel"/>
-      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_radius}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -98,25 +100,50 @@
     <!-- right wheel -->
     <link name="${prefix}right_wheel">
       <collision>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
       </collision>
       <visual>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
         </geometry>
         <material name="black"/>
       </visual>
-      <xacro:cylinder_inertia m="${real_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
+      <xacro:cylinder_inertia m="${rear_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
     <joint name="${prefix}right_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}right_wheel"/>
-      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_ground_offset}" rpy="0 0 0"/>
+      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_radius}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
+      <dynamics damping="0.2"/>
+    </joint>
+
+    <!-- front caster wheel -->
+    <link name="${prefix}front_wheel">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${front_wheel_radius}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${front_wheel_radius}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <xacro:sphere_inertia m="${front_wheel_mass}" r="${front_wheel_radius}"/>
+    </link>
+    <joint name="${prefix}front_wheel_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}front_wheel"/>
+      <origin xyz="${front_wheel_origin_x - rear_wheel_origin_x} 0 ${front_wheel_radius}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
       <dynamics damping="0.2"/>
     </joint>
 
@@ -134,7 +161,7 @@
     <joint name="${prefix}lidar_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}base_laser"/>
-      <origin xyz="${rear_wheel_axis_offset} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${PI}"/>
+      <origin xyz="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${pi}"/>
       <axis xyz="0 0 1"/>
     </joint>
 
@@ -158,7 +185,7 @@
     <joint name="imu_joint" type="fixed">
       <parent link="base_link"/>
       <child link="imu_link"/>
-      <origin xyz="0 0 ${body_ground_offset + body_height + imu_size / 2}" rpy="0 0 ${PI}"/>
+      <origin xyz="0 0 ${body_ground_offset + body_height + imu_size / 2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <!-- macros for calculating inertias of common 3d shapes  -->
-    <xacro:macro name="box_inertia" params="m w h d originXYZ">
+    <xacro:macro name="box_inertia" params="m w h d originXYZ:='0 0 0'">
         <inertial>
             <origin xyz="${originXYZ}" rpy="${pi/2} 0 ${pi/2}"/>
             <mass value="${m}"/>
@@ -9,7 +9,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="cylinder_inertia" params="m r h originXYZ">
+    <xacro:macro name="cylinder_inertia" params="m r h originXYZ:='0 0 0'">
         <inertial>
             <origin xyz="${originXYZ}" rpy="${pi/2} 0 0" />
             <mass value="${m}"/>
@@ -17,7 +17,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="sphere_inertia" params="m r originXYZ">
+    <xacro:macro name="sphere_inertia" params="m r">
         <inertial>
             <mass value="${m}"/>
             <inertia ixx="${(2/5) * m * (r*r)}" ixy="0.0" ixz="0.0" iyy="${(2/5) * m * (r*r)}" iyz="0.0" izz="${(2/5) * m * (r*r)}"/>

@@ -37,6 +37,7 @@ ROS 2 based robot learning platform.
   - `ros2 topic echo /dynamic_joint_states` to show dynamic joint states including axis error etc
   - `ros2 run tf2_tools view_frames.py` to generate `frames.pdf` frame tree
   - `rqt` to open RQT, add plugins such as `Topics > Topic Monitor`
+  - `ros2 run xacro xacro ./src/rosbot_description/urdf/rosbot.urdf.xacro` to debug what's wrong with URDF file
 - Launch usb xbox joystick teleop that publishes to `/cmd_vel`
   - `ros2 launch teleop_twist_joy teleop-launch.py cmd_vel:=cmd_vel joy_config:=rosbot_xbox_usb`
 
