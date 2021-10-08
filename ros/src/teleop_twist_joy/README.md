@@ -80,7 +80,7 @@ There are several common ones provided in this package (atk3, ps3-holonomic, ps3
 
 PS3 is default, to run for another config (e.g. xbox) use this:
 ````
-ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox'
+ros2 launch teleop_twist_joy teleop.launch.py joy_config:='xbox'
 ````
 
 __Note:__ this launch file also launches the `joy` node so do not run it separately.

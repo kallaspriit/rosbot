@@ -21,7 +21,7 @@ ROS 2 based robot learning platform.
 - Run joystick teleop
   - Open new terminal
   - `. install/local_setup.bash` to load workspace overlay
-  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot_xbox_bluetooth' cmd_vel:=/diff_drive_controller/cmd_vel_unstamped` to launch joystick teleop
+  - `ros2 launch teleop_twist_joy teleop.launch.py joy_config:='rosbot_xbox_bluetooth' cmd_vel:=/diff_drive_controller/cmd_vel_unstamped` to launch joystick teleop
   - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
   - Hold down right trigger (button 7) for boost (faster movements)
 - Launch odrive manual control (for testing only)
@@ -30,13 +30,15 @@ ROS 2 based robot learning platform.
   - `ros2 launch odrive_bringup odrive.launch.py` to launch odrive test ()
   - `ros2 topic pub -r 100 /left_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [1]"`
   - `ros2 topic pub -r 100 /right_wheel_joint_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
-  - `ros2 launch teleop_twist_joy teleop-launch.py joy_config:='rosbot_xbox_bluetooth' cmd_vel:=/diff_drive_controller/cmd_vel_unstamped` to launch joystick teleop
+  - `ros2 launch teleop_twist_joy teleop.launch.py joy_config:='rosbot_xbox_bluetooth' cmd_vel:=/diff_drive_controller/cmd_vel_unstamped` to launch joystick teleop
   - Hold down left trigger (button 6) and use left and right joysticks to control speed and rotation
 - Debugging
   - `ros2 topic echo /joint_states` to show joint states including velocity etc 
   - `ros2 topic echo /dynamic_joint_states` to show dynamic joint states including axis error etc
   - `ros2 run tf2_tools view_frames.py` to generate `frames.pdf` frame tree
   - `rqt` to open RQT, add plugins such as `Topics > Topic Monitor`
+- Launch usb xbox joystick teleop that publishes to `/cmd_vel`
+  - `ros2 launch teleop_twist_joy teleop-launch.py cmd_vel:=cmd_vel joy_config:=rosbot_xbox_usb`
 
 ## Joystick teleop
 - https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/

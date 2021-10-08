@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <robot name="rosbot"
   xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:arg name="use_sim" default="false" />
+  <!-- TODO is use_sim argument used in any way? -->
+  <!-- <xacro:arg name="use_sim" default="false" /> -->
   <xacro:arg name="use_fake_hardware" default="false" />
   <xacro:arg name="fake_sensor_commands" default="false" />
   <xacro:arg name="prefix" default="" />
 
   <xacro:include filename="$(find rosbot_description)/urdf/rosbot_links.urdf.xacro" />
-  <xacro:include filename="$(find rosbot_description)/gazebo/rosbot.gazebo.xacro" />
   <xacro:include filename="$(find rosbot_description)/gazebo/rosbot.materials.xacro" />
+  <xacro:include filename="$(find rosbot_description)/gazebo/rosbot.gazebo.xacro" />
   <xacro:include filename="$(find rosbot_description)/ros2_control/rosbot_system.ros2_control.xacro" />
 
   <xacro:rosbot_links prefix="$(arg prefix)" />

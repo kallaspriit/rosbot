@@ -51,6 +51,20 @@ def generate_launch_description():
         )
     )
 
+    # gazebo simulation world to use
+    default_gazebo_world = join(
+        get_package_share_directory('rosbot_description'),
+        'world',
+        'my_world.sdf'
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "world",
+            default_value=default_gazebo_world,
+            description="Gazebo simulation world to use",
+        )
+    )
+
     # lidar device to use
     # declared_arguments.append(
     #     DeclareLaunchArgument(
@@ -112,12 +126,12 @@ def generate_launch_description():
     #                "--controller-manager", "/controller_manager"],
     # )
 
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        # condition=UnlessCondition(LaunchConfiguration('gui'))
-    )
+    # joint_state_publisher_node = Node(
+    #     package='joint_state_publisher',
+    #     executable='joint_state_publisher',
+    #     name='joint_state_publisher',
+    #     # condition=UnlessCondition(LaunchConfiguration('gui'))
+    # )
 
     # setup diff drive controller
     # diff_drive_controller_node = Node(
@@ -157,8 +171,6 @@ def generate_launch_description():
         executable='ekf_node',
         name='ekf_filter_node',
         output='screen',
-        # parameters=[os.path.join(pkg_share, 'config/ekf.yaml'),
-        #             {'use_sim_time': LaunchConfiguration('use_sim_time')}],
         parameters=[
             join(
                 get_package_share_directory('rosbot_description'),
@@ -213,25 +225,20 @@ def generate_launch_description():
     )
 
     # gazebo process with simulated world
-    gazebo_world_path = join(
-        get_package_share_directory('rosbot_description'),
-        'world',
-        'my_world.sdf'
-    )
     gazebo_process = ExecuteProcess(
         cmd=[
             'gazebo',
             '--verbose',
             '-s',
             'libgazebo_ros_factory.so',
-            gazebo_world_path
+            LaunchConfiguration('world')
         ], output='screen'
     )
 
     # setup list of nodes to launch
     nodes = [
         gazebo_process,
-        joint_state_publisher_node,
+        # joint_state_publisher_node,
         robot_state_publisher_node,
         spawn_entity_node,
         robot_localization_node,
