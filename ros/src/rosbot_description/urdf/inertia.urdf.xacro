@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<!-- TODO add name here? -->
-<!-- <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rosbot"> -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <!-- Define intertial property macros  -->
+    <!-- macros for calculating inertias of common 3d shapes  -->
     <xacro:macro name="box_inertia" params="m w h d">
         <inertial>
             <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>

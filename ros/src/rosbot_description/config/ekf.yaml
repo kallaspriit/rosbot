@@ -32,7 +32,16 @@ ekf_filter_node:
     base_link_frame: base_link # Defaults to "base_link" if unspecified
     world_frame: odom # Defaults to the value of odom_frame if unspecified
 
+    # If you're having trouble, try setting this to true, and then echo the /diagnostics_agg topic to see if the node is
+    # unhappy with any settings or data.
+    # print_diagnostics: true
+
+    # odometry sensor
     odom0: demo/odom
+
+    # which values from the sensor are used by the filter
+    # order: x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az
+    # uses x, y, z and yaw
     odom0_config:
       [
         true,
@@ -52,6 +61,8 @@ ekf_filter_node:
         false,
       ]
 
+    # imu sensor
+    # uses roll, pitch, yaw
     imu0: demo/imu
     imu0_config:
       [

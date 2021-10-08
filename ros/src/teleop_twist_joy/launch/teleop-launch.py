@@ -17,7 +17,7 @@ def generate_launch_description():
         launch.actions.DeclareLaunchArgument(
             'cmd_vel', default_value='diff_drive_controller/cmd_vel_unstamped'),
         launch.actions.DeclareLaunchArgument(
-            'joy_config', default_value='rosbot'),
+            'joy_config', default_value='rosbot_xbox_bluetooth'),
         launch.actions.DeclareLaunchArgument(
             'joy_dev', default_value='/dev/input/js0'),
         launch.actions.DeclareLaunchArgument('config_filepath', default_value=[

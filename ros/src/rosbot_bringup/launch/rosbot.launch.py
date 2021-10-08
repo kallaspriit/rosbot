@@ -148,7 +148,7 @@ def generate_launch_description():
             join(
                 get_package_share_directory('teleop_twist_joy'),
                 'config',
-                'rosbot.config.yaml'
+                'rosbot_xbox_bluetooth.config.yaml'
             ),
         ],
         remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
