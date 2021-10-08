@@ -26,7 +26,7 @@
       <sensor name="imu_sensor" type="imu">
         <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
           <ros>
-            <namespace>/demo</namespace>
+            <!-- <namespace>/demo</namespace> -->
             <remapping>~/out:=imu</remapping>
           </ros>
           <initial_orientation_as_reference>false</initial_orientation_as_reference>
@@ -96,9 +96,9 @@
     <!-- http://gazebosim.org/tutorials?tut=ros_gzplugins -->
     <gazebo>
       <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
-        <ros>
+        <!-- <ros>
           <namespace>/demo</namespace>
-        </ros>
+        </ros> -->
 
         <!-- wheels -->
         <left_joint>left_wheel_joint</left_joint>
@@ -122,7 +122,7 @@
         <robot_base_frame>base_link</robot_base_frame>
 
         <!-- use the same command topic as the real robot -->
-        <commandTopic>diff_drive_controller/cmd_vel_unstamped</commandTopic>
+        <!-- <commandTopic>/diff_drive_controller/cmd_vel_unstamped</commandTopic> -->
 
         <!-- these are defaults -->
         <!-- <odometryTopic>odom</odometryTopic> -->

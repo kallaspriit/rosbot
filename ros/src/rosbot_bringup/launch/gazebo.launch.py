@@ -220,7 +220,7 @@ def generate_launch_description():
                 'rosbot_xbox_usb.config.yaml'
             ),
         ],
-        remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
+        # remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
         condition=IfCondition(LaunchConfiguration('launch_teleop')),
     )
 
