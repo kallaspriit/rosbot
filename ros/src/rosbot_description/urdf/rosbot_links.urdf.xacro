@@ -33,6 +33,12 @@
     <!-- imu properties -->
     <xacro:property name="imu_size" value="0.02" />
 
+    <!-- camera properties -->
+    <xacro:property name="camera_width" value="0.025" />
+    <xacro:property name="camera_length" value="0.05" />
+    <xacro:property name="camera_height" value="0.025" />
+    <xacro:property name="camera_mass" value="0.05" />
+
     <!-- PHYSICAL ROBOT MEASUREMENTS -->
     <!-- robot is 300mm wide, 460mm long, 170mm tall -->
     <!-- front wheels are 38.5mm off the ground surface -->
@@ -59,12 +65,6 @@
 
     <!-- body -->
     <link name="${prefix}body">
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="${body_width} ${body_length} ${body_height}"/>
-        </geometry>
-      </collision>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -74,6 +74,12 @@
         </geometry>
         <material name="orange"/>
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${body_width} ${body_length} ${body_height}"/>
+        </geometry>
+      </collision>
       <xacro:box_inertia m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
     </link>
     <joint name="${prefix}body_joint" type="fixed">
@@ -85,12 +91,6 @@
 
     <!-- left wheel -->
     <link name="${prefix}left_wheel">
-      <collision>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
-        <geometry>
-          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
-        </geometry>
-      </collision>
       <visual>
         <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
@@ -98,6 +98,12 @@
         </geometry>
         <material name="black"/>
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
+        </geometry>
+      </collision>
       <xacro:cylinder_inertia m="${rear_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
     <joint name="${prefix}left_wheel_joint" type="continuous">
@@ -110,12 +116,6 @@
 
     <!-- right wheel -->
     <link name="${prefix}right_wheel">
-      <collision>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
-        <geometry>
-          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
-        </geometry>
-      </collision>
       <visual>
         <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
@@ -123,6 +123,12 @@
         </geometry>
         <material name="black"/>
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder length="${rear_wheel_width}" radius="${rear_wheel_radius}"/>
+        </geometry>
+      </collision>
       <xacro:cylinder_inertia m="${rear_wheel_mass}" r="${rear_wheel_radius}" h="${rear_wheel_width}"/>
     </link>
     <joint name="${prefix}right_wheel_joint" type="continuous">
@@ -135,12 +141,6 @@
 
     <!-- front caster wheel -->
     <link name="${prefix}front_wheel">
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <sphere radius="${front_wheel_radius}"/>
-        </geometry>
-      </collision>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -148,6 +148,12 @@
         </geometry>
         <material name="white"/>
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${front_wheel_radius}"/>
+        </geometry>
+      </collision>
       <xacro:sphere_inertia m="${front_wheel_mass}" r="${front_wheel_radius}"/>
     </link>
     <joint name="${prefix}front_wheel_joint" type="fixed">
@@ -163,7 +169,6 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <!-- <box size="${lidar_width} ${lidar_length} ${lidar_height}"/> -->
           <cylinder length="${lidar_height}" radius="${lidar_radius}"/>
         </geometry>
         <material name="green"/>
@@ -197,6 +202,30 @@
       <parent link="body"/>
       <child link="imu_link"/>
       <origin xyz="${rear_wheel_origin_x} 0 ${body_height / 2 + imu_size / 2}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- camera -->
+    <link name="${prefix}camera_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${camera_width} ${camera_length} ${camera_height}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${camera_width} ${camera_length} ${camera_height}"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertia m="${camera_mass}" w="${camera_width}" d="${camera_length}" h="${camera_height}"/>
+    </link>
+    <joint name="${prefix}camera_joint" type="fixed">
+      <parent link="${prefix}body"/>
+      <child link="${prefix}camera_link"/>
+      <origin xyz="${body_width / 2 - camera_width / 2} 0 ${body_height / 2 + camera_height / 2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
 
