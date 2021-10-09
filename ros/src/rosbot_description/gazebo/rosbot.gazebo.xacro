@@ -182,13 +182,13 @@
       <material>Gazebo/Green</material>
     </gazebo>
 
-    <!-- rgb camera -->
-    <gazebo reference="camera_link">
+    <!-- camera -->
+    <gazebo reference="rgb_camera_link">
       <material>Gazebo/White</material>
-      <sensor type="camera" name="front_camera">
+      <sensor type="camera" name="rgb_camera">
         <update_rate>30.0</update_rate>
         <visualize>true</visualize>
-        <camera name="head">
+        <camera name="rgb_camera">
           <horizontal_fov>1.3962634</horizontal_fov>
           <image>
             <width>640</width>
@@ -205,28 +205,32 @@
             <stddev>0.007</stddev>
           </noise>
         </camera>
-        <plugin name="front_camera_controller" filename="libgazebo_ros_camera.so">
+        <plugin name="rgb_camera_controller" filename="libgazebo_ros_camera.so">
+          <frameName>rgb_camera_link</frameName>
           <alwaysOn>true</alwaysOn>
           <updateRate>0.0</updateRate>
-          <cameraName>rosbot/front_camera</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>camera_link</frameName>
+          <baseline>0.2</baseline>
           <hackBaseline>0.07</hackBaseline>
           <distortionK1>0.0</distortionK1>
           <distortionK2>0.0</distortionK2>
           <distortionK3>0.0</distortionK3>
           <distortionT1>0.0</distortionT1>
           <distortionT2>0.0</distortionT2>
+          <pointCloudCutoff>0.5</pointCloudCutoff>
+          <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+          <CxPrime>0</CxPrime>
+          <Cx>0</Cx>
+          <Cy>0</Cy>
         </plugin>
       </sensor>
     </gazebo>
 
     <!-- depth camera -->
-    <!-- <gazebo reference="camera_link">
+    <!-- <gazebo reference="rgb_camera_link">
       <sensor type="depth" name="depth_camera">
-        <update_rate>20</update_rate>
-        <camera>
+        <update_rate>30.0</update_rate>
+        <visualize>true</visualize>
+        <camera name="depth_camera">
           <horizontal_fov>1.047198</horizontal_fov>
           <image>
             <width>640</width>
@@ -235,32 +239,30 @@
           </image>
           <clip>
             <near>0.05</near>
-            <far>3</far>
+            <far>3.0</far>
           </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
         </camera>
-        <plugin name="depth_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-          <baseline>0.2</baseline>
+        <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
+          <frameName>depth_camera_link</frameName>
           <alwaysOn>true</alwaysOn>
-          <updateRate>1.0</updateRate>
-          <cameraName>depth_camera_ir</cameraName>
-          <imageTopicName>/depth_camera/color/image_raw</imageTopicName>
-          <cameraInfoTopicName>/depth_camera/color/camera_info</cameraInfoTopicName>
-          <depthImageTopicName>/depth_camera/depth/image_raw</depthImageTopicName>
-          <depthImageInfoTopicName>/depth_camera/depth/camera_info</depthImageInfoTopicName>
-          <pointCloudTopicName>/depth_camera/depth/points</pointCloudTopicName>
-          <frameName>camera_link</frameName>
+          <updateRate>0.0</updateRate>
+          <baseline>0.2</baseline>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
           <pointCloudCutoff>0.5</pointCloudCutoff>
           <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
-          <distortionK1>0.00000001</distortionK1>
-          <distortionK2>0.00000001</distortionK2>
-          <distortionK3>0.00000001</distortionK3>
-          <distortionT1>0.00000001</distortionT1>
-          <distortionT2>0.00000001</distortionT2>
           <CxPrime>0</CxPrime>
           <Cx>0</Cx>
           <Cy>0</Cy>
-          <focalLength>0</focalLength>
-          <hackBaseline>0</hackBaseline>
         </plugin>
       </sensor>
     </gazebo> -->

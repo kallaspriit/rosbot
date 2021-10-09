@@ -77,11 +77,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_link:
+        depth_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         front_wheel:
           Alpha: 1
           Show Axes: false
@@ -93,6 +92,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rgb_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -153,7 +157,7 @@ Visualization Manager:
           Value: true
         body:
           Value: true
-        camera_link:
+        depth_camera_link:
           Value: true
         front_wheel:
           Value: true
@@ -162,6 +166,8 @@ Visualization Manager:
         left_wheel:
           Value: true
         odom:
+          Value: true
+        rgb_camera_link:
           Value: true
         right_wheel:
           Value: true
@@ -178,12 +184,13 @@ Visualization Manager:
             body:
               base_laser:
                 {}
-              camera_link:
-                {}
               front_wheel:
                 {}
               imu_link:
                 {}
+              rgb_camera_link:
+                depth_camera_link:
+                  {}
             left_wheel:
               {}
             right_wheel:
@@ -200,15 +207,49 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /front_camera/image_raw
+        Value: /rgb_camera/image_raw
       Value: true
       Visibility:
         Grid: false
         LaserScan: false
+        PointCloud2: true
         RobotModel: false
         TF: false
         Value: true
       Zoom Factor: 1
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /depth_camera/points
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -252,25 +293,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.7579433917999268
+      Distance: 2.2766807079315186
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.4999881684780121
-        Y: 0
-        Z: 0.000244140625
+        X: 0.591832160949707
+        Y: -0.03926076740026474
+        Z: -0.05251618102192879
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5747971534729004
+      Pitch: 0.6797971129417419
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz_default_plugins)
-      Yaw: 0.8115956783294678
+      Yaw: 0.3865959644317627
     Saved: ~
 Window Geometry:
   Camera:
