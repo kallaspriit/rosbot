@@ -47,15 +47,26 @@
     <!-- motor to wheel gear ratio is 72/16 = 4.5 -->
 
     <!-- base link and footprint -->
-    <link name="${prefix}base_link">
+    <link name="${prefix}base_link"/>
+
+    <!-- center of the robot projected on the ground, used for navigation calculation -->
+    <link name="base_footprint"/>
+    <joint name="${prefix}base_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base_footprint" />
+      <origin xyz="${rear_wheel_origin_x * -1} 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- body -->
+    <link name="${prefix}body">
       <collision>
-        <origin xyz="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
         </geometry>
       </collision>
       <visual>
-        <origin xyz="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="${body_width} ${body_length} ${body_height}"/>
           <!-- TODO replace simple box with robot mesh -->
@@ -63,13 +74,13 @@
         </geometry>
         <material name="orange"/>
       </visual>
-      <xacro:box_inertia originXYZ="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height/2}" m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
+      <xacro:box_inertia m="${body_mass}" w="${body_width}" d="${body_length}" h="${body_height}"/>
     </link>
-    <link name="base_footprint"/>
-    <joint name="${prefix}base_joint" type="fixed">
+    <joint name="${prefix}body_joint" type="fixed">
       <parent link="${prefix}base_link"/>
-      <child link="${prefix}base_footprint" />
-      <origin xyz="${rear_wheel_origin_x * -1} 0 0" rpy="0 0 0"/>
+      <child link="${prefix}body"/>
+      <origin xyz="${-rear_wheel_origin_x} 0 ${body_ground_offset + body_height / 2}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
     </joint>
 
     <!-- left wheel -->
@@ -92,7 +103,7 @@
     <joint name="${prefix}left_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}left_wheel"/>
-      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_radius}" rpy="0 0 0"/>
+      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_radius}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -117,7 +128,7 @@
     <joint name="${prefix}right_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}right_wheel"/>
-      <origin xyz="0 ${rear_wheel_distance/2} ${rear_wheel_radius}" rpy="0 0 0"/>
+      <origin xyz="0 -${rear_wheel_distance/2} ${rear_wheel_radius}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -140,9 +151,9 @@
       <xacro:sphere_inertia m="${front_wheel_mass}" r="${front_wheel_radius}"/>
     </link>
     <joint name="${prefix}front_wheel_joint" type="fixed">
-      <parent link="${prefix}base_link"/>
+      <parent link="${prefix}body"/>
       <child link="${prefix}front_wheel"/>
-      <origin xyz="${front_wheel_origin_x - rear_wheel_origin_x} 0 ${front_wheel_radius}" rpy="0 0 0"/>
+      <origin xyz="${front_wheel_origin_x} 0 ${front_wheel_radius - body_height / 2 - body_ground_offset}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
       <dynamics damping="0.2"/>
     </joint>
@@ -159,9 +170,9 @@
       </visual>
     </link>
     <joint name="${prefix}lidar_joint" type="fixed">
-      <parent link="${prefix}base_link"/>
+      <parent link="${prefix}body"/>
       <child link="${prefix}base_laser"/>
-      <origin xyz="${rear_wheel_origin_x * -1} 0 ${body_ground_offset + body_height + lidar_height / 2}" rpy="0 0 ${pi}"/>
+      <origin xyz="0 0 ${body_height / 2 + lidar_height / 2}" rpy="0 0 ${pi}"/>
       <axis xyz="0 0 1"/>
     </joint>
 
@@ -183,9 +194,9 @@
       <xacro:cylinder_inertia m="0.01" r="${imu_size}" h="${imu_size}"/>
     </link>
     <joint name="imu_joint" type="fixed">
-      <parent link="base_link"/>
+      <parent link="body"/>
       <child link="imu_link"/>
-      <origin xyz="0 0 ${body_ground_offset + body_height + imu_size / 2}" rpy="0 0 0"/>
+      <origin xyz="${rear_wheel_origin_x} 0 ${body_height / 2 + imu_size / 2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
     </joint>
 

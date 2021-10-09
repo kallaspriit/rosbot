@@ -5,26 +5,26 @@
   <xacro:macro name="rosbot_gazebo" params="prefix">
 
     <!-- configure base link -->
-    <gazebo reference="${prefix}base_link">
+    <gazebo reference="${prefix}body">
       <material>Gazebo/Orange</material>
     </gazebo>
 
     <!-- configure rear wheels -->
     <gazebo reference="${prefix}left_wheel">
-      <mu>0.6</mu>
+      <mu1>0.6</mu1>
       <mu2>0.6</mu2>
       <material>Gazebo/Black</material>
     </gazebo>
     <gazebo reference="${prefix}right_wheel">
-      <mu>0.6</mu>
+      <mu1>0.6</mu1>
       <mu2>0.6</mu2>
       <material>Gazebo/Black</material>
     </gazebo>
 
     <!-- configure caster wheel (use no friction) -->
     <gazebo reference="${prefix}front_wheel">
-      <mu>0.0001</mu>
-      <mu2>0.0001</mu2>
+      <mu1>0</mu1>
+      <mu2>0</mu2>
       <material>Gazebo/White</material>
     </gazebo>
 
@@ -149,20 +149,20 @@
       <sensor name="lidar" type="ray">
         <always_on>true</always_on>
         <visualize>true</visualize>
-        <update_rate>5</update_rate>
+        <update_rate>10</update_rate>
         <ray>
           <scan>
             <horizontal>
-              <samples>360</samples>
-              <resolution>1.000000</resolution>
+              <samples>920</samples>
+              <resolution>0.391</resolution>
               <min_angle>0.000000</min_angle>
               <max_angle>6.280000</max_angle>
             </horizontal>
           </scan>
           <range>
             <min>0.120000</min>
-            <max>3.5</max>
-            <resolution>0.015000</resolution>
+            <max>10</max>
+            <resolution>0.03</resolution>
           </range>
           <noise>
             <type>gaussian</type>
