@@ -39,7 +39,7 @@ ROS 2 based robot learning platform.
   - `rqt` to open RQT, add plugins such as `Topics > Topic Monitor`
   - `ros2 run xacro xacro ./src/rosbot_description/urdf/rosbot.urdf.xacro` to debug what's wrong with URDF file
 - Launch usb xbox joystick teleop that publishes to `/cmd_vel`
-  - `ros2 launch teleop_twist_joy teleop-launch.py cmd_vel:=cmd_vel joy_config:=rosbot_xbox_usb`
+  - `ros2 launch teleop_twist_joy teleop.launch.py cmd_vel:=cmd_vel joy_config:=rosbot_xbox_usb`
 
 ## Joystick teleop
 - https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
@@ -136,6 +136,22 @@ ROS 2 based robot learning platform.
 - Install dependencies
   - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros ros-foxy-robot-localization ros-foxy-slam-toolbox`
   - `sudo apt install ros-foxy-turtlebot3*` for testing on remote pc only
+- Slam toolbox on the robot
+  - Use snap `slam-toolbox`
+  - It has optimizations in it that make it about 10x faster
+
+## Run navigation2_tutorials
+- Clone and build `https://github.com/ros-planning/navigation2_tutorials.git`
+- launch robot `ros2 launch sam_bot_description display.launch.py`
+- Launch usbteleop
+  - Open new terminal 
+  - `cd ~/rosbot/ros`
+  - `. install/local_setup.bash`
+  - `ros2 launch teleop_twist_joy teleop.launch.py cmd_vel:=/demo/cmd_vel joy_config:=rosbot_xbox_usb`
+  - or without the /demo in modified version
+- Launch slam_toolbox
+  - Open new terminal 
+  - `ros2 launch slam_toolbox online_async_launch.py` 
 
 ## Setup Arduino
 - Install Arduino IDE

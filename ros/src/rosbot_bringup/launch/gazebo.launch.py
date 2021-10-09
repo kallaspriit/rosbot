@@ -79,14 +79,29 @@ def generate_launch_description():
             ),
         ]
     )
-    robot_description = {"robot_description": robot_description_content}
+
+    # gazebo process with simulated world
+    gazebo_process = ExecuteProcess(
+        cmd=[
+            'gazebo',
+            '--verbose',
+            '-s',
+            'libgazebo_ros_factory.so',
+            LaunchConfiguration('world')
+        ], output='screen'
+    )
 
     # setup robot state publisher node (publishes transforms)
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="both",
-        parameters=[robot_description],
+        parameters=[
+            {
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'robot_description': robot_description_content
+            }
+        ],
     )
 
     # spawn gazebo rosbot robot
@@ -152,19 +167,42 @@ def generate_launch_description():
                 'rosbot_xbox_usb.config.yaml'
             ),
         ],
-        # remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
         condition=IfCondition(LaunchConfiguration('launch_teleop')),
     )
 
-    # gazebo process with simulated world
-    gazebo_process = ExecuteProcess(
-        cmd=[
-            'gazebo',
-            '--verbose',
-            '-s',
-            'libgazebo_ros_factory.so',
-            LaunchConfiguration('world')
-        ], output='screen'
+    # setup slam toolbox node in async slam mode (builds the map)
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_online_async.yaml
+    # slam_toolbox_node = Node(
+    #     package='slam_toolbox',
+    #     executable='async_slam_toolbox_node',
+    #     name='slam_toolbox_node',
+    #     parameters=[
+    #         join(
+    #             get_package_share_directory('rosbot_description'),
+    #             'config',
+    #             'slam_toolbox_async.yaml'
+    #         ),
+    #         {'use_sim_time': LaunchConfiguration('use_sim_time')}
+    #     ]
+    # )
+
+    # setup slam toolbox node in lifelong slam mode (builds the map)
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/lifelong_launch.py
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_lifelong.yaml
+    slam_toolbox_node = Node(
+        package='slam_toolbox',
+        executable='lifelong_slam_toolbox_node',
+        name='slam_toolbox_node',
+        parameters=[
+            join(
+                get_package_share_directory('rosbot_description'),
+                'config',
+                'slam_toolbox_lifelong.yaml'
+            ),
+            # not used?
+            {'use_sim_time': LaunchConfiguration('use_sim_time')}
+        ]
     )
 
     # setup list of nodes to launch
@@ -176,6 +214,7 @@ def generate_launch_description():
         rviz_node,
         joy_node,
         teleop_node,
+        slam_toolbox_node
     ]
 
     return LaunchDescription(declared_arguments + nodes)
