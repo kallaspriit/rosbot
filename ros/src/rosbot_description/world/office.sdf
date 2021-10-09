@@ -202,10 +202,10 @@
         </link>
       </model>
       <model name='willowgarage'>
-        <pose>-27.6135 -12.7299 0 0 -0 0</pose>
+        <pose>-27.6135 -12.7299 0.0001 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='walls'>
-          <pose>-27.6135 -12.7299 0 0 -0 0</pose>
+          <pose>-27.6135 -12.7299 0.0001 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -224,7 +224,7 @@
     </gui>
     <model name='willowgarage'>
       <static>1</static>
-      <pose>-27.6135 -12.7299 0 0 -0 0</pose>
+      <pose>-27.6135 -12.7299 0.0001 0 0 0</pose>
       <link name='walls'>
         <collision name='collision'>
           <geometry>
