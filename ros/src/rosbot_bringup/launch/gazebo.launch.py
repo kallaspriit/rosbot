@@ -55,7 +55,7 @@ def generate_launch_description():
     default_gazebo_world = join(
         get_package_share_directory('rosbot_description'),
         'world',
-        'my_world.sdf'
+        'office.sdf'
     )
     declared_arguments.append(
         DeclareLaunchArgument(

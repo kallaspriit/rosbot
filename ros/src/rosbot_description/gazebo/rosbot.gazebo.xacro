@@ -170,7 +170,8 @@
             <stddev>0.01</stddev>
           </noise>
         </ray>
-        <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
+        <!-- <plugin name="scan" filename="libgazebo_ros_ray_sensor.so"> -->
+        <plugin name="scan" filename="libgazebo_ros_gpu_laser.so">
           <ros>
             <remapping>~/out:=scan</remapping>
           </ros>
