@@ -65,15 +65,6 @@ def generate_launch_description():
         )
     )
 
-    # lidar device to use
-    # declared_arguments.append(
-    #     DeclareLaunchArgument(
-    #         "lidar_dev",
-    #         default_value="/dev/ttyS0",
-    #         description="Lidar device to use",
-    #     )
-    # )
-
     # get robot description from urdf xacro file
     robot_description_content = Command(
         [
@@ -90,26 +81,6 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    # get rosbot controllers configuration path
-    # rosbot_controllers = PathJoinSubstitution(
-    #     [
-    #         FindPackageShare("rosbot_description"),
-    #         "config",
-    #         "rosbot_controllers.yaml",
-    #     ]
-    # )
-
-    # setup ros2 controller manager node with robot description and controllers
-    # controller_manager_node = Node(
-    #     package="controller_manager",
-    #     executable="ros2_control_node",
-    #     parameters=[robot_description, rosbot_controllers],
-    #     output={
-    #         "stdout": "screen",
-    #         "stderr": "screen",
-    #     },
-    # )
-
     # setup robot state publisher node (publishes transforms)
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
@@ -117,45 +88,6 @@ def generate_launch_description():
         output="both",
         parameters=[robot_description],
     )
-
-    # setup joint state broadcaster spawner node
-    # joint_state_broadcaster_node = Node(
-    #     package="controller_manager",
-    #     executable="spawner.py",
-    #     arguments=["joint_state_broadcaster",
-    #                "--controller-manager", "/controller_manager"],
-    # )
-
-    # joint_state_publisher_node = Node(
-    #     package='joint_state_publisher',
-    #     executable='joint_state_publisher',
-    #     name='joint_state_publisher',
-    #     # condition=UnlessCondition(LaunchConfiguration('gui'))
-    # )
-
-    # setup diff drive controller
-    # diff_drive_controller_node = Node(
-    #     package="controller_manager",
-    #     executable="spawner.py",
-    #     arguments=["diff_drive_controller"],
-    #     output="screen",
-    # )
-
-    # setup lidar node
-    # lidar_node = Node(
-    #     package='rplidar_ros2',
-    #     executable='rplidar_scan_publisher',
-    #     name='rplidar_scan_publisher',
-    #     parameters=[{
-    #         'serial_port': LaunchConfiguration('lidar_dev'),
-    #         'serial_baudrate': 256000,
-    #         'frame_id': 'base_laser',
-    #         'inverted': False,
-    #         'angle_compensate': True
-    #         # 'angle_compensate': False
-    #     }],
-    #     output='screen'
-    # )
 
     # spawn gazebo rosbot robot
     spawn_entity_node = Node(
@@ -238,17 +170,12 @@ def generate_launch_description():
     # setup list of nodes to launch
     nodes = [
         gazebo_process,
-        # joint_state_publisher_node,
         robot_state_publisher_node,
         spawn_entity_node,
         robot_localization_node,
         rviz_node,
         joy_node,
         teleop_node,
-        # controller_manager_node,
-        # joint_state_broadcaster_node,
-        # diff_drive_controller_node,
-        # lidar_node,
     ]
 
     return LaunchDescription(declared_arguments + nodes)
