@@ -181,16 +181,6 @@
           <wrench>-3e-06 4e-06 -0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='ground_plane'>
-        <pose>0 0 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>0 0 0 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
       <model name='person_standing'>
         <pose>-2.55642 0.284302 -0 0 -1e-06 -0.000156</pose>
         <scale>1 1 1</scale>
