@@ -134,7 +134,7 @@ ROS 2 based robot learning platform.
 
 - https://navigation.ros.org/getting_started/index.html
 - Install dependencies
-  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros ros-foxy-robot-localization`
+  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros ros-foxy-robot-localization ros-foxy-slam-toolbox`
   - `sudo apt install ros-foxy-turtlebot3*` for testing on remote pc only
 
 ## Setup Arduino
