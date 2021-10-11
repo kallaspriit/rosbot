@@ -173,37 +173,37 @@ def generate_launch_description():
     # setup slam toolbox node in async slam mode (builds the map)
     # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py
     # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_online_async.yaml
-    # slam_toolbox_node = Node(
-    #     package='slam_toolbox',
-    #     executable='async_slam_toolbox_node',
-    #     name='slam_toolbox_node',
-    #     parameters=[
-    #         join(
-    #             get_package_share_directory('rosbot_description'),
-    #             'config',
-    #             'slam_toolbox_async.yaml'
-    #         ),
-    #         {'use_sim_time': LaunchConfiguration('use_sim_time')}
-    #     ]
-    # )
-
-    # setup slam toolbox node in lifelong slam mode (builds the map)
-    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/lifelong_launch.py
-    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_lifelong.yaml
     slam_toolbox_node = Node(
         package='slam_toolbox',
-        executable='lifelong_slam_toolbox_node',
+        executable='async_slam_toolbox_node',
         name='slam_toolbox_node',
         parameters=[
             join(
                 get_package_share_directory('rosbot_description'),
                 'config',
-                'slam_toolbox_lifelong.yaml'
+                'slam_toolbox_async.yaml'
             ),
-            # not used?
             {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ]
     )
+
+    # setup slam toolbox node in lifelong slam mode (builds the map)
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/lifelong_launch.py
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_lifelong.yaml
+    # slam_toolbox_node = Node(
+    #     package='slam_toolbox',
+    #     executable='lifelong_slam_toolbox_node',
+    #     name='slam_toolbox_node',
+    #     parameters=[
+    #         join(
+    #             get_package_share_directory('rosbot_description'),
+    #             'config',
+    #             'slam_toolbox_lifelong.yaml'
+    #         ),
+    #         # not used?
+    #         {'use_sim_time': LaunchConfiguration('use_sim_time')}
+    #     ]
+    # )
 
     # setup list of nodes to launch
     nodes = [
