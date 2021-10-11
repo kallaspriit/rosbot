@@ -113,20 +113,20 @@ def generate_launch_description():
     )
 
     # robot localization node
-    robot_localization_node = Node(
-        package='robot_localization',
-        executable='ekf_node',
-        name='ekf_filter_node',
-        output='screen',
-        parameters=[
-            join(
-                get_package_share_directory('rosbot_description'),
-                'config',
-                'ekf.yaml'
-            ),
-            {'use_sim_time': LaunchConfiguration('use_sim_time')}
-        ],
-    )
+    # robot_localization_node = Node(
+    #     package='robot_localization',
+    #     executable='ekf_node',
+    #     name='ekf_filter_node',
+    #     output='screen',
+    #     parameters=[
+    #         join(
+    #             get_package_share_directory('rosbot_description'),
+    #             'config',
+    #             'ekf.yaml'
+    #         ),
+    #         {'use_sim_time': LaunchConfiguration('use_sim_time')}
+    #     ],
+    # )
 
     # get path to rviz configuration file
     rviz_config_file = PathJoinSubstitution(
@@ -210,7 +210,7 @@ def generate_launch_description():
         gazebo_process,
         robot_state_publisher_node,
         spawn_entity_node,
-        robot_localization_node,
+        # robot_localization_node,
         rviz_node,
         joy_node,
         teleop_node,
