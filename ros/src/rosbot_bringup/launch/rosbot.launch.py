@@ -29,7 +29,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "launch_teleop",
-            default_value="true",
+            default_value="false",
             description="Start joystick teleop automatically with the launch file",
         )
     )
@@ -139,22 +139,6 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('launch_teleop')),
     )
 
-    # setup teleop node
-    teleop_node = Node(
-        package='teleop_twist_joy',
-        executable='teleop_node',
-        name='teleop_twist_joy_node',
-        parameters=[
-            join(
-                get_package_share_directory('teleop_twist_joy'),
-                'config',
-                'rosbot_xbox_bluetooth.config.yaml'
-            ),
-        ],
-        remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
-        condition=IfCondition(LaunchConfiguration('launch_teleop')),
-    )
-
     # setup lidar node
     lidar_node = Node(
         package='rplidar_ros2',
@@ -171,6 +155,22 @@ def generate_launch_description():
         output='screen'
     )
 
+    # setup teleop node
+    teleop_node = Node(
+        package='teleop_twist_joy',
+        executable='teleop_node',
+        name='teleop_twist_joy_node',
+        parameters=[
+            join(
+                get_package_share_directory('teleop_twist_joy'),
+                'config',
+                'rosbot_xbox_bluetooth.config.yaml'
+            ),
+        ],
+        remappings={('/cmd_vel', 'diff_drive_controller/cmd_vel_unstamped')},
+        condition=IfCondition(LaunchConfiguration('launch_teleop')),
+    )
+
     # setup list of nodes to launch
     nodes = [
         controller_manager_node,
@@ -179,8 +179,8 @@ def generate_launch_description():
         diff_drive_controller_node,
         rviz_node,
         joy_node,
-        teleop_node,
         lidar_node,
+        teleop_node,
     ]
 
     return LaunchDescription(declared_arguments + nodes)
