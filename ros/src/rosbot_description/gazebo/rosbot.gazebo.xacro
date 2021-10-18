@@ -100,47 +100,24 @@
     </gazebo>
 
     <!-- differential drive -->
+    <!-- TODO use shared configuration, currently in rosbot_links.urdf.xacro -->
     <!-- http://gazebosim.org/tutorials?tut=ros_gzplugins -->
     <gazebo>
       <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
-        <!-- <ros>
-          <namespace>/demo</namespace>
-        </ros> -->
-
-        <!-- wheels -->
+        <update_rate>30</update_rate>
         <left_joint>left_wheel_joint</left_joint>
         <right_joint>right_wheel_joint</right_joint>
-
-        <!-- kinematics (note that using diameter not radius) -->
-        <!-- TODO use shared configuration, currently in rosbot_links.urdf.xacro -->
         <wheel_separation>0.241</wheel_separation>
         <wheel_diameter>0.195</wheel_diameter>
-
-        <!-- limits -->
         <max_wheel_torque>50</max_wheel_torque>
         <max_wheel_acceleration>2.0</max_wheel_acceleration>
-
-        <!-- output -->
         <publish_odom>true</publish_odom>
         <publish_odom_tf>true</publish_odom_tf>
         <publish_wheel_tf>true</publish_wheel_tf>
-
         <odometry_frame>odom</odometry_frame>
+        <command_topic>cmd_vel</command_topic>
         <robot_base_frame>base_link</robot_base_frame>
-
-        <!-- use the same command topic as the real robot -->
-        <!-- <commandTopic>/diff_drive_controller/cmd_vel_unstamped</commandTopic> -->
-
-        <!-- these are defaults -->
-        <!-- <odometryTopic>odom</odometryTopic> -->
-        <!-- <odometryFrame>odom</odometryFrame> -->
-        <!-- <robotBaseFrame>base_footprint</robotBaseFrame> -->
-        <!-- <odometrySource>1</odometrySource> -->
-        <!-- <publishOdom>true</publishOdom> -->
-
-        <!-- these default to false but had no effect -->
-        <!-- <publishWheelTF>true</publishWheelTF> -->
-        <!-- <publishWheelJointState>true</publishWheelJointState> -->
+        <!-- <robot_base_frame>base_footprint</robot_base_frame> -->
       </plugin>
     </gazebo>
 

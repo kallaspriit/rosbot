@@ -85,12 +85,19 @@ def generate_launch_description():
     gazebo_process = ExecuteProcess(
         cmd=[
             'gazebo',
-            '--verbose',
+            # '--verbose',
             '-s',
             'libgazebo_ros_factory.so',
             LaunchConfiguration('world')
         ], output='screen'
     )
+
+    # make gazebo use simulation time
+    # gazebo_set_sim_time = ExecuteProcess(
+    #     cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time',
+    #          LaunchConfiguration('use_sim_time')],
+    #     output='screen'
+    # )
 
     # setup robot state publisher node (publishes transforms)
     robot_state_publisher_node = Node(
@@ -209,6 +216,7 @@ def generate_launch_description():
     # setup list of nodes to launch
     nodes = [
         gazebo_process,
+        # gazebo_set_sim_time,
         robot_state_publisher_node,
         spawn_entity_node,
         # robot_localization_node,
