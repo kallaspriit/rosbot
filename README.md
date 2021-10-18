@@ -139,6 +139,9 @@ ROS 2 based robot learning platform.
 - Slam toolbox on the robot
   - Use snap `slam-toolbox`
   - It has optimizations in it that make it about 10x faster
+- Run mapping and navigation
+  - `ros2 launch slam_toolbox online_async_launch.py` to launch slam toolbox mapper
+  - `ros2 launch nav2_bringup navigation_launch.py` to run navigation2
 
 ## Run navigation2_tutorials
 - Clone and build `https://github.com/ros-planning/navigation2_tutorials.git`
