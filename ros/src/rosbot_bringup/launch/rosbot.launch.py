@@ -100,8 +100,10 @@ def generate_launch_description():
     joint_state_broadcaster_node = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["joint_state_broadcaster",
-                   "--controller-manager", "/controller_manager"],
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager", "/controller_manager",
+        ],
     )
 
     # setup diff drive controller
@@ -110,7 +112,7 @@ def generate_launch_description():
         executable="spawner.py",
         arguments=["diff_drive_controller"],
         output="screen",
-        remappings={('/diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')},
+        remappings={('diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')},
     )
 
     # get path to rviz configuration file
