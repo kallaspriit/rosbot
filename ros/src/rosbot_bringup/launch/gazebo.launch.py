@@ -223,7 +223,7 @@ def generate_launch_description():
         rviz_node,
         joy_node,
         teleop_node,
-        slam_toolbox_node
+        slam_toolbox_node,
     ]
 
     return LaunchDescription(declared_arguments + nodes)

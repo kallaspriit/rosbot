@@ -13,7 +13,8 @@ slam_toolbox:
     # TODO use filtered odometry?
     # odom_frame: odometry/filtered
     map_frame: map
-    base_frame: base_footprint
+    # base_frame: base_footprint
+    base_frame: base_link
     scan_topic: /scan
     mode: mapping
 
