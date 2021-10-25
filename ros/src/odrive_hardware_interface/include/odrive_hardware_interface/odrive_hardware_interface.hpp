@@ -17,9 +17,10 @@
 #include <cmath>
 
 #include "rclcpp/rclcpp.hpp"
-#include "hardware_interface/base_interface.hpp"
-#include "hardware_interface/system_interface.hpp"
-#include "hardware_interface/types/hardware_interface_type_values.hpp"
+#include "rclcpp_lifecycle/state.hpp"
+// #include "hardware_interface/base_interface.hpp"
+// #include "hardware_interface/system_interface.hpp"
+// #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "odrive_hardware_interface/odrive_usb.hpp"
 #include "odrive_hardware_interface/visibility_control.hpp"
 
@@ -38,11 +39,11 @@
   } while (0)
 
 using namespace odrive;
-using hardware_interface::return_type;
+// using hardware_interface::return_type;
 
 namespace odrive_hardware_interface
 {
-class ODriveHardwareInterface : public hardware_interface::BaseInterface<hardware_interface::SystemInterface>
+class ODriveHardwareInterface : public hardware_interface::SystemInterface
 {
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(ODriveHardwareInterface)

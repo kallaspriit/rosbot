@@ -6,7 +6,7 @@
         "limitSymbolsToIncludedHeaders": true
       },
       "includePath": [
-        "/opt/ros/foxy/include/**",
+        "/opt/ros/galactic/include/**",
         "/usr/include/**"
       ],
       "name": "ROS"

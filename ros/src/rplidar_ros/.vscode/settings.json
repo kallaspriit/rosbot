@@ -1,9 +1,9 @@
 {
-    "ros.distro": "foxy",
+    "ros.distro": "galactic",
     "python.autoComplete.extraPaths": [
-        "/opt/ros/foxy/lib/python3.8/site-packages"
+        "/opt/ros/galactic/lib/python3.8/site-packages"
     ],
     "python.analysis.extraPaths": [
-        "/opt/ros/foxy/lib/python3.8/site-packages"
+        "/opt/ros/galactic/lib/python3.8/site-packages"
     ]
 }

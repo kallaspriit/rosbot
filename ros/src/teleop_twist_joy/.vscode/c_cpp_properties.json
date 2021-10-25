@@ -7,7 +7,7 @@
       },
       "includePath": [
         "/home/labor/rosbot/ros/rosbot/install/teleop_twist_joy/include/**",
-        "/opt/ros/foxy/include/**",
+        "/opt/ros/galactic/include/**",
         "/home/labor/rosbot/ros/rosbot/src/odrive_hardware_interface/include/**",
         "/home/labor/rosbot/ros/rosbot/src/teleop_twist_joy/include/**",
         "/usr/include/**"
