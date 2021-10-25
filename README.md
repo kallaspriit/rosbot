@@ -141,7 +141,7 @@ ROS 2 based robot learning platform.
 
 - https://navigation.ros.org/getting_started/index.html
 - Install dependencies
-  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros ros-foxy-robot-localization ros-foxy-slam-toolbox`
+  - `sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup ros-foxy-cartographer ros-foxy-cartographer-ros ros-foxy-robot-localization ros-foxy-slam-toolbox ros-foxy-gazebo-ros-pkgs ros-foxy-xacro ros-foxy-slam-toolbox`
   - `sudo apt install ros-foxy-turtlebot3*` for testing on remote pc only
 - Slam toolbox on the robot
   - Use snap `slam-toolbox`
@@ -216,7 +216,7 @@ ROS 2 based robot learning platform.
   - `echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null`
 - Install ROS
   - `sudo apt update`
-  - `sudo apt install ros-galactic-desktop`
+  - `sudo apt install ros-foxy-desktop`
 - Install autocomplete
   - `sudo apt install -y python3-argcomplete`
 - Add sourcing ROS to bashrc

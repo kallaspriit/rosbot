@@ -81,28 +81,47 @@ def generate_launch_description():
         ]
     )
 
-    # gazebo process with simulated world
-    gazebo_process = ExecuteProcess(
+    # resolve directories used in the configuration
+    bringup_dir = get_package_share_directory('rosbot_bringup')
+    launch_dir = join(bringup_dir, 'launch')
+
+    # start gazebo server with simulated world
+    start_gazebo_server_cmd = ExecuteProcess(
         cmd=[
-            'gazebo',
-            # '--verbose',
-            '-s',
-            'libgazebo_ros_factory.so',
-            LaunchConfiguration('world')
-        ], output='screen'
+            "gzserver",
+            "-s",
+            "libgazebo_ros_init.so",
+            "-s",
+            "libgazebo_ros_factory.so",
+            LaunchConfiguration("world")
+        ],
+        cwd=[launch_dir],
+        output="screen"
     )
 
-    # make gazebo use simulation time
-    # gazebo_set_sim_time = ExecuteProcess(
-    #     cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time',
-    #          LaunchConfiguration('use_sim_time')],
-    #     output='screen'
-    # )
+    # start gazebo client
+    start_gazebo_client_cmd = ExecuteProcess(
+        cmd=["gzclient"],
+        cwd=[launch_dir],
+        output="screen"
+    )
+
+    # spawn gazebo rosbot robot
+    spawn_entity_node = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=[
+            '-entity', 'rosbot',
+            '-topic', 'robot_description'
+        ],
+        output='screen'
+    )
 
     # setup robot state publisher node (publishes transforms)
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
+        name="robot_state_publisher",
         output="both",
         parameters=[
             {
@@ -110,14 +129,6 @@ def generate_launch_description():
                 'robot_description': robot_description_content
             }
         ],
-    )
-
-    # spawn gazebo rosbot robot
-    spawn_entity_node = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        arguments=['-entity', 'rosbot', '-topic', 'robot_description'],
-        output='screen'
     )
 
     # robot localization node
@@ -215,10 +226,10 @@ def generate_launch_description():
 
     # setup list of nodes to launch
     nodes = [
-        gazebo_process,
-        # gazebo_set_sim_time,
-        robot_state_publisher_node,
+        start_gazebo_server_cmd,
+        start_gazebo_client_cmd,
         spawn_entity_node,
+        robot_state_publisher_node,
         # robot_localization_node,
         rviz_node,
         joy_node,
