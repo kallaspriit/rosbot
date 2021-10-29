@@ -69,11 +69,11 @@ def generate_launch_description():
     robot_description = {"robot_description": robot_description_content}
 
     # get rosbot controllers configuration path
-    rosbot_controllers = PathJoinSubstitution(
+    diff_drive_controller = PathJoinSubstitution(
         [
             FindPackageShare("rosbot_description"),
             "config",
-            "rosbot_controllers.yaml",
+            "diff_drive_controller.yaml",
         ]
     )
 
@@ -81,7 +81,7 @@ def generate_launch_description():
     controller_manager_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[robot_description, rosbot_controllers],
+        parameters=[robot_description, diff_drive_controller],
         output={
             "stdout": "screen",
             "stderr": "screen",
