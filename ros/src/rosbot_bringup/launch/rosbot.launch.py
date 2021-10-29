@@ -174,6 +174,23 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('launch_teleop')),
     )
 
+    # setup slam toolbox node in async slam mode (builds the map)
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py
+    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_online_async.yaml
+    slam_toolbox_node = Node(
+        package='slam_toolbox',
+        executable='async_slam_toolbox_node',
+        name='slam_toolbox_node',
+        parameters=[
+            join(
+                get_package_share_directory('rosbot_description'),
+                'config',
+                'slam_toolbox_async.yaml'
+            ),
+            {'use_sim_time': False}
+        ]
+    )
+
     # setup list of nodes to launch
     nodes = [
         controller_manager_node,
@@ -184,6 +201,7 @@ def generate_launch_description():
         joy_node,
         lidar_node,
         teleop_node,
+        slam_toolbox_node
     ]
 
     return LaunchDescription(declared_arguments + nodes)
