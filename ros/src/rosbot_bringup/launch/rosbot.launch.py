@@ -110,9 +110,14 @@ def generate_launch_description():
     diff_drive_controller_node = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["diff_drive_controller"],
+        arguments=[
+            "diff_drive_controller",
+            "--ros-args -r /diff_drive_controller/cmd_vel_unstamped:=/cmd_vel"
+        ],
         output="screen",
-        remappings={('diff_drive_controller/cmd_vel_unstamped', 'cmd_vel')},
+        # remappings={
+        #     ('/diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')
+        # },
     )
 
     # get path to rviz configuration file
