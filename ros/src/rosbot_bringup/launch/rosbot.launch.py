@@ -102,7 +102,7 @@ def generate_launch_description():
         executable="spawner.py",
         arguments=[
             "joint_state_broadcaster",
-            "--controller-manager", "/controller_manager",
+            # "--controller-manager", "/controller_manager",
         ],
     )
 
@@ -110,11 +110,9 @@ def generate_launch_description():
     diff_drive_controller_node = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=[
-            "diff_drive_controller",
-            "--ros-args -r /diff_drive_controller/cmd_vel_unstamped:=/cmd_vel"
-        ],
+        arguments=["diff_drive_controller"],
         output="screen",
+        # this does not really work
         # remappings={
         #     ('/diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')
         # },
