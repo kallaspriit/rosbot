@@ -51,10 +51,10 @@ diff_drive_controller:
     # publish_limited_velocity: true
 
     # unstamped velocity uses /diff_drive_controller/cmd_vel_unstamped
-    # use_stamped_vel: false
+    use_stamped_vel: false
 
-    # stamped velocity uses ???
-    use_stamped_vel: true
+    # stamped velocity uses /diff_drive_controller/cmd_vel
+    # use_stamped_vel: true
 
     velocity_rolling_window_size: 10
 

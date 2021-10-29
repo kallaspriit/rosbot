@@ -112,7 +112,7 @@ def generate_launch_description():
         executable="spawner.py",
         arguments=["diff_drive_controller"],
         output="screen",
-        # remappings={('diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')},
+        remappings={('/diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')},
     )
 
     # get path to rviz configuration file
