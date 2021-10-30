@@ -15,9 +15,13 @@ def generate_launch_description():
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
-            'cmd_vel', default_value='diff_drive_controller/cmd_vel_unstamped'),
+            # diff drive defaults to /diff_drive_controller/cmd_vel_unstamped but modified version uses /cmd_vel
+            # 'cmd_vel', default_value='/diff_drive_controller/cmd_vel_unstamped'
+            'cmd_vel', default_value='/cmd_vel'
+        ),
         launch.actions.DeclareLaunchArgument(
-            'joy_config', default_value='rosbot_xbox_usb'),
+            'joy_config', default_value='rosbot_xbox_usb'
+        ),
         launch.actions.DeclareLaunchArgument(
             'joy_dev', default_value='/dev/input/js0'),
         launch.actions.DeclareLaunchArgument('config_filepath', default_value=[
