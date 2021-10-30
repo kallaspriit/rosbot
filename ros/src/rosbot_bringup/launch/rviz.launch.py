@@ -5,8 +5,6 @@ from launch.substitutions import Command, FindExecutable, LaunchConfiguration, P
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
-# generates rviz launch description
-
 
 def generate_launch_description():
     # list of launch arguments
