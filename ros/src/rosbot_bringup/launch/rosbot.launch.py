@@ -129,19 +129,6 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('launch_rviz')),
     )
 
-    # setup joystick node
-    joy_node = Node(
-        package='joy',
-        executable='joy_node',
-        name='joy_node',
-        parameters=[{
-            'dev': LaunchConfiguration('joy_dev'),
-            'deadzone': 0.3,
-            'autorepeat_rate': 20.0,
-        }],
-        condition=IfCondition(LaunchConfiguration('launch_teleop')),
-    )
-
     # setup lidar node
     lidar_node = Node(
         package='rplidar_ros2',
@@ -158,6 +145,21 @@ def generate_launch_description():
         output='screen'
     )
 
+    # setup joystick node
+    joy_node = Node(
+        package='joy',
+        executable='joy_node',
+        name='joy_node',
+        parameters=[{
+            'dev': LaunchConfiguration('joy_dev'),
+            'deadzone': 0.05,
+            'autorepeat_rate': 20.0,
+        }],
+        # remap joy topic to allow to co-exist with another joystick
+        remappings={('/joy', '/joy_local')},
+        condition=IfCondition(LaunchConfiguration('launch_teleop')),
+    )
+
     # setup teleop node
     teleop_node = Node(
         package='teleop_twist_joy',
@@ -170,7 +172,11 @@ def generate_launch_description():
                 'rosbot_xbox_bluetooth.config.yaml'
             ),
         ],
-        # remappings={('/cmd_vel', '/diff_drive_controller/cmd_vel_unstamped')},
+        remappings={
+            # diff drive controller uses this by default but using modifier version
+            # ('/cmd_vel', '/diff_drive_controller/cmd_vel_unstamped'),
+            ('/joy', '/joy_local')
+        },
         condition=IfCondition(LaunchConfiguration('launch_teleop')),
     )
 
@@ -198,8 +204,8 @@ def generate_launch_description():
         joint_state_broadcaster_node,
         diff_drive_controller_node,
         rviz_node,
-        joy_node,
         lidar_node,
+        joy_node,
         teleop_node,
         # slam_toolbox_node
     ]
