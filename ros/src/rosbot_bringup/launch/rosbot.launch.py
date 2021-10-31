@@ -26,7 +26,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "launch_teleop",
-            default_value="false",
+            default_value="true",
             description="Start joystick teleop automatically with the launch file",
         )
     )
