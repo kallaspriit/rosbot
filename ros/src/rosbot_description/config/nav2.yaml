@@ -53,12 +53,18 @@ bt_navigator:
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /odom
+    bt_loop_duration: 10
+    default_server_timeout: 20
     enable_groot_monitoring: True
     groot_zmq_publisher_port: 1666
     groot_zmq_server_port: 1667
-    # default_bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
+    # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
+    # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
+    # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
+    # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
+      # - nav2_compute_path_through_poses_action_bt_node
       - nav2_follow_path_action_bt_node
       - nav2_back_up_action_bt_node
       - nav2_spin_action_bt_node
@@ -80,6 +86,14 @@ bt_navigator:
       - nav2_transform_available_condition_bt_node
       - nav2_time_expired_condition_bt_node
       - nav2_distance_traveled_condition_bt_node
+      # - nav2_single_trigger_bt_node
+      - nav2_is_battery_low_condition_bt_node
+      # - nav2_navigate_through_poses_action_bt_node
+      - nav2_navigate_to_pose_action_bt_node
+      # - nav2_remove_passed_goals_action_bt_node
+      # - nav2_planner_selector_bt_node
+      # - nav2_controller_selector_bt_node
+      # - nav2_goal_checker_selector_bt_node
 
 bt_navigator_rclcpp_node:
   ros__parameters:
@@ -92,8 +106,10 @@ controller_server:
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
     goal_checker_plugin: "goal_checker"
+    # goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
     controller_plugins: ["FollowPath"]
 
     # Progress checker parameters
@@ -101,12 +117,28 @@ controller_server:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.5
       movement_time_allowance: 10.0
+
     # Goal checker parameters
+
+    # simple goal checker
     goal_checker:
+      stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25
       yaw_goal_tolerance: 0.25
-      stateful: True
+
+    # precise_goal_checker:
+    #  plugin: "nav2_controller::SimpleGoalChecker"
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+
+    # general_goal_checker:
+    #   stateful: True
+    #   plugin: "nav2_controller::SimpleGoalChecker"
+    #   xy_goal_tolerance: 0.25
+    #   yaw_goal_tolerance: 0.25
+
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -175,28 +207,40 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      robot_radius: 0.22
-      plugins: ["voxel_layer", "inflation_layer"]
+      # robot_radius: 0.25
+      # footprint: "[ [0.21, 0.195], [0.21, -0.195], [-0.21, -0.195], [-0.21, 0.195] ]"
+      footprint: "[ [0.33, 0.15], [0.33, -0.15], [-0.13, -0.15], [-0.13, 0.15] ]"
+
+      # plugins: ["voxel_layer", "inflation_layer"]
+      plugins: ["inflation_layer"]
+
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
-      voxel_layer:
-        plugin: "nav2_costmap_2d::VoxelLayer"
-        enabled: True
-        publish_voxel_map: True
-        origin_z: 0.0
-        z_resolution: 0.05
-        z_voxels: 16
-        max_obstacle_height: 2.0
-        mark_threshold: 0
-        observation_sources: scan
-        scan:
-          topic: /scan
-          max_obstacle_height: 2.0
-          clearing: True
-          marking: True
-          data_type: "LaserScan"
+        # inflation_radius: 0.55
+        inflation_radius: 0.25
+
+      # voxel_layer:
+      #   plugin: "nav2_costmap_2d::VoxelLayer"
+      #   enabled: True
+      #   publish_voxel_map: True
+      #   origin_z: 0.0
+      #   z_resolution: 0.05
+      #   z_voxels: 16
+      #   max_obstacle_height: 2.0
+      #   mark_threshold: 0
+      #   observation_sources: scan
+      #   scan:
+      #     topic: /scan
+      #     max_obstacle_height: 2.0
+      #     clearing: True
+      #     marking: True
+      #     data_type: "LaserScan"
+      #     raytrace_max_range: 3.0
+      #     raytrace_min_range: 0.0
+      #     obstacle_max_range: 2.5
+      #     obstacle_min_range: 0.0
+
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
@@ -215,7 +259,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
-      robot_radius: 0.22
+      robot_radius: 0.3
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -229,13 +273,18 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        # inflation_radius: 0.55
+        inflation_radius: 0.25
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -252,10 +301,10 @@ map_server:
 map_saver:
   ros__parameters:
     use_sim_time: False
-    save_map_timeout: 5000
+    save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
-    map_subscribe_transient_local: False
+    map_subscribe_transient_local: True
 
 planner_server:
   ros__parameters:
@@ -277,10 +326,10 @@ recoveries_server:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    recovery_plugins: ["spin", "back_up", "wait"]
+    recovery_plugins: ["spin", "backup", "wait"]
     spin:
       plugin: "nav2_recoveries/Spin"
-    back_up:
+    backup:
       plugin: "nav2_recoveries/BackUp"
     wait:
       plugin: "nav2_recoveries/Wait"
@@ -296,3 +345,13 @@ recoveries_server:
 robot_state_publisher:
   ros__parameters:
     use_sim_time: False
+
+waypoint_follower:
+  ros__parameters:
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"
+    wait_at_waypoint:
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+      enabled: True
+      waypoint_pause_duration: 200
