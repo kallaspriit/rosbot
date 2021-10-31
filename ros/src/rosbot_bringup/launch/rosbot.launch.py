@@ -107,15 +107,11 @@ def generate_launch_description():
     )
 
     # setup diff drive controller
-    diff_drive_controller_node = Node(
+    diff_drive_spawner_node = Node(
         package="controller_manager",
         executable="spawner.py",
         arguments=["diff_drive_controller"],
         output="screen",
-        # this does not really work
-        # remappings={
-        #     ('/diff_drive_controller/cmd_vel_unstamped', '/cmd_vel')
-        # },
     )
 
     # get path to rviz configuration file
@@ -176,8 +172,6 @@ def generate_launch_description():
             ),
         ],
         remappings={
-            # diff drive controller uses this by default but using modifier version
-            # ('/cmd_vel', '/diff_drive_controller/cmd_vel_unstamped'),
             ('/joy', '/joy_local')
         },
         condition=IfCondition(LaunchConfiguration('launch_teleop')),
@@ -205,7 +199,7 @@ def generate_launch_description():
         controller_manager_node,
         robot_state_publisher_node,
         joint_state_broadcaster_node,
-        diff_drive_controller_node,
+        diff_drive_spawner_node,
         rviz_node,
         lidar_node,
         joy_node,
