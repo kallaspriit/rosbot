@@ -2,3 +2,6 @@ build/*
 install/*
 log/*
 site/*
+frames.gv
+frames.pdf
+map/*
