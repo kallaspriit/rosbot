@@ -157,16 +157,16 @@ def generate_launch_description():
     )
 
     # setup ekf-based robot localization node
-    robot_localization_node = Node(
-        package='robot_localization',
-        executable='ekf_node',
-        name='robot_localization_node',
-        output='screen',
-        parameters=[
-            robot_localization_config,
-            #  {'use_sim_time': False}
-        ]
-    )
+    # robot_localization_node = Node(
+    #     package='robot_localization',
+    #     executable='ekf_node',
+    #     name='robot_localization_node',
+    #     output='screen',
+    #     parameters=[
+    #         robot_localization_config,
+    #         #  {'use_sim_time': False}
+    #     ]
+    # )
 
     # setup joystick node
     joy_node = Node(
@@ -226,7 +226,7 @@ def generate_launch_description():
         diff_drive_spawner_node,
         rviz_node,
         lidar_node,
-        robot_localization_node,
+        # robot_localization_node,
         joy_node,
         teleop_node,
         # slam_toolbox_node
