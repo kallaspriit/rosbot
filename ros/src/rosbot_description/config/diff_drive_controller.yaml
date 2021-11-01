@@ -44,8 +44,7 @@ diff_drive_controller:
 
     # open_loop: true
     open_loop: false
-    # enable_odom_tf: true
-    enable_odom_tf: false
+    enable_odom_tf: true
 
     cmd_vel_timeout: 0.5
 
