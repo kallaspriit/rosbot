@@ -62,25 +62,26 @@ ekf_filter_node:
         false,
       ]
 
+    # TODO: enable IMU once available
     # imu sensor
     # uses roll, pitch, yaw
     # imu0: demo/imu
-    imu0: imu
-    imu0_config:
-      [
-        false,
-        false,
-        false,
-        true,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ]
+    # imu0: imu
+    # imu0_config:
+    #   [
+    #     false,
+    #     false,
+    #     false,
+    #     true,
+    #     true,
+    #     true,
+    #     false,
+    #     false,
+    #     false,
+    #     false,
+    #     false,
+    #     false,
+    #     false,
+    #     false,
+    #     false,
+    #   ]

@@ -9,6 +9,9 @@ from os.path import join
 
 
 def generate_launch_description():
+    # location for the robot description package
+    description_share = FindPackageShare("rosbot_description")
+
     # list of launch arguments
     declared_arguments = []
 
@@ -56,7 +59,7 @@ def generate_launch_description():
             " ",
             PathJoinSubstitution(
                 [
-                    FindPackageShare("rosbot_description"),
+                    description_share,
                     "urdf",
                     "rosbot.urdf.xacro",
                 ]
@@ -68,7 +71,7 @@ def generate_launch_description():
     # get rosbot controllers configuration path
     diff_drive_controller = PathJoinSubstitution(
         [
-            FindPackageShare("rosbot_description"),
+            description_share,
             "config",
             "diff_drive_controller.yaml",
         ]
@@ -116,7 +119,7 @@ def generate_launch_description():
 
     # get path to rviz configuration file
     rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare("rosbot_description"), "rviz", "rosbot.rviz"]
+        [description_share, "rviz", "rosbot.rviz"]
     )
 
     # setup rviz node
@@ -138,10 +141,22 @@ def generate_launch_description():
             'serial_baudrate': 256000,
             'frame_id': 'base_laser',
             'inverted': False,
-            'angle_compensate': True
             # 'angle_compensate': False
+            'angle_compensate': True
         }],
         output='screen'
+    )
+
+    # setup ekf-based robot localization node
+    robot_localization_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='robot_localization_node',
+        output='screen',
+        parameters=[
+             join(description_share, "config", "ekf.yaml"),
+            #  {'use_sim_time': False}
+        ]
     )
 
     # setup joystick node
@@ -202,6 +217,7 @@ def generate_launch_description():
         diff_drive_spawner_node,
         rviz_node,
         lidar_node,
+        robot_localization_node,
         joy_node,
         teleop_node,
         # slam_toolbox_node
