@@ -68,8 +68,8 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    # get rosbot controllers configuration path
-    diff_drive_controller = PathJoinSubstitution(
+    # get diff drive controller config
+    diff_drive_controller_config = PathJoinSubstitution(
         [
             description_share,
             "config",
@@ -81,7 +81,7 @@ def generate_launch_description():
     controller_manager_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[robot_description, diff_drive_controller],
+        parameters=[robot_description, diff_drive_controller_config],
         output={
             "stdout": "screen",
             "stderr": "screen",
@@ -147,6 +147,15 @@ def generate_launch_description():
         output='screen'
     )
 
+    # get diff drive controller config
+    robot_localization_config = PathJoinSubstitution(
+        [
+            description_share,
+            "config",
+            "ekf.yaml",
+        ]
+    )
+
     # setup ekf-based robot localization node
     robot_localization_node = Node(
         package='robot_localization',
@@ -154,7 +163,7 @@ def generate_launch_description():
         name='robot_localization_node',
         output='screen',
         parameters=[
-             join(description_share, "config", "ekf.yaml"),
+            robot_localization_config,
             #  {'use_sim_time': False}
         ]
     )
