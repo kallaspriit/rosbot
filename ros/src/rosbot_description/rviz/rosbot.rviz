@@ -170,6 +170,8 @@ Visualization Manager:
           Value: false
         left_wheel:
           Value: false
+        map:
+          Value: true
         odom:
           Value: true
         rgb_camera_link:
@@ -182,6 +184,8 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
+        map:
+          {}
         odom:
           base_link:
             base_footprint:
@@ -295,7 +299,7 @@ Visualization Manager:
         Value: /map_updates
       Use Timestamp: false
       Value: true
-    - Alpha: 0.10000000149011612
+    - Alpha: 0.30000001192092896
       Class: rviz_default_plugins/Map
       Color Scheme: costmap
       Draw Behind: false
@@ -486,25 +490,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 8.110416412353516
+      Distance: 12.052155494689941
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.07573776692152023
-        Y: 0.03286713734269142
-        Z: 0.2272019386291504
+        X: 0.015287548303604126
+        Y: 0.06432640552520752
+        Z: 0.23278427124023438
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7092628479003906
+      Pitch: 0.5525268912315369
       Target Frame: base_link
       Value: Orbit (rviz_default_plugins)
-      Yaw: 2.4814584255218506
+      Yaw: 1.8182798624038696
     Saved: ~
 Window Geometry:
   Camera:
