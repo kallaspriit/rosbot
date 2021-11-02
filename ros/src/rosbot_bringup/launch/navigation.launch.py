@@ -1,137 +1,99 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.substitutions import LaunchConfiguration
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from os.path import join
 from ament_index_python.packages import get_package_share_directory
-from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    lifecycle_nodes = ['controller_server',
-                       'planner_server',
-                       'recoveries_server',
-                       'bt_navigator',
-                       'waypoint_follower']
+    # resolve paths
+    nav2_path = get_package_share_directory("nav2_bringup")
+    nav2_launch_path = join(nav2_path, "launch")
+    nav2_bt_path = get_package_share_directory("nav2_bt_navigator")
+    nav2_launch_script = join(nav2_launch_path, "bringup_launch.py")
+    robot_description_path = get_package_share_directory("rosbot_description")
 
-    remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
-
-    namespace = LaunchConfiguration('namespace')
-    use_sim_time = LaunchConfiguration('use_sim_time')
-    autostart = LaunchConfiguration('autostart')
-    params_file = LaunchConfiguration('params_file')
-
-    param_substitutions = {
-        'use_sim_time': use_sim_time,
-        'autostart': autostart}
-
-    configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key=namespace,
-        param_rewrites=param_substitutions,
-        convert_types=True
+    # TODO: make the nehavious tree xml file local to be modified
+    # resolve defaults
+    default_behavior_tree_xml = join(
+        nav2_bt_path,
+        "behavior_trees",
+        "navigate_w_replanning_and_recovery.xml"
     )
-
-    # base bringup directory to reference for configuration files
-    bringup_dir = get_package_share_directory('rosbot_description')
-
-    # list of launch arguments
-    declared_arguments = []
-
-    # should we use simulation time
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "use_sim_time",
-            default_value="false",
-            description="Use simulation time",
-        )
+    default_map = join(
+        robot_description_path,
+        "..",
+        "..",
+        "map",
+        "office.yaml"
     )
+    default_nav2_config = join(robot_description_path, "config", "nav2.yaml")
 
-    # top-level namespace to use
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "namespace",
-            default_value="",
-            description="Top-level namespace to use",
-        )
-    )
+    # launch arguments
+    autostart = LaunchConfiguration("autostart")
+    map = LaunchConfiguration("map")
+    params_file = LaunchConfiguration("params_file")
+    slam = LaunchConfiguration("slam")
+    default_bt_xml_filename = LaunchConfiguration("default_bt_xml_filename")
+    namespace = LaunchConfiguration("namespace")
+    use_namespace = LaunchConfiguration("use_namespace")
+    use_sim_time = LaunchConfiguration("use_sim_time")
 
-    # should we automatically start up the nav2 stack
-    declared_arguments.append(
+    # build launch description
+    return LaunchDescription(
         DeclareLaunchArgument(
             "autostart",
             default_value="true",
             description="Automatically start up the nav2 stack",
-        )
-    )
-
-    # nav2 stack parameters file to use
-    declared_arguments.append(
+        ),
+        DeclareLaunchArgument(
+            name="map",
+            default_value=default_map,
+            description="Full path to map file to load"
+        ),
         DeclareLaunchArgument(
             "params_file",
-            default_value=join(bringup_dir, 'config', 'nav2.yaml'),
+            default_value=default_nav2_config,
             description="Nav2 stack parameters file to use",
+        ),
+        DeclareLaunchArgument(
+            name="slam",
+            default_value="False",
+            description="Should we run with baked-in slam demo mode",
+        ),
+        DeclareLaunchArgument(
+            name="default_bt_xml_filename",
+            default_value=default_behavior_tree_xml,
+            description="Full path to the behavior tree xml file to use"
+        ),
+        DeclareLaunchArgument(
+            "namespace",
+            default_value="",
+            description="Top-level namespace to use",
+        ),
+        DeclareLaunchArgument(
+            'use_namespace',
+            default_value='false',
+            description='Whether to apply a namespace to the navigation stack'
+        ),
+        DeclareLaunchArgument(
+            "use_sim_time",
+            default_value="false",
+            description="Use simulation time",
+        ),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(nav2_launch_script),
+            launch_arguments={
+                "autostart": autostart,
+                "map": map,
+                "params_file": params_file,
+                "slam": slam,
+                "namespace": use_namespace,
+                "use_namespace": use_namespace,
+                "default_bt_xml_filename": default_bt_xml_filename,
+                "use_sim_time": use_sim_time,
+            }.items()
         )
     )
-
-    # setup node to launch
-    nodes = [
-        Node(
-            package='nav2_controller',
-            executable='controller_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings
-        ),
-
-        Node(
-            package='nav2_planner',
-            executable='planner_server',
-            name='planner_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings
-        ),
-
-        Node(
-            package='nav2_recoveries',
-            executable='recoveries_server',
-            name='recoveries_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings
-        ),
-
-        Node(
-            package='nav2_bt_navigator',
-            executable='bt_navigator',
-            name='bt_navigator',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings
-        ),
-
-        Node(
-            package='nav2_waypoint_follower',
-            executable='waypoint_follower',
-            name='waypoint_follower',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings
-        ),
-
-        Node(
-            package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager_navigation',
-            output='screen',
-            parameters=[
-                {'use_sim_time': use_sim_time},
-                {'autostart': autostart},
-                {'node_names': lifecycle_nodes}
-            ]
-        )
-    ]
-
-    return LaunchDescription(declared_arguments + nodes)
