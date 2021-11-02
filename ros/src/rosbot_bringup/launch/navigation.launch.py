@@ -8,18 +8,23 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     # resolve paths
-    nav2_path = get_package_share_directory("nav2_bringup")
-    nav2_launch_path = join(nav2_path, "launch")
-    nav2_bt_path = get_package_share_directory("nav2_bt_navigator")
-    nav2_launch_script = join(nav2_launch_path, "bringup_launch.py")
     robot_description_path = get_package_share_directory("rosbot_description")
+    nav2_bringup_path = get_package_share_directory("nav2_bringup")
+    nav2_launch_path = join(nav2_bringup_path, "launch")
+    nav2_launch_script = join(nav2_launch_path, "bringup_launch.py")
+    # nav2_bt_path = get_package_share_directory("nav2_bt_navigator")
 
     # TODO: make the nehavious tree xml file local to be modified
     # resolve defaults
+    # default_behavior_tree_xml = join(
+    #     nav2_bt_path,
+    #     "behavior_trees",
+    #     "navigate_w_replanning_and_recovery.xml"
+    # )
     default_behavior_tree_xml = join(
-        nav2_bt_path,
-        "behavior_trees",
-        "navigate_w_replanning_and_recovery.xml"
+        robot_description_path,
+        "config",
+        "nav2_behaviour_tree.xml"
     )
     default_map = join(
         robot_description_path,
@@ -28,7 +33,8 @@ def generate_launch_description():
         "map",
         "office.yaml"
     )
-    default_nav2_config = join(robot_description_path, "config", "nav2.yaml")
+    # default_nav2_config = join(robot_description_path, "config", "nav2.yaml")
+    default_nav2_config = join(nav2_bringup_path, 'params', 'nav2_params.yaml')
 
     # launch arguments
     autostart = LaunchConfiguration("autostart")
@@ -41,7 +47,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
 
     # build launch description
-    return LaunchDescription(
+    return LaunchDescription([
         DeclareLaunchArgument(
             "autostart",
             default_value="true",
@@ -96,4 +102,4 @@ def generate_launch_description():
                 "use_sim_time": use_sim_time,
             }.items()
         )
-    )
+    ])
