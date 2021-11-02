@@ -198,7 +198,7 @@ def generate_launch_description():
             join(
                 get_package_share_directory('rosbot_description'),
                 'config',
-                'slam_toolbox_async.yaml'
+                'slam_toolbox_mapping.yaml'
             ),
             {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ]
