@@ -1,7 +1,7 @@
 module.exports = {
     apps : [{
-      name: "rosbot",
-      script: "launch_rosbot.bash",
+      name: "robot",
+      script: "launch_robot.bash",
       interpreter: "bash"
     }],
   };
