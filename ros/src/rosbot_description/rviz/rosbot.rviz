@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Tree1
-        - /Published footprint1/Topic1
+        - /Global footprint1/Topic1
       Splitter Ratio: 0.47336065769195557
     Tree Height: 206
   - Class: rviz_common/Selection
@@ -185,25 +185,24 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          {}
-        odom:
-          base_link:
-            base_footprint:
-              {}
-            body:
-              base_laser:
+          odom:
+            base_link:
+              base_footprint:
                 {}
-              front_wheel:
-                {}
-              imu_link:
-                {}
-              rgb_camera_link:
-                depth_camera_link:
+              body:
+                base_laser:
                   {}
-            left_wheel:
-              {}
-            right_wheel:
-              {}
+                front_wheel:
+                  {}
+                imu_link:
+                  {}
+                rgb_camera_link:
+                  depth_camera_link:
+                    {}
+              left_wheel:
+                {}
+              right_wheel:
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Camera
@@ -219,6 +218,7 @@ Visualization Manager:
         Value: /rgb_camera/image_raw
       Value: false
       Visibility:
+        "": true
         Base map: true
         Cost cloud: true
         Global costmap: true
@@ -228,6 +228,7 @@ Visualization Manager:
         Initial pose: true
         LaserScan: false
         Local costmap: true
+        Local footprint: true
         Local plan: true
         Published footprint: true
         RobotModel: false
@@ -271,13 +272,25 @@ Visualization Manager:
       Class: rviz_default_plugins/Polygon
       Color: 239; 41; 41
       Enabled: true
-      Name: Published footprint
+      Name: Global footprint
       Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /global_costmap/published_footprint
+      Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/Polygon
+      Color: 25; 255; 0
+      Enabled: true
+      Name: Local footprint
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /local_costmap/published_footprint
       Value: true
     - Alpha: 0.699999988079071
       Class: rviz_default_plugins/Map
@@ -446,6 +459,18 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /plan
       Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Waypoints
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /waypoints
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -490,7 +515,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 11.644295692443848
+      Distance: 10.673758506774902
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -530,5 +555,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 0
+  X: 1920
   Y: 0

@@ -7,15 +7,15 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    # resolve paths
+    # paths
     robot_description_path = get_package_share_directory("rosbot_description")
     nav2_bringup_path = get_package_share_directory("nav2_bringup")
     nav2_launch_path = join(nav2_bringup_path, "launch")
-    nav2_launch_script = join(nav2_launch_path, "bringup_launch.py")
+    # nav2_launch_script = join(nav2_launch_path, "bringup_launch.py")
+    nav2_launch_script = join(nav2_launch_path, "navigation_launch.py")
     # nav2_bt_path = get_package_share_directory("nav2_bt_navigator")
 
-    # TODO: make the nehavious tree xml file local to be modified
-    # resolve defaults
+    # defaults
     # default_behavior_tree_xml = join(
     #     nav2_bt_path,
     #     "behavior_trees",
@@ -26,15 +26,18 @@ def generate_launch_description():
         "config",
         "nav2_behaviour_tree.xml"
     )
-    default_map = join(
-        robot_description_path,
-        "..",
-        "..",
-        "map",
-        "office.yaml"
-    )
-    # default_nav2_config = join(robot_description_path, "config", "nav2.yaml")
-    default_nav2_config = join(nav2_bringup_path, 'params', 'nav2_params.yaml')
+
+    # this is only used in slam mode
+    # default_map = join(
+    #     robot_description_path,
+    #     "..",
+    #     "..",
+    #     "map",
+    #     "office.yaml"
+    # )
+    default_map = "/home/labor/rosbot/ros/map/office.yaml"
+    default_nav2_config = join(robot_description_path, "config", "nav2.yaml")
+    # default_nav2_config = join(nav2_bringup_path, "params", "nav2_params.yaml")
 
     # launch arguments
     autostart = LaunchConfiguration("autostart")
@@ -50,7 +53,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             "autostart",
-            default_value="true",
+            default_value="True",
             description="Automatically start up the nav2 stack",
         ),
         DeclareLaunchArgument(
@@ -65,6 +68,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             name="slam",
+            # default_value="True",
             default_value="False",
             description="Should we run with baked-in slam demo mode",
         ),
@@ -79,13 +83,13 @@ def generate_launch_description():
             description="Top-level namespace to use",
         ),
         DeclareLaunchArgument(
-            'use_namespace',
-            default_value='false',
-            description='Whether to apply a namespace to the navigation stack'
+            "use_namespace",
+            default_value="False",
+            description="Whether to apply a namespace to the navigation stack"
         ),
         DeclareLaunchArgument(
             "use_sim_time",
-            default_value="false",
+            default_value="False",
             description="Use simulation time",
         ),
 
@@ -96,7 +100,7 @@ def generate_launch_description():
                 "map": map,
                 "params_file": params_file,
                 "slam": slam,
-                "namespace": use_namespace,
+                "namespace": namespace,
                 "use_namespace": use_namespace,
                 "default_bt_xml_filename": default_bt_xml_filename,
                 "use_sim_time": use_sim_time,

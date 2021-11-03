@@ -8,6 +8,10 @@ module.exports = {
     script: "launch_mapping.bash",
     interpreter: "bash"
   },{
+    name: "localization",
+    script: "launch_localization.bash",
+    interpreter: "bash"
+  },{
     name: "navigation",
     script: "launch_navigation.bash",
     interpreter: "bash"

@@ -13,11 +13,12 @@ slam_toolbox:
     # base_frame: base_footprint
     base_frame: base_link
     scan_topic: /scan
-    mode: mapping
-    # mode: localization
+    # mode: mapping
+    mode: localization
 
     # if you'd like to start localizing on bringup in a map and pose
-    map_file_name: /home/labor/rosbot/ros/map/office
+    map_file_name: map/office
+    # map_file_name: /home/labor/rosbot/ros/map/office
     # map_file_name: map/office
     map_start_pose: [0.0, 0.0, 0.0]
 

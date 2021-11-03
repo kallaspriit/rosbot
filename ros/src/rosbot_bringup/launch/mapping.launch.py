@@ -7,19 +7,41 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
+    # paths
+    robot_description_path = get_package_share_directory("rosbot_description")
+    slam_toolbox_config_path = join(
+        robot_description_path,
+        "config",
+        "slam_toolbox_mapping.yaml"
+    )
+
+    # defaults
+    default_map = join(
+        robot_description_path,
+        "..",
+        "..",
+        "map",
+        "office.yaml"
+    )
+
+    # launch arguments
+    map = LaunchConfiguration("map")
+
     return LaunchDescription([
+        DeclareLaunchArgument(
+            name="map",
+            default_value=default_map,
+            description="Full path to map file to load"
+        ),
+
         Node(
             parameters=[
-                join(
-                    get_package_share_directory('rosbot_description'),
-                    'config',
-                    'slam_toolbox_mapping.yaml'
-                ),
-                {'use_sim_time': False}
+                slam_toolbox_config_path,
+                {"use_sim_time": False}
             ],
-            package='slam_toolbox',
-            executable='async_slam_toolbox_node',
-            name='slam_toolbox_localization',
-            output='screen'
+            package="slam_toolbox",
+            executable="async_slam_toolbox_node",
+            name="slam_toolbox_localization",
+            output="screen"
         )
     ])
