@@ -74,11 +74,11 @@ def generate_launch_description():
                     'config',
                     'slam_toolbox_localization.yaml'
                 ),
-                {'use_sim_time': False}
+                # {'use_sim_time': use_sim_time}
             ],
             package='slam_toolbox',
             executable='localization_slam_toolbox_node',
-            name='slam_toolbox_localization',
+            name='slam_toolbox',
             output='screen'
         ),
     ])

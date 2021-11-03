@@ -13,13 +13,11 @@ slam_toolbox:
     # base_frame: base_footprint
     base_frame: base_link
     scan_topic: /scan
-    # mode: mapping
+    # mode: mapping #localization
     mode: localization
 
     # if you'd like to start localizing on bringup in a map and pose
     map_file_name: map/office
-    # map_file_name: /home/labor/rosbot/ros/map/office
-    # map_file_name: map/office
     map_start_pose: [0.0, 0.0, 0.0]
 
     debug_logging: false
@@ -42,7 +40,8 @@ slam_toolbox:
     scan_buffer_maximum_scan_distance: 10.0
     link_match_minimum_response_fine: 0.1
     link_scan_maximum_distance: 1.5
-    do_loop_closing: true
+    # do_loop_closing: true
+    do_loop_closing: false
     loop_match_minimum_chain_size: 3
     loop_match_maximum_variance_coarse: 3.0
     loop_match_minimum_response_coarse: 0.35
