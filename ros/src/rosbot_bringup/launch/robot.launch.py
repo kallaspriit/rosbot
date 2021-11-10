@@ -1,9 +1,8 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution, TextSubstitution
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
 
@@ -19,6 +18,11 @@ def generate_launch_description():
         robot_description_path,
         "config",
         "ekf.yaml",
+    )
+    teleop_config = join(
+        robot_description_path,
+        "config",
+        "teleop_bluetooth.yaml"
     )
 
     # launch arguments
@@ -121,7 +125,7 @@ def generate_launch_description():
             package="bno055",
             executable="bno055",
             name="imu",
-            parameters=[{"params-file": bno055_config}]
+            parameters=[bno055_config]
         ),
 
         # fuses imu and odometry to produce more precise filtered odometry
@@ -155,13 +159,7 @@ def generate_launch_description():
             package="teleop_twist_joy",
             executable="teleop_node",
             name="teleop_twist_joy_node",
-            parameters=[
-                join(
-                    get_package_share_directory("teleop_twist_joy"),
-                    "config",
-                    "rosbot_xbox_bluetooth.config.yaml"
-                ),
-            ],
+            parameters=[teleop_config],
             remappings={
                 ("/joy", "/joy_local")
             },
