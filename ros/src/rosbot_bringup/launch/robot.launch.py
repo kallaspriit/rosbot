@@ -121,7 +121,7 @@ def generate_launch_description():
             package="bno055",
             executable="bno055",
             name="imu",
-            arguments=["--params-file", bno055_config],
+            parameters=[bno055_config]
         ),
 
         # fuses imu and odometry to produce more precise filtered odometry
