@@ -14,7 +14,7 @@ def generate_launch_description():
     diff_drive_controller_config = join(
         robot_description_path, "config", "diff_drive_controller.yaml"
     )
-    bno055_config = join(robot_description_path, "config", "nav2.yaml")
+    bno055_config = join(robot_description_path, "config", "bno055.yaml")
     robot_localization_config = join(
         robot_description_path,
         "config",
