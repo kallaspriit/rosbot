@@ -125,7 +125,8 @@ def generate_launch_description():
             package="bno055",
             executable="bno055",
             name="imu",
-            parameters=[bno055_config]
+            arguments=["--params-file", bno055_config],
+            # parameters=[bno055_config],
         ),
 
         # fuses imu and odometry to produce more precise filtered odometry
@@ -150,7 +151,9 @@ def generate_launch_description():
                 "autorepeat_rate": 20.0,
             }],
             # remap joy topic to allow to co-exist with another joystick
-            remappings={("/joy", "/joy_local")},
+            remappings={
+                ("/joy", "/joy_local")
+            },
             condition=IfCondition(launch_teleop),
         ),
 
@@ -181,6 +184,7 @@ def generate_launch_description():
         #     ]
         # ),
 
-        # TODO AMCL node
+        # TODO map server node?
+        # TODO AMCL node?
 
     ])

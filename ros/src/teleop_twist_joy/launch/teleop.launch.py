@@ -53,7 +53,9 @@ def generate_launch_description():
                 "autorepeat_rate": 20.0,
             }],
             # remap joy topic to allow to co-exist with another joystick
-            remappings={("/joy", "/joy_teleop")},
+            remappings={
+                ("/joy", "/joy_teleop")
+            },
         ),
 
         # remote teleop
@@ -63,8 +65,8 @@ def generate_launch_description():
             name="teleop_twist_joy_node",
             parameters=[config_filepath],
             remappings={
-                ("/cmd_vel", cmd_vel),
                 ("/joy", "/joy_teleop")
+                ("/cmd_vel", cmd_vel),
             },
         ),
     ])
