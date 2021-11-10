@@ -54,11 +54,15 @@ class SensorService:
         QoSProf = QoSProfile(depth=10)
 
         # create topic publishers:
-        self.pub_imu_raw = node.create_publisher(Imu, prefix + 'imu_raw', QoSProf)
+        self.pub_imu_raw = node.create_publisher(
+            Imu, prefix + 'imu_raw', QoSProf)
         self.pub_imu = node.create_publisher(Imu, prefix + 'imu', QoSProf)
-        self.pub_mag = node.create_publisher(MagneticField, prefix + 'mag', QoSProf)
-        self.pub_temp = node.create_publisher(Temperature, prefix + 'temp', QoSProf)
-        self.pub_calib_status = node.create_publisher(String, prefix + 'calib_status', QoSProf)
+        self.pub_mag = node.create_publisher(
+            MagneticField, prefix + 'mag', QoSProf)
+        self.pub_temp = node.create_publisher(
+            Temperature, prefix + 'temp', QoSProf)
+        self.pub_calib_status = node.create_publisher(
+            String, prefix + 'calib_status', QoSProf)
 
     def configure(self):
         """Configure the IMU sensor hardware."""
@@ -73,6 +77,8 @@ class SensorService:
             self.node.get_logger().error('Communication error: %s' % e)
             self.node.get_logger().error('Shutting down ROS node...')
             sys.exit(1)
+
+        self.node.get_logger().info('Got device id')
 
         # IMU connected => apply IMU Configuration:
         if not (self.con.transmit(registers.BNO055_OPR_MODE_ADDR, 1, bytes([registers.OPERATION_MODE_CONFIG]))):
@@ -196,11 +202,14 @@ class SensorService:
         mag_msg.header.frame_id = self.param.frame_id.value
         # mag_msg.header.seq = seq
         mag_msg.magnetic_field.x = \
-            float(struct.unpack('h', struct.pack('BB', buf[6], buf[7]))[0]) / mag_fact
+            float(struct.unpack('h', struct.pack(
+                'BB', buf[6], buf[7]))[0]) / mag_fact
         mag_msg.magnetic_field.y = \
-            float(struct.unpack('h', struct.pack('BB', buf[8], buf[9]))[0]) / mag_fact
+            float(struct.unpack('h', struct.pack(
+                'BB', buf[8], buf[9]))[0]) / mag_fact
         mag_msg.magnetic_field.z = \
-            float(struct.unpack('h', struct.pack('BB', buf[10], buf[11]))[0]) / mag_fact
+            float(struct.unpack('h', struct.pack(
+                'BB', buf[10], buf[11]))[0]) / mag_fact
         self.pub_mag.publish(mag_msg)
 
         # Publish temperature
@@ -223,7 +232,8 @@ class SensorService:
         mag = calib_status[0] & 0x03
 
         # Create dictionary (map) and convert it to JSON string:
-        calib_status_dict = {'sys': sys, 'gyro': gyro, 'accel': accel, 'mag': mag}
+        calib_status_dict = {'sys': sys,
+                             'gyro': gyro, 'accel': accel, 'mag': mag}
         calib_status_str = String()
         calib_status_str.data = json.dumps(calib_status_dict)
 
@@ -232,7 +242,8 @@ class SensorService:
 
     def get_calib_offsets(self):
         """Read all calibration offsets and print to screen."""
-        accel_offset_read = self.con.receive(registers.ACCEL_OFFSET_X_LSB_ADDR, 6)
+        accel_offset_read = self.con.receive(
+            registers.ACCEL_OFFSET_X_LSB_ADDR, 6)
         accel_offset_read_x = (accel_offset_read[1] << 8) | accel_offset_read[
             0]  # Combine MSB and LSB registers into one decimal
         accel_offset_read_y = (accel_offset_read[3] << 8) | accel_offset_read[
@@ -248,7 +259,8 @@ class SensorService:
         mag_offset_read_z = (mag_offset_read[5] << 8) | mag_offset_read[
             4]  # Combine MSB and LSB registers into one decimal
 
-        gyro_offset_read = self.con.receive(registers.GYRO_OFFSET_X_LSB_ADDR, 6)
+        gyro_offset_read = self.con.receive(
+            registers.GYRO_OFFSET_X_LSB_ADDR, 6)
         gyro_offset_read_x = (gyro_offset_read[1] << 8) | gyro_offset_read[
             0]  # Combine MSB and LSB registers into one decimal
         gyro_offset_read_y = (gyro_offset_read[3] << 8) | gyro_offset_read[
@@ -289,26 +301,44 @@ class SensorService:
 
         # Seems to only work when writing 1 register at a time
         try:
-            self.con.transmit(registers.ACCEL_OFFSET_X_LSB_ADDR, 1, bytes([acc_offset[0] & 0xFF]))
-            self.con.transmit(registers.ACCEL_OFFSET_X_MSB_ADDR, 1, bytes([(acc_offset[0] >> 8) & 0xFF]))
-            self.con.transmit(registers.ACCEL_OFFSET_Y_LSB_ADDR, 1, bytes([acc_offset[1] & 0xFF]))
-            self.con.transmit(registers.ACCEL_OFFSET_Y_MSB_ADDR, 1, bytes([(acc_offset[1] >> 8) & 0xFF]))
-            self.con.transmit(registers.ACCEL_OFFSET_Z_LSB_ADDR, 1, bytes([acc_offset[2] & 0xFF]))
-            self.con.transmit(registers.ACCEL_OFFSET_Z_MSB_ADDR, 1, bytes([(acc_offset[2] >> 8) & 0xFF]))
+            self.con.transmit(registers.ACCEL_OFFSET_X_LSB_ADDR,
+                              1, bytes([acc_offset[0] & 0xFF]))
+            self.con.transmit(registers.ACCEL_OFFSET_X_MSB_ADDR,
+                              1, bytes([(acc_offset[0] >> 8) & 0xFF]))
+            self.con.transmit(registers.ACCEL_OFFSET_Y_LSB_ADDR,
+                              1, bytes([acc_offset[1] & 0xFF]))
+            self.con.transmit(registers.ACCEL_OFFSET_Y_MSB_ADDR,
+                              1, bytes([(acc_offset[1] >> 8) & 0xFF]))
+            self.con.transmit(registers.ACCEL_OFFSET_Z_LSB_ADDR,
+                              1, bytes([acc_offset[2] & 0xFF]))
+            self.con.transmit(registers.ACCEL_OFFSET_Z_MSB_ADDR,
+                              1, bytes([(acc_offset[2] >> 8) & 0xFF]))
 
-            self.con.transmit(registers.MAG_OFFSET_X_LSB_ADDR, 1, bytes([mag_offset[0] & 0xFF]))
-            self.con.transmit(registers.MAG_OFFSET_X_MSB_ADDR, 1, bytes([(mag_offset[0] >> 8) & 0xFF]))
-            self.con.transmit(registers.MAG_OFFSET_Y_LSB_ADDR, 1, bytes([mag_offset[1] & 0xFF]))
-            self.con.transmit(registers.MAG_OFFSET_Y_MSB_ADDR, 1, bytes([(mag_offset[1] >> 8) & 0xFF]))
-            self.con.transmit(registers.MAG_OFFSET_Z_LSB_ADDR, 1, bytes([mag_offset[2] & 0xFF]))
-            self.con.transmit(registers.MAG_OFFSET_Z_MSB_ADDR, 1, bytes([(mag_offset[2] >> 8) & 0xFF]))
+            self.con.transmit(registers.MAG_OFFSET_X_LSB_ADDR,
+                              1, bytes([mag_offset[0] & 0xFF]))
+            self.con.transmit(registers.MAG_OFFSET_X_MSB_ADDR,
+                              1, bytes([(mag_offset[0] >> 8) & 0xFF]))
+            self.con.transmit(registers.MAG_OFFSET_Y_LSB_ADDR,
+                              1, bytes([mag_offset[1] & 0xFF]))
+            self.con.transmit(registers.MAG_OFFSET_Y_MSB_ADDR,
+                              1, bytes([(mag_offset[1] >> 8) & 0xFF]))
+            self.con.transmit(registers.MAG_OFFSET_Z_LSB_ADDR,
+                              1, bytes([mag_offset[2] & 0xFF]))
+            self.con.transmit(registers.MAG_OFFSET_Z_MSB_ADDR,
+                              1, bytes([(mag_offset[2] >> 8) & 0xFF]))
 
-            self.con.transmit(registers.GYRO_OFFSET_X_LSB_ADDR, 1, bytes([gyr_offset[0] & 0xFF]))
-            self.con.transmit(registers.GYRO_OFFSET_X_MSB_ADDR, 1, bytes([(gyr_offset[0] >> 8) & 0xFF]))
-            self.con.transmit(registers.GYRO_OFFSET_Y_LSB_ADDR, 1, bytes([gyr_offset[1] & 0xFF]))
-            self.con.transmit(registers.GYRO_OFFSET_Y_MSB_ADDR, 1, bytes([(gyr_offset[1] >> 8) & 0xFF]))
-            self.con.transmit(registers.GYRO_OFFSET_Z_LSB_ADDR, 1, bytes([gyr_offset[2] & 0xFF]))
-            self.con.transmit(registers.GYRO_OFFSET_Z_MSB_ADDR, 1, bytes([(gyr_offset[2] >> 8) & 0xFF]))
+            self.con.transmit(registers.GYRO_OFFSET_X_LSB_ADDR,
+                              1, bytes([gyr_offset[0] & 0xFF]))
+            self.con.transmit(registers.GYRO_OFFSET_X_MSB_ADDR,
+                              1, bytes([(gyr_offset[0] >> 8) & 0xFF]))
+            self.con.transmit(registers.GYRO_OFFSET_Y_LSB_ADDR,
+                              1, bytes([gyr_offset[1] & 0xFF]))
+            self.con.transmit(registers.GYRO_OFFSET_Y_MSB_ADDR,
+                              1, bytes([(gyr_offset[1] >> 8) & 0xFF]))
+            self.con.transmit(registers.GYRO_OFFSET_Z_LSB_ADDR,
+                              1, bytes([gyr_offset[2] & 0xFF]))
+            self.con.transmit(registers.GYRO_OFFSET_Z_MSB_ADDR,
+                              1, bytes([(gyr_offset[2] >> 8) & 0xFF]))
             return True
         except Exception:  # noqa: B902
             return False
