@@ -6,7 +6,8 @@ bno055:
     # uart_port: "/dev/ttyACM0"
     # uart_port: "/dev/ttyAMA0"
     uart_port: "/dev/ttyAMA1"
-    uart_baudrate: 115200
+    # uart_baudrate: 115200
+    uart_baudrate: 9600
     uart_timeout: 0.1
     data_query_frequency: 100
     calib_status_frequency: 0.1
