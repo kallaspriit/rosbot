@@ -121,13 +121,13 @@ def generate_launch_description():
         ),
 
         # imu (used by robot_localization to make odometry more precise)
-        Node(
-            package="bno055",
-            executable="bno055",
-            # name="imu",
-            # arguments=["--params-file", bno055_config],
-            parameters=[bno055_config],
-        ),
+        # Node(
+        #     package="bno055",
+        #     executable="bno055",
+        #     # name="imu",
+        #     # arguments=["--params-file", bno055_config],
+        #     parameters=[bno055_config],
+        # ),
 
         # fuses imu and odometry to produce more precise filtered odometry
         # Node(
