@@ -9,48 +9,22 @@ from os.path import join
 
 
 def generate_launch_description():
-    # location for the robot description package
-    description_share = FindPackageShare("rosbot_description")
-
-    # list of launch arguments
-    declared_arguments = []
-
-    # should we open rviz visualizer (disabled by default)
-    # `ros2 launch rosbot rviz.py` on remote pc instead
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "launch_rviz",
-            default_value="false",
-            description="Start RViz automatically with the launch file",
-        )
+    # paths
+    robot_description_path = get_package_share_directory("rosbot_description")
+    diff_drive_controller_config = join(
+        robot_description_path, "config", "diff_drive_controller.yaml"
+    )
+    bno055_config = join(robot_description_path, "config", "nav2.yaml")
+    robot_localization_config = join(
+        robot_description_path,
+        "config",
+        "ekf.yaml",
     )
 
-    # should we start teleop (enabled by default)
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "launch_teleop",
-            default_value="true",
-            description="Start joystick teleop automatically with the launch file",
-        )
-    )
-
-    # joystick device to use
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "joy_dev",
-            default_value="/dev/input/js0",
-            description="Joystick device to use",
-        )
-    )
-
-    # lidar device to use
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "lidar_dev",
-            default_value="/dev/ttyS0",
-            description="Lidar device to use",
-        )
-    )
+    # launch arguments
+    launch_teleop = LaunchConfiguration("launch_teleop")
+    joy_dev = LaunchConfiguration("joy_dev")
+    lidar_dev = LaunchConfiguration("lidar_dev")
 
     # get robot description from urdf xacro file
     robot_description_content = Command(
@@ -59,7 +33,7 @@ def generate_launch_description():
             " ",
             PathJoinSubstitution(
                 [
-                    description_share,
+                    robot_description_path,
                     "urdf",
                     "rosbot.urdf.xacro",
                 ]
@@ -68,168 +42,147 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    # get diff drive controller config
-    diff_drive_controller_config = PathJoinSubstitution(
-        [
-            description_share,
-            "config",
-            "diff_drive_controller.yaml",
-        ]
-    )
+    # build launch description
+    return LaunchDescription([
 
-    # setup ros2 controller manager node with robot description and controllers
-    controller_manager_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, diff_drive_controller_config],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
-    )
+        DeclareLaunchArgument(
+            "launch_teleop",
+            default_value="true",
+            description="Start joystick teleop automatically with the launch file",
+        ),
 
-    # setup robot state publisher node (publishes transforms)
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        output="both",
-        parameters=[robot_description],
-        remappings=[
-            ("/diff_drive_controller/cmd_vel_unstamped", "/cmd_vel"),
-        ],
-    )
+        DeclareLaunchArgument(
+            "joy_dev",
+            default_value="/dev/input/js0",
+            description="Joystick device to use",
+        ),
 
-    # setup joint state broadcaster spawner node
-    joint_state_broadcaster_node = Node(
-        package="controller_manager",
-        executable="spawner.py",
-        arguments=[
-            "joint_state_broadcaster",
-            # "--controller-manager", "/controller_manager",
-        ],
-    )
+        DeclareLaunchArgument(
+            "lidar_dev",
+            default_value="/dev/ttyS0",
+            description="Lidar device to use",
+        ),
 
-    # setup diff drive controller
-    diff_drive_spawner_node = Node(
-        package="controller_manager",
-        executable="spawner.py",
-        arguments=["diff_drive_controller"],
-        output="screen",
-    )
+        # ros2 control used by differential drive
+        Node(
+            package="controller_manager",
+            executable="ros2_control_node",
+            parameters=[robot_description, diff_drive_controller_config],
+            output={
+                "stdout": "screen",
+                "stderr": "screen",
+            },
+        ),
 
-    # get path to rviz configuration file
-    rviz_config_file = PathJoinSubstitution(
-        [description_share, "rviz", "rosbot.rviz"]
-    )
+        # robot state publisher
+        Node(
+            package="robot_state_publisher",
+            executable="robot_state_publisher",
+            output="both",
+            parameters=[robot_description],
+            remappings=[
+                ("/diff_drive_controller/cmd_vel_unstamped", "/cmd_vel"),
+            ],
+        ),
 
-    # setup rviz node
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        arguments=["-d", rviz_config_file],
-        condition=IfCondition(LaunchConfiguration('launch_rviz')),
-    )
+        # joint state broadcaster
+        Node(
+            package="controller_manager",
+            executable="spawner.py",
+            arguments=["joint_state_broadcaster"],
+        ),
 
-    # setup lidar node
-    lidar_node = Node(
-        package='rplidar_ros2',
-        executable='rplidar_scan_publisher',
-        name='rplidar_scan_publisher',
-        parameters=[{
-            'serial_port': LaunchConfiguration('lidar_dev'),
-            'serial_baudrate': 256000,
-            'frame_id': 'base_laser',
-            'inverted': False,
-            # 'angle_compensate': False
-            'angle_compensate': True
-        }],
-        output='screen'
-    )
+        # differential drive controller
+        Node(
+            package="controller_manager",
+            executable="spawner.py",
+            arguments=["diff_drive_controller"],
+            output="screen",
+        ),
 
-    # get diff drive controller config
-    robot_localization_config = PathJoinSubstitution(
-        [
-            description_share,
-            "config",
-            "ekf.yaml",
-        ]
-    )
+        # lidar
+        Node(
+            package="rplidar_ros2",
+            executable="rplidar_scan_publisher",
+            name="rplidar_scan_publisher",
+            parameters=[{
+                "serial_port": lidar_dev,
+                "serial_baudrate": 256000,
+                "frame_id": "base_laser",
+                "inverted": False,
+                # "angle_compensate": False
+                "angle_compensate": True
+            }],
+            output="screen"
+        ),
 
-    # setup ekf-based robot localization node
-    # robot_localization_node = Node(
-    #     package='robot_localization',
-    #     executable='ekf_node',
-    #     name='robot_localization_node',
-    #     output='screen',
-    #     parameters=[
-    #         robot_localization_config,
-    #         #  {'use_sim_time': False}
-    #     ]
-    # )
+        # imu (used by robot_localization to make odometry more precise)
+        Node(
+            package="bno055",
+            executable="bno055",
+            name="imu",
+            arguments=["--params-file", bno055_config],
+        ),
 
-    # setup joystick node
-    joy_node = Node(
-        package='joy',
-        executable='joy_node',
-        name='joy_node',
-        parameters=[{
-            'dev': LaunchConfiguration('joy_dev'),
-            'deadzone': 0.05,
-            'autorepeat_rate': 20.0,
-        }],
-        # remap joy topic to allow to co-exist with another joystick
-        remappings={('/joy', '/joy_local')},
-        condition=IfCondition(LaunchConfiguration('launch_teleop')),
-    )
+        # fuses imu and odometry to produce more precise filtered odometry
+        # Node(
+        #     package="robot_localization",
+        #     executable="ekf_node",
+        #     name="robot_localization_node",
+        #     output="screen",
+        #     parameters=[
+        #         robot_localization_config,
+        #     ]
+        # ),
 
-    # setup teleop node
-    teleop_node = Node(
-        package='teleop_twist_joy',
-        executable='teleop_node',
-        name='teleop_twist_joy_node',
-        parameters=[
-            join(
-                get_package_share_directory('teleop_twist_joy'),
-                'config',
-                'rosbot_xbox_bluetooth.config.yaml'
-            ),
-        ],
-        remappings={
-            ('/joy', '/joy_local')
-        },
-        condition=IfCondition(LaunchConfiguration('launch_teleop')),
-    )
+        # joystick, used by onboard teleop
+        Node(
+            package="joy",
+            executable="joy_node",
+            name="joy_node",
+            parameters=[{
+                "dev": joy_dev,
+                "deadzone": 0.05,
+                "autorepeat_rate": 20.0,
+            }],
+            # remap joy topic to allow to co-exist with another joystick
+            remappings={("/joy", "/joy_local")},
+            condition=IfCondition(launch_teleop),
+        ),
 
-    # setup slam toolbox node in async slam mode (builds the map)
-    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py
-    # https://github.com/SteveMacenski/slam_toolbox/blob/ros2/config/mapper_params_online_async.yaml
-    # slam_toolbox_node = Node(
-    #     package='slam_toolbox',
-    #     executable='async_slam_toolbox_node',
-    #     name='slam_toolbox_node',
-    #     parameters=[
-    #         join(
-    #             get_package_share_directory('rosbot_description'),
-    #             'config',
-    #             'slam_toolbox_mapping.yaml'
-    #         ),
-    #         {'use_sim_time': False}
-    #     ]
-    # )
+        # onboard teleop
+        Node(
+            package="teleop_twist_joy",
+            executable="teleop_node",
+            name="teleop_twist_joy_node",
+            parameters=[
+                join(
+                    get_package_share_directory("teleop_twist_joy"),
+                    "config",
+                    "rosbot_xbox_bluetooth.config.yaml"
+                ),
+            ],
+            remappings={
+                ("/joy", "/joy_local")
+            },
+            condition=IfCondition(launch_teleop),
+        ),
 
-    # setup list of nodes to launch
-    nodes = [
-        controller_manager_node,
-        robot_state_publisher_node,
-        joint_state_broadcaster_node,
-        diff_drive_spawner_node,
-        rviz_node,
-        lidar_node,
-        # robot_localization_node,
-        joy_node,
-        teleop_node,
-        # slam_toolbox_node
-    ]
+        # slam toolbox to map environemnt (usually run on remote pc)
+        # Node(
+        #     package="slam_toolbox",
+        #     executable="async_slam_toolbox_node",
+        #     name="slam_toolbox_node",
+        #     parameters=[
+        #         join(
+        #             get_package_share_directory("rosbot_description"),
+        #             "config",
+        #             "slam_toolbox_mapping.yaml"
+        #         ),
+        #         {"use_sim_time": False}
+        #     ]
+        # ),
 
-    return LaunchDescription(declared_arguments + nodes)
+        # TODO AMCL node
+
+    ])

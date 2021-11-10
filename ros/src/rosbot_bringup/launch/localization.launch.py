@@ -11,7 +11,7 @@ def generate_launch_description():
     robot_description_path = get_package_share_directory("rosbot_description")
 
     # defaults
-    default_map = abspath(join(
+    default_map_file = abspath(join(
         robot_description_path,
         "..",
         "..",
@@ -20,6 +20,11 @@ def generate_launch_description():
         "map",
         "office.yaml"
     ))
+    nav2_config_file = join(
+        robot_description_path,
+        "config",
+        "nav2.yaml"
+    )
 
     # launch arguments
     autostart = LaunchConfiguration("autostart")
@@ -35,7 +40,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             name="map",
-            default_value=default_map,
+            default_value=default_map_file,
             description="Full path to map file to load"
         ),
 
@@ -45,40 +50,54 @@ def generate_launch_description():
             description="Use simulation time",
         ),
 
-        # Node(
-        #     package="nav2_map_server",
-        #     executable="map_server",
-        #     name="map_server",
-        #     parameters=[{
-        #         "yaml_filename": map
-        #     }],
-        #     output="screen",
-        # ),
+        Node(
+            package="nav2_map_server",
+            executable="map_server",
+            name="map_server",
+            parameters=[
+                nav2_config_file,
+                {"yaml_filename": map},
+                {"use_sim_time": use_sim_time},
+            ],
+            output="screen",
+        ),
+
+        Node(
+            package="nav2_lifecycle_manager",
+            executable="lifecycle_manager",
+            name="lifecycle_manager_localization",
+            output="screen",
+            parameters=[
+                {"use_sim_time": use_sim_time},
+                {"autostart": autostart},
+                {"node_names": ["map_server", "amcl"]}
+            ]
+        ),
 
         # Node(
-        #     package='nav2_lifecycle_manager',
-        #     executable='lifecycle_manager',
-        #     name='lifecycle_manager_localization',
-        #     output='screen',
         #     parameters=[
-        #         {'use_sim_time': use_sim_time},
-        #         {'autostart': autostart},
-        #         {'node_names': ['map_server']}
-        #     ]
+        #         join(
+        #             get_package_share_directory("rosbot_description"),
+        #             "config",
+        #             "slam_toolbox_localization.yaml"
+        #         ),
+        #         # {"use_sim_time": use_sim_time}
+        #     ],
+        #     package="slam_toolbox",
+        #     executable="localization_slam_toolbox_node",
+        #     name="slam_toolbox",
+        #     output="screen"
         # ),
 
         Node(
+            package="nav2_amcl",
+            executable="amcl",
+            name="amcl",
+            output="screen",
             parameters=[
-                join(
-                    get_package_share_directory('rosbot_description'),
-                    'config',
-                    'slam_toolbox_localization.yaml'
-                ),
-                # {'use_sim_time': use_sim_time}
+                nav2_config_file,
+                {"use_sim_time": use_sim_time},
             ],
-            package='slam_toolbox',
-            executable='localization_slam_toolbox_node',
-            name='slam_toolbox',
-            output='screen'
+            # remappings=remappings
         ),
     ])

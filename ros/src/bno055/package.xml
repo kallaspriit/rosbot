@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>bno055</name>
+  <version>0.1.1</version>
+  <description>Bosch BNO055 IMU driver for ROS2</description>
+  <maintainer email="evanflynn.msu@gmail.com">flynneva</maintainer>
+  <license>BSD</license>
+
+  <!-- Dependency Management: see https://index.ros.org/doc/ros2/Tutorials/Using-Python-Packages/ -->
+
+  <!-- For serial UART communication : -->
+  <depend>python3-serial</depend>
+  <!--ROS Client Libraries for Python:-->
+  <exec_depend>rclpy</exec_depend>
+  <!-- Publishing standard message types: -->
+  <exec_depend>std_msgs</exec_depend>
+ 
+  <!-- These test dependencies are optional
+  Their purpose is to make sure that the code passes the linters -->
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+ 
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

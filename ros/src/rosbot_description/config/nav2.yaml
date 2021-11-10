@@ -1,11 +1,11 @@
 amcl:
   ros__parameters:
     use_sim_time: True
-    alpha1: 0.2
-    alpha2: 0.2
-    alpha3: 0.2
-    alpha4: 0.2
-    alpha5: 0.2
+    alpha1: 0.05
+    alpha2: 0.02
+    alpha3: 0.01
+    alpha4: 0.02
+    alpha5: 0.02
     # or base_link?
     # base_frame_id: "base_footprint"
     base_frame_id: "base_link"
@@ -17,7 +17,8 @@ amcl:
     initial_pose: [0.0, 0.0, 0.0, 0.0]
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
-    laser_max_range: 100.0
+    # laser_max_range: 100.0
+    laser_max_range: 20.0
     laser_min_range: -1.0
     laser_model_type: "likelihood_field"
     max_beams: 60
@@ -31,7 +32,8 @@ amcl:
     resample_interval: 1
     robot_model_type: "differential"
     save_pose_rate: 0.5
-    set_initial_pose: False
+    # set_initial_pose: False
+    set_initial_pose: True
     sigma_hit: 0.2
     tf_broadcast: true
     transform_tolerance: 1.0
@@ -253,7 +255,8 @@ map_saver:
   ros__parameters:
     use_sim_time: True
     save_map_timeout: 5000
-    free_thresh_default: 0.25
+    # free_thresh_default: 0.25
+    free_thresh_default: 0.15
     occupied_thresh_default: 0.65
     map_subscribe_transient_local: False
     save_map_timeout: 5000
