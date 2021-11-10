@@ -52,9 +52,6 @@ class Connector:
         :raises TransmissionException in case of any error
         """
 
-        self.node.get_logger().info('Testing logging')
-        self.node.get_logger().info('Register START_BYTE_WR' + registers.START_BYTE_WR)
-
         buf_out = bytearray()
         buf_out.append(registers.START_BYTE_WR)
         buf_out.append(registers.READ)
