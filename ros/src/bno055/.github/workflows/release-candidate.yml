@@ -1,0 +1,31 @@
+name: Release Candidate
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  release-candidate:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, 'Release ')
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: devel
+      - name: create release
+        id: create_release
+        uses: at-wat/catkin-release-action@v1.0.13
+        with:
+          issue_title: ${{ github.event.issue.title }}
+          git_user: flynneva
+          git_email: evanflynn.msu@gmail.com
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: open pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ steps.create_release.outputs.created_branch }}
+          destination_branch: main
+          pr_title: Release ${{ steps.create_release.outputs.version}}
+          pr_body: close \#${{ github.event.issue.number }}
+          pr_assignee: ${{ github.actor }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

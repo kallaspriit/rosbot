@@ -1,0 +1,34 @@
+name: Release
+
+on:
+ push:
+    paths:
+      - package.xml
+      - 'package.xml'
+    branches:
+      - main
+jobs:
+  bloom-release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+    - name: bloom_release
+      id: bloom
+      uses: at-wat/bloom-release-action@v0
+      with:
+        ros_distro: dashing foxy rolling
+        release_repository_push_url: https://github.com/flynneva/bno055-release.git
+        github_token_bloom: ${{ secrets.BLOOM_RELEASE_TOKEN }}
+        github_user: flynneva
+        git_user: Evan Flynn
+        git_email: evanflynn.msu@gmail.com
+        tag_and_release: true
+        open_pr: true
+    - name: create github release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ steps.bloom.outputs.version }}
+        release_name: ${{ steps.bloom.outputs.version }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.BLOOM_RELEASE_TOKEN }}

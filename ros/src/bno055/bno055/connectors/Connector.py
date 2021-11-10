@@ -30,7 +30,6 @@
 from bno055 import registers
 from bno055.error_handling.exceptions import BusOverRunException, TransmissionException
 from rclpy.node import Node
-import binascii
 
 
 class Connector:
@@ -52,7 +51,6 @@ class Connector:
         :return: The received payload message
         :raises TransmissionException in case of any error
         """
-
         buf_out = bytearray()
         buf_out.append(registers.START_BYTE_WR)
         buf_out.append(registers.READ)
@@ -62,8 +60,7 @@ class Connector:
         try:
             self.write(buf_out)
             buf_in = bytearray(self.read(2 + length))
-            print("Reading, wr: ", binascii.hexlify(buf_out),
-                  "  re: ", binascii.hexlify(buf_in))
+            # print("Reading, wr: ", binascii.hexlify(buf_out), "  re: ", binascii.hexlify(buf_in))
         except Exception as e:  # noqa: B902
             # re-raise as IOError
             raise TransmissionException('Transmission error: %s' % e)
@@ -78,15 +75,13 @@ class Connector:
             # Error 0x07 (BUS_OVER_RUN_ERROR) can be "normal" if data fusion is not yet ready
             if buf_in[1] == 7:
                 # see #5
-                raise BusOverRunException(
-                    'Data fusion not ready, resend read request')
+                raise BusOverRunException('Data fusion not ready, resend read request')
             else:
                 raise TransmissionException('READ-request failed with error code %s'
                                             % hex(buf_in[1]))
         # Check for correct READ response header:
         if buf_in[0] != registers.START_BYTE_RESP:
-            raise TransmissionException(
-                'Wrong READ-request response header %s' % hex(buf_in[0]))
+            raise TransmissionException('Wrong READ-request response header %s' % hex(buf_in[0]))
 
         if (buf_in.__len__()-2) != buf_in[1]:
             raise TransmissionException('Payload length mismatch detected: '
@@ -124,13 +119,12 @@ class Connector:
         # Append payload data to the written:
         buf_out += data
 
-        print("Writing: ", binascii.hexlify(buf_out))
+        # print("Writing: ", binascii.hexlify(buf_out))
 
         try:
             self.write(buf_out)
             buf_in = bytearray(self.read(2))
-            print("Writing, wr: ", binascii.hexlify(buf_out),
-                  "  re: ", binascii.hexlify(buf_in))
+            # print("Writing, wr: ", binascii.hexlify(buf_out), "  re: ", binascii.hexlify(buf_in))
         except Exception:  # noqa: B902
             return False
 
