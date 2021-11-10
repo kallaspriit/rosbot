@@ -31,6 +31,8 @@ import struct
 import sys
 from time import time
 
+import binascii
+
 from bno055 import registers
 from bno055.connectors.Connector import Connector
 from bno055.params.NodeParameters import NodeParameters
@@ -71,7 +73,7 @@ class SensorService:
             data = self.con.receive(registers.BNO055_CHIP_ID_ADDR, 1)
             if data[0] != registers.BNO055_ID:
                 raise IOError('Device ID=%s is incorrect' % data)
-            # print("device sent ", binascii.hexlify(data))
+            print("device sent ", binascii.hexlify(data))
         except Exception as e:  # noqa: B902
             # This is the first communication - exit if it does not work
             self.node.get_logger().error('Communication error: %s' % e)

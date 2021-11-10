@@ -30,6 +30,7 @@
 from bno055 import registers
 from bno055.error_handling.exceptions import BusOverRunException, TransmissionException
 from rclpy.node import Node
+import binascii
 
 
 class Connector:
@@ -61,7 +62,8 @@ class Connector:
         try:
             self.write(buf_out)
             buf_in = bytearray(self.read(2 + length))
-            # print("Reading, wr: ", binascii.hexlify(buf_out), "  re: ", binascii.hexlify(buf_in))
+            print("Reading, wr: ", binascii.hexlify(buf_out),
+                  "  re: ", binascii.hexlify(buf_in))
         except Exception as e:  # noqa: B902
             # re-raise as IOError
             raise TransmissionException('Transmission error: %s' % e)
@@ -122,12 +124,13 @@ class Connector:
         # Append payload data to the written:
         buf_out += data
 
-        # print("Writing: ", binascii.hexlify(buf_out))
+        print("Writing: ", binascii.hexlify(buf_out))
 
         try:
             self.write(buf_out)
             buf_in = bytearray(self.read(2))
-            # print("Writing, wr: ", binascii.hexlify(buf_out), "  re: ", binascii.hexlify(buf_in))
+            print("Writing, wr: ", binascii.hexlify(buf_out),
+                  "  re: ", binascii.hexlify(buf_in))
         except Exception:  # noqa: B902
             return False
 
