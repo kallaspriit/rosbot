@@ -3,7 +3,8 @@ bno055:
     ros_topic_prefix: "bno055/"
     connection_type: "uart"
     # uart_port: "/dev/serial1"
-    uart_port: "/dev/ttyAMA0"
+    # uart_port: "/dev/ttyAMA0"
+    uart_port: "/dev/ttyACM1"
     uart_baudrate: 115200
     uart_timeout: 0.1
     data_query_frequency: 100
