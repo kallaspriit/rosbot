@@ -1,10 +1,9 @@
 bno055:
   ros__parameters:
-    ros_topic_prefix: "bno055/"
+    ros_topic_prefix: ""
     connection_type: "uart"
     # running on rpi uart5 (dtoverlay=uart5 in /boot/firmware/usercfg.txt)
     uart_port: "/dev/ttyAMA1"
-    # uart_baudrate: 9600
     uart_baudrate: 115200
     uart_timeout: 0.1
     data_query_frequency: 100
