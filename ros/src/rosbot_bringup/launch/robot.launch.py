@@ -63,7 +63,8 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             "lidar_dev",
-            default_value="/dev/ttyS0",
+            # default_value="/dev/ttyS0",
+            default_value="/dev/ttyAMA0",
             description="Lidar device to use",
         ),
 
