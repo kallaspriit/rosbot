@@ -128,13 +128,13 @@ def generate_launch_description():
         ),
 
         # fuses imu and odometry to produce more precise filtered odometry
-        Node(
-            package="robot_localization",
-            executable="ekf_node",
-            name="robot_localization_node",
-            output="screen",
-            parameters=[robot_localization_config]
-        ),
+        # Node(
+        #     package="robot_localization",
+        #     executable="ekf_node",
+        #     name="robot_localization_node",
+        #     output="screen",
+        #     parameters=[robot_localization_config]
+        # ),
 
         # joystick, used by onboard teleop
         Node(
