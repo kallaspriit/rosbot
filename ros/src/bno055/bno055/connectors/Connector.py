@@ -52,8 +52,8 @@ class Connector:
         :raises TransmissionException in case of any error
         """
         buf_out = bytearray()
-        buf_out.append(registers.START_BYTE_WR)
-        buf_out.append(registers.READ)
+        buf_out.append(registers.COM_START_BYTE_WR)
+        buf_out.append(registers.COM_READ)
         buf_out.append(reg_addr)
         buf_out.append(length)
 
@@ -71,7 +71,7 @@ class Connector:
                                         % buf_in.__len__())
 
         # Check for READ result (success or failure):
-        if buf_in[0] == registers.START_BYTE_ERROR_RESP:
+        if buf_in[0] == registers.COM_START_BYTE_ERROR_RESP:
             # Error 0x07 (BUS_OVER_RUN_ERROR) can be "normal" if data fusion is not yet ready
             if buf_in[1] == 7:
                 # see #5
@@ -80,7 +80,7 @@ class Connector:
                 raise TransmissionException('READ-request failed with error code %s'
                                             % hex(buf_in[1]))
         # Check for correct READ response header:
-        if buf_in[0] != registers.START_BYTE_RESP:
+        if buf_in[0] != registers.COM_START_BYTE_RESP:
             raise TransmissionException('Wrong READ-request response header %s' % hex(buf_in[0]))
 
         if (buf_in.__len__()-2) != buf_in[1]:
@@ -112,8 +112,8 @@ class Connector:
         :return:
         """
         buf_out = bytearray()
-        buf_out.append(registers.START_BYTE_WR)
-        buf_out.append(registers.WRITE)
+        buf_out.append(registers.COM_START_BYTE_WR)
+        buf_out.append(registers.COM_WRITE)
         buf_out.append(reg_addr)
         buf_out.append(length)
         # Append payload data to the written:

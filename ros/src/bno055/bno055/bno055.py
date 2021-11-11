@@ -40,7 +40,13 @@ from rclpy.node import Node
 
 
 class Bno055Node(Node):
-    """ROS2 Node for interfacing Bosch Bno055 IMU sensor."""
+    """
+    ROS2 Node for interfacing Bosch Bno055 IMU sensor.
+
+    :param Node: ROS2 Node Class to initialize from
+    :type Node: ROS2 Node
+    :raises NotImplementedError: Indicates feature/function is not implemented yet.
+    """
 
     sensor = None
     param = None

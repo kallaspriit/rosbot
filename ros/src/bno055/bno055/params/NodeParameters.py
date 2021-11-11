@@ -69,6 +69,12 @@ class NodeParameters:
         node.declare_parameter('operation_mode', value=0x0C)
         # placement_axis_remap defines the position and orientation of the sensor mount
         node.declare_parameter('placement_axis_remap', value='P1')
+        # scaling factor for acceleration
+        node.declare_parameter('acc_factor', value=100.0)
+        # scaling factor for magnetometer
+        node.declare_parameter('mag_factor', value=16000000.0)
+        # scaling factor for gyroscope
+        node.declare_parameter('gyr_factor', value=900.0)
         # +/- 2000 units (at max 2G) (1 unit = 1 mg = 1 LSB = 0.01 m/s2)
         node.declare_parameter('acc_offset', value=[0xFFEC, 0x00A5, 0xFFE8])
         # +/- 6400 units (1 unit = 1/16 uT)
@@ -112,6 +118,15 @@ class NodeParameters:
             self.placement_axis_remap = node.get_parameter('placement_axis_remap')
             node.get_logger().info('\tplacement_axis_remap:\t"%s"'
                                    % self.placement_axis_remap.value)
+
+            self.acc_factor = node.get_parameter('acc_factor')
+            node.get_logger().info('\tacc_factor:\t\t"%s"' % self.acc_factor.value)
+
+            self.mag_factor = node.get_parameter('mag_factor')
+            node.get_logger().info('\tmag_factor:\t\t"%s"' % self.mag_factor.value)
+
+            self.gyr_factor = node.get_parameter('gyr_factor')
+            node.get_logger().info('\tgyr_factor:\t\t"%s"' % self.gyr_factor.value)
 
             self.acc_offset = node.get_parameter('acc_offset')
             node.get_logger().info('\tacc_offset:\t\t"%s"' % self.acc_offset.value)

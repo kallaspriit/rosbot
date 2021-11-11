@@ -10,6 +10,9 @@ bno055:
     frame_id: "bno055"
     operation_mode: 0x0C
     placement_axis_remap: "P2"
+    acc_factor: 100.0
+    mag_factor: 16000000.0
+    gyr_factor: 900.0
     acc_offset: [0xFFEC, 0x00A5, 0xFFE8]
     mag_offset: [0xFFB4, 0xFE9E, 0x027D]
     gyr_offset: [0x0002, 0xFFFF, 0xFFFF]
