@@ -4,8 +4,12 @@ module.exports = {
     script: "launch_rviz.bash",
     interpreter: "bash"
   },{
-    name: "mapping",
-    script: "launch_mapping.bash",
+    name: "slam",
+    script: "launch_slam.bash",
+    interpreter: "bash"
+  },{
+    name: "map",
+    script: "launch_map.bash",
     interpreter: "bash"
   },{
     name: "localization",
@@ -18,6 +22,10 @@ module.exports = {
   },{
     name: "teleop",
     script: "launch_teleop.bash",
+    interpreter: "bash"
+  }, {
+    name: "robot",
+    script: "launch_robot.bash",
     interpreter: "bash"
   }],
 };
