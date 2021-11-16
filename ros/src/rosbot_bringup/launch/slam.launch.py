@@ -18,8 +18,6 @@ def generate_launch_description():
     # defaults
     default_map = join(
         robot_description_path,
-        "..",
-        "..",
         "map",
         "office.yaml"
     )

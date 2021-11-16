@@ -2,7 +2,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from os.path import join, abspath
+from os.path import join
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -11,15 +11,11 @@ def generate_launch_description():
     robot_description_path = get_package_share_directory("rosbot_description")
 
     # defaults
-    default_map = abspath(join(
+    default_map = join(
         robot_description_path,
-        "..",
-        "..",
-        "..",
-        "..",
         "map",
         "office.yaml"
-    ))
+    )
     nav2_config = join(
         robot_description_path,
         "config",

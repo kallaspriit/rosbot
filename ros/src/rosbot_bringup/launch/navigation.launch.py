@@ -24,18 +24,15 @@ def generate_launch_description():
     default_behavior_tree_xml = join(
         robot_description_path,
         "config",
-        "nav2_behaviour_tree.xml"
+        "navigate_w_replanning_and_recovery.xml"
     )
 
     # this is only used in slam mode
-    # default_map = join(
-    #     robot_description_path,
-    #     "..",
-    #     "..",
-    #     "map",
-    #     "office.yaml"
-    # )
-    default_map = "/home/labor/rosbot/ros/map/office.yaml"
+    default_map = join(
+        robot_description_path,
+        "map",
+        "office.yaml"
+    )
     default_nav2_config = join(robot_description_path, "config", "nav2.yaml")
     # default_nav2_config = join(nav2_bringup_path, "params", "nav2_params.yaml")
 
@@ -53,7 +50,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             "autostart",
-            default_value="True",
+            default_value="False",
             description="Automatically start up the nav2 stack",
         ),
         DeclareLaunchArgument(
