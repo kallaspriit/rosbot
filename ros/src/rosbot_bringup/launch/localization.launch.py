@@ -11,15 +11,15 @@ def generate_launch_description():
     robot_description_path = get_package_share_directory("rosbot_description")
 
     # defaults
-    # default_map = abspath(join(
-    #     robot_description_path,
-    #     "..",
-    #     "..",
-    #     "..",
-    #     "..",
-    #     "map",
-    #     "office.yaml"
-    # ))
+    default_map = abspath(join(
+        robot_description_path,
+        "..",
+        "..",
+        "..",
+        "..",
+        "map",
+        "office.yaml"
+    ))
     nav2_config = join(
         robot_description_path,
         "config",
@@ -28,21 +28,21 @@ def generate_launch_description():
 
     # launch arguments
     autostart = LaunchConfiguration("autostart")
-    # map = LaunchConfiguration("map")
+    map = LaunchConfiguration("map")
     use_sim_time = LaunchConfiguration("use_sim_time")
 
     return LaunchDescription([
         DeclareLaunchArgument(
             "autostart",
-            default_value="True",
+            default_value="False",
             description="Automatically start up the nav2 stack",
         ),
 
-        # DeclareLaunchArgument(
-        #     name="map",
-        #     default_value=default_map,
-        #     description="Full path to map file to load"
-        # ),
+        DeclareLaunchArgument(
+            name="map",
+            default_value=default_map,
+            description="Full path to map file to load"
+        ),
 
         DeclareLaunchArgument(
             "use_sim_time",
@@ -50,32 +50,17 @@ def generate_launch_description():
             description="Use simulation time",
         ),
 
-        # Node(
-        #     package="nav2_map_server",
-        #     executable="map_server",
-        #     name="map_server",
-        #     parameters=[
-        #         nav2_config,
-        #         {"yaml_filename": map},
-        #         {"use_sim_time": use_sim_time},
-        #     ],
-        #     output="screen",
-        # ),
-
-        # Node(
-        #     parameters=[
-        #         join(
-        #             get_package_share_directory("rosbot_description"),
-        #             "config",
-        #             "slam_toolbox_localization.yaml"
-        #         ),
-        #         # {"use_sim_time": use_sim_time}
-        #     ],
-        #     package="slam_toolbox",
-        #     executable="localization_slam_toolbox_node",
-        #     name="slam_toolbox",
-        #     output="screen"
-        # ),
+        Node(
+            package="nav2_map_server",
+            executable="map_server",
+            name="map_server",
+            parameters=[
+                nav2_config,
+                {"yaml_filename": map},
+                {"use_sim_time": use_sim_time},
+            ],
+            output="screen",
+        ),
 
         Node(
             package="nav2_amcl",
@@ -97,8 +82,23 @@ def generate_launch_description():
             parameters=[
                 {"use_sim_time": use_sim_time},
                 {"autostart": autostart},
-                # {"node_names": ["map_server", "amcl"]}
-                {"node_names": ["amcl"]}
+                {"node_names": ["map_server", "amcl"]}
+                # {"node_names": ["amcl"]}
             ]
         ),
+
+        # Node(
+        #     parameters=[
+        #         join(
+        #             get_package_share_directory("rosbot_description"),
+        #             "config",
+        #             "slam_toolbox_localization.yaml"
+        #         ),
+        #         # {"use_sim_time": use_sim_time}
+        #     ],
+        #     package="slam_toolbox",
+        #     executable="localization_slam_toolbox_node",
+        #     name="slam_toolbox",
+        #     output="screen"
+        # ),
     ])

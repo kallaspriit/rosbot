@@ -49,7 +49,7 @@ def generate_launch_description():
             name="joy_node",
             parameters=[{
                 "dev": joy_dev,
-                "deadzone": 0.05,
+                "deadzone": 0.1,
                 "autorepeat_rate": 20.0,
             }],
             # remap joy topic to allow to co-exist with another joystick
