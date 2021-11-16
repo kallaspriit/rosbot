@@ -1,9 +1,10 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from os.path import join
 from ament_index_python.packages import get_package_share_directory
+from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
@@ -23,11 +24,36 @@ def generate_launch_description():
     )
 
     # launch arguments
+    namespace = LaunchConfiguration("namespace")
     autostart = LaunchConfiguration("autostart")
     map = LaunchConfiguration("map")
     use_sim_time = LaunchConfiguration("use_sim_time")
 
+    # config
+    param_substitutions = {
+        "yaml_filename": map,
+        "use_sim_time": use_sim_time,
+        "autostart": autostart
+    }
+    configured_params = RewrittenYaml(
+        source_file=nav2_config,
+        root_key=namespace,
+        param_rewrites=param_substitutions,
+        convert_types=True
+    )
+    lifecycle_nodes = [
+        "map_server"
+    ]
+
     return LaunchDescription([
+        # set env var to print messages to stdout immediately
+        SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
+
+        DeclareLaunchArgument(
+            "namespace", default_value="",
+            description="Top-level namespace"
+        ),
+
         DeclareLaunchArgument(
             "autostart",
             default_value="True",
@@ -50,11 +76,7 @@ def generate_launch_description():
             package="nav2_map_server",
             executable="map_server",
             name="map_server",
-            parameters=[
-                nav2_config,
-                {"yaml_filename": map},
-                {"use_sim_time": use_sim_time},
-            ],
+            parameters=[configured_params],
             output="screen",
         ),
 
@@ -66,7 +88,7 @@ def generate_launch_description():
             parameters=[
                 {"use_sim_time": use_sim_time},
                 {"autostart": autostart},
-                {"node_names": ["map_server"]}
+                {"node_names": lifecycle_nodes}
             ]
         ),
     ])

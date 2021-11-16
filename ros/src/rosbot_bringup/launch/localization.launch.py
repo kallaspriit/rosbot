@@ -131,11 +131,6 @@ def generate_launch_description():
             executable="map_server",
             name="map_server",
             parameters=[configured_params],
-            # parameters=[
-            #     nav2_config,
-            #     {"yaml_filename": map},
-            #     {"use_sim_time": use_sim_time},
-            # ],
             output="screen",
         ),
 
