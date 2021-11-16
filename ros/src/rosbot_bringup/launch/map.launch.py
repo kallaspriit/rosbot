@@ -34,7 +34,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             "autostart",
-            default_value="False",
+            default_value="True",
             description="Automatically start up the nav2 stack",
         ),
 
