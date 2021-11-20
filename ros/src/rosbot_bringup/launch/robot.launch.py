@@ -51,7 +51,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             "launch_teleop",
-            default_value="false",
+            default_value="true",
             description="Start joystick teleop automatically with the launch file",
         ),
 
@@ -140,7 +140,7 @@ def generate_launch_description():
         Node(
             package="joy",
             executable="joy_node",
-            name="joy_node",
+            name="joy_node_local",
             parameters=[{
                 "dev": joy_dev,
                 "deadzone": 0.1,
@@ -157,7 +157,7 @@ def generate_launch_description():
         Node(
             package="teleop_twist_joy",
             executable="teleop_node",
-            name="teleop_twist_joy_node",
+            name="teleop_node_local",
             parameters=[teleop_config],
             remappings={
                 ("/joy", "/joy_local")
