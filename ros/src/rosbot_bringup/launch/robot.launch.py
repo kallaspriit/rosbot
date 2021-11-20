@@ -140,7 +140,7 @@ def generate_launch_description():
         Node(
             package="joy",
             executable="joy_node",
-            name="joy_node_local",
+            name="joy_node_robot",
             parameters=[{
                 "dev": joy_dev,
                 "deadzone": 0.1,
@@ -148,7 +148,7 @@ def generate_launch_description():
             }],
             # remap joy topic to allow to co-exist with another joystick
             remappings={
-                ("/joy", "/joy_local")
+                ("/joy", "/joy_robot")
             },
             condition=IfCondition(launch_teleop),
         ),
@@ -160,7 +160,7 @@ def generate_launch_description():
             name="teleop_node_robot",
             parameters=[teleop_config],
             remappings={
-                ("/joy", "/joy_local")
+                ("/joy", "/joy_robot")
             },
             condition=IfCondition(launch_teleop),
         ),
