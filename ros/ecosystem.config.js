@@ -8,10 +8,6 @@ module.exports = {
     script: "launch_slam.bash",
     interpreter: "bash"
   },{
-    name: "map",
-    script: "launch_map.bash",
-    interpreter: "bash"
-  },{
     name: "localization",
     script: "launch_localization.bash",
     interpreter: "bash"
