@@ -20,7 +20,7 @@ def generate_launch_description():
     nav2_config = join(
         robot_description_path,
         "config",
-        "nav2.yaml"
+        "localization.yaml"
     )
 
     # launch arguments

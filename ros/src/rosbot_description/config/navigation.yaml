@@ -1,46 +1,3 @@
-amcl:
-  ros__parameters:
-    alpha1: 0.05
-    alpha2: 0.02
-    alpha3: 0.01
-    alpha4: 0.02
-    alpha5: 0.02
-    base_frame_id: "base_link"
-    beam_skip_distance: 0.5
-    beam_skip_error_threshold: 0.9
-    beam_skip_threshold: 0.3
-    do_beamskip: false
-    global_frame_id: "map"
-    lambda_short: 0.1
-    laser_likelihood_max_dist: 2.0
-    laser_max_range: 100.0
-    laser_min_range: -1.0
-    laser_model_type: "likelihood_field"
-    max_beams: 60
-    max_particles: 2000
-    min_particles: 500
-    odom_frame_id: "odom"
-    pf_err: 0.05
-    pf_z: 0.99
-    recovery_alpha_fast: 0.0
-    recovery_alpha_slow: 0.0
-    resample_interval: 1
-    robot_model_type: "differential"
-    # robot_model_type: "nav2_amcl::DifferentialMotionModel"
-    save_pose_rate: 0.5
-    set_initial_pose: True
-    initial_pose: [0.0, 0.0, 0.0, 0.0]
-    sigma_hit: 0.2
-    tf_broadcast: true
-    transform_tolerance: 1.0
-    update_min_a: 0.2
-    update_min_d: 0.25
-    z_hit: 0.5
-    z_max: 0.05
-    z_rand: 0.5
-    z_short: 0.05
-    scan_topic: scan
-
 bt_navigator:
   ros__parameters:
     global_frame: map
@@ -105,8 +62,8 @@ controller_server:
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: -0.25
-      max_vel_x: 0.25
+      min_vel_x: -0.5
+      max_vel_x: 0.5
       min_vel_y: 0.0
       max_vel_y: 0.0
       max_vel_theta: 1.0
@@ -130,7 +87,16 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      critics:
+        [
+          "RotateToGoal",
+          "Oscillation",
+          "BaseObstacle",
+          "GoalAlign",
+          "PathAlign",
+          "PathDist",
+          "GoalDist",
+        ]
       BaseObstacle.scale: 0.02
       PathAlign.scale: 32.0
       PathAlign.forward_point_distance: 0.1
@@ -212,19 +178,6 @@ global_costmap:
         inflation_radius: 0.5
       always_send_full_costmap: True
 
-map_server:
-  ros__parameters:
-    yaml_filename: "turtlebot3_world.yaml"
-
-map_saver:
-  ros__parameters:
-    save_map_timeout: 5000
-    # free_thresh_default: 0.25
-    free_thresh_default: 0.15
-    occupied_thresh_default: 0.65
-    map_subscribe_transient_local: False
-    save_map_timeout: 5000
-
 planner_server:
   ros__parameters:
     expected_planner_frequency: 20.0
@@ -235,6 +188,7 @@ planner_server:
       # use_astar: false
       use_astar: true
       allow_unknown: false
+      use_final_approach_orientation: true
 
 recoveries_server:
   ros__parameters:

@@ -17,10 +17,10 @@ def generate_launch_description():
         "map",
         "office.yaml"
     )
-    nav2_config = join(
+    localization_config = join(
         robot_description_path,
         "config",
-        "nav2.yaml"
+        "localization.yaml"
     )
 
     # launch arguments
@@ -40,19 +40,23 @@ def generate_launch_description():
         ("/tf_static", "tf_static")
     ]
     configured_params = RewrittenYaml(
-        source_file=nav2_config,
+        source_file=localization_config,
         root_key=namespace,
         param_rewrites=param_substitutions,
         convert_types=True
     )
+    # lifecycle_nodes = [
+    #     "map_server",
+    #     "amcl",
+    #     "controller_server",
+    #     "planner_server",
+    #     "recoveries_server",
+    #     "bt_navigator",
+    #     "waypoint_follower",
+    # ]
     lifecycle_nodes = [
         "map_server",
         "amcl",
-        "controller_server",
-        "planner_server",
-        "recoveries_server",
-        "bt_navigator",
-        "waypoint_follower",
     ]
 
     return LaunchDescription([
@@ -82,49 +86,49 @@ def generate_launch_description():
             description="Use simulation time",
         ),
 
-        Node(
-            package="nav2_controller",
-            executable="controller_server",
-            output="screen",
-            parameters=[configured_params],
-            remappings=remappings
-        ),
+        # Node(
+        #     package="nav2_controller",
+        #     executable="controller_server",
+        #     output="screen",
+        #     parameters=[configured_params],
+        #     remappings=remappings
+        # ),
 
-        Node(
-            package="nav2_planner",
-            executable="planner_server",
-            name="planner_server",
-            output="screen",
-            parameters=[configured_params],
-            remappings=remappings
-        ),
+        # Node(
+        #     package="nav2_planner",
+        #     executable="planner_server",
+        #     name="planner_server",
+        #     output="screen",
+        #     parameters=[configured_params],
+        #     remappings=remappings
+        # ),
 
-        Node(
-            package="nav2_recoveries",
-            executable="recoveries_server",
-            name="recoveries_server",
-            output="screen",
-            parameters=[configured_params],
-            remappings=remappings
-        ),
+        # Node(
+        #     package="nav2_recoveries",
+        #     executable="recoveries_server",
+        #     name="recoveries_server",
+        #     output="screen",
+        #     parameters=[configured_params],
+        #     remappings=remappings
+        # ),
 
-        Node(
-            package="nav2_bt_navigator",
-            executable="bt_navigator",
-            name="bt_navigator",
-            output="screen",
-            parameters=[configured_params],
-            remappings=remappings
-        ),
+        # Node(
+        #     package="nav2_bt_navigator",
+        #     executable="bt_navigator",
+        #     name="bt_navigator",
+        #     output="screen",
+        #     parameters=[configured_params],
+        #     remappings=remappings
+        # ),
 
-        Node(
-            package="nav2_waypoint_follower",
-            executable="waypoint_follower",
-            name="waypoint_follower",
-            output="screen",
-            parameters=[configured_params],
-            remappings=remappings
-        ),
+        # Node(
+        #     package="nav2_waypoint_follower",
+        #     executable="waypoint_follower",
+        #     name="waypoint_follower",
+        #     output="screen",
+        #     parameters=[configured_params],
+        #     remappings=remappings
+        # ),
 
         Node(
             package="nav2_map_server",
@@ -146,7 +150,7 @@ def generate_launch_description():
         Node(
             package="nav2_lifecycle_manager",
             executable="lifecycle_manager",
-            name="lifecycle_manager_localization",
+            # name="lifecycle_manager_localization",
             output="screen",
             parameters=[
                 {"use_sim_time": use_sim_time},
