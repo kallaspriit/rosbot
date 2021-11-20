@@ -1,7 +1,7 @@
 from os.path import join
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import launch
@@ -30,7 +30,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             "config_filepath", default_value=[
-                launch.substitutions.TextSubstitution(
+                TextSubstitution(
                     text=join(
                         get_package_share_directory("teleop_twist_joy"),
                         "config",
@@ -38,7 +38,7 @@ def generate_launch_description():
                     )
                 ),
                 joy_config,
-                launch.substitutions.TextSubstitution(text=".config.yaml")
+                TextSubstitution(text=".config.yaml")
             ]
         ),
 
@@ -62,7 +62,7 @@ def generate_launch_description():
         Node(
             package="teleop_twist_joy",
             executable="teleop_node",
-            name="teleop_node_remote",
+            name="teleop_twist_joy_node",
             parameters=[config_filepath],
             remappings={
                 ("/joy", "/joy_remote"),

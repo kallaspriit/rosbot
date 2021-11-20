@@ -157,7 +157,7 @@ def generate_launch_description():
         Node(
             package="teleop_twist_joy",
             executable="teleop_node",
-            name="teleop_node_local",
+            name="teleop_node_robot",
             parameters=[teleop_config],
             remappings={
                 ("/joy", "/joy_local")
