@@ -1,8 +1,11 @@
-# ROS Bot
+# ROSBOT
 
 ROS 2 based robot learning platform.
 
+[![ROSBOT introductory video](https://img.youtube.com/vi/t-1GAfGHRLs/0.jpg)](https://www.youtube.com/watch?v=t-1GAfGHRLs)
+
 ## Run main rosbot/ros workspace
+
 - Add user to usb serial and input groups
   - `sudo usermod -a -G input ubuntu`
   - `sudo usermod -a -G dialout ubuntu`
@@ -36,8 +39,9 @@ ROS 2 based robot learning platform.
   - `ros2 launch teleop_twist_joy teleop.launch.py cmd_vel:=cmd_vel joy_config:=rosbot_xbox_usb`
 
 ## Debugging
+
 - Debugging
-- `ros2 topic echo /joint_states` to show joint states including velocity etc 
+- `ros2 topic echo /joint_states` to show joint states including velocity etc
 - `ros2 topic echo /dynamic_joint_states` to show dynamic joint states including axis error etc
 - `ros2 run tf2_tools view_frames.py` to generate `frames.pdf` frame tree
 - `rqt` to open RQT, add plugins such as `Topics > Topic Monitor`
@@ -51,12 +55,13 @@ ROS 2 based robot learning platform.
     - Rotation: in Quaternion [0.000, 0.000, -0.213, 0.977]
 
 ## Joystick teleop
+
 - https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
 - https://github.com/ros2/teleop_twist_joy/tree/foxy/
 - http://wiki.ros.org/joy
 - https://github.com/medusalix/xow need xow to use xbox bluetooth controller
 - Configure XOW to use xbox controller over bluetooth
-  - `sudo apt install cabextract` to install dependencies 
+  - `sudo apt install cabextract` to install dependencies
   - `git clone https://github.com/medusalix/xow`
   - `cd xow`
   - `make BUILD=RELEASE`
@@ -119,6 +124,7 @@ ROS 2 based robot learning platform.
   - `ros2 topic echo /diff_drive_controller/cmd_vel_unstamped`
 
 ## Setup Gazebo simulator
+
 - `sudo apt install ros-foxy-gazebo-ros-pkgs`
 
 ## Setup Raspberry PI UART
@@ -128,7 +134,7 @@ ROS 2 based robot learning platform.
   - `cd /boot/firmware`
   - `sudo cp usrcfg.txt usrconfig.backup.txt`
   - `sudo cp cmdline.txt cmdline.backup.txt`
-- Disable console UART 
+- Disable console UART
   - add `enable_uart=0` to `/boot/firmware/usrcfg.txt`
   - remove `console=serial0,115200` from `/boot/firmware/cmdline.txt`
 - Disable the Serial Service which used the miniUART
@@ -153,19 +159,21 @@ ROS 2 based robot learning platform.
   - `ros2 launch nav2_bringup navigation_launch.py` to run navigation2
 
 ## Run navigation2_tutorials
+
 - Clone and build `https://github.com/ros-planning/navigation2_tutorials.git`
 - launch robot `ros2 launch sam_bot_description display.launch.py`
 - Launch usbteleop
-  - Open new terminal 
+  - Open new terminal
   - `cd ~/rosbot/ros`
   - `. install/local_setup.bash`
   - `ros2 launch teleop_twist_joy teleop.launch.py cmd_vel:=/demo/cmd_vel joy_config:=rosbot_xbox_usb`
   - or without the /demo in modified version
 - Launch slam_toolbox
-  - Open new terminal 
-  - `ros2 launch slam_toolbox online_async_launch.py` 
+  - Open new terminal
+  - `ros2 launch slam_toolbox online_async_launch.py`
 
 ## Setup Arduino
+
 - Install Arduino IDE
 - Add `https://www.adafruit.com/package_adafruit_index.json` to Arduino preferences additional boards URLs
 - Install board `Adafruit nRF52`
@@ -184,6 +192,7 @@ ROS 2 based robot learning platform.
   - `sudo ldconfig /usr/local/lib/`
 
 ## Update cmake
+
 - `cmake --version`
 - `sudo apt update`
 - `sudo apt install -y software-properties-common lsb-release`
@@ -197,6 +206,7 @@ ROS 2 based robot learning platform.
 - `cmake --version`
 
 ## Build micro-ros on MBED
+
 - https://github.com/micro-ROS/micro_ros_mbed
 - `pip3 install catkin_pkg lark-parser empy colcon-common-extensions mbed-tools`
 - `sudo apt install gcc-arm-none-eabi`
@@ -408,7 +418,6 @@ def generate_launch_description():
   - between panels `ctrl+b ARROWS`
   - between windows `ctrl+b N` where first N=0, second N=1 etc
 
-
 ## Base ros setup
 
 https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Binary.html#linux-install-binary-install-missing-dependencies
@@ -418,7 +427,6 @@ https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Binary.html#linux-insta
 - sudo apt install -y python3-rosdep
 - rosdep update
 - rosdep install --from-paths /opt/ros/foxy/share --ignore-src --rosdistro foxy -y --skip-keys "console_bridge fastcdr fastrtps osrf_testing_tools_cpp poco_vendor rmw_connextdds rti-connext-dds-5.3.1 tinyxml_vendor tinyxml2_vendor urdfdom urdfdom_headers"
-
 
 ## Creating workspace
 
@@ -433,6 +441,7 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - cd ~/dev_ws
 
 ## Build package
+
 - create workspace directory `mkdir ros2_ws` etc
 - create "src" in this directory
 - copy the library/package into src
@@ -440,6 +449,7 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - cd back to workspace and run `colcon build` to build the package
 
 ## Teleop robot controller
+
 - https://github.com/ros-teleop/teleop_tools/tree/foxy-devel
 - https://ubuntu.com/blog/the-teleop_tools-arrive-in-ros-2-dashing
 - `ros2 run mouse_teleop mouse_teleop`
@@ -447,6 +457,7 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `ros2 topic echo /mouse_vel`
 
 ## Run experiments/test_odrive_ros2 package
+
 - `cd ~/rosbot/experiments/test_odrive_ros2/`
 - `ros2 run odrive_ros2 odrive_node`
 - `ros2 service call /connect_odrive std_srvs/srv/Trigger`
@@ -456,9 +467,11 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `ros2 topic echo /joint_state`
 
 ## RVIZ2
+
 - https://www.stereolabs.com/docs/ros2/rviz2/
 
 # Run experiments/test_odrive_ros2_control package
+
 - https://ros-controls.github.io/control.ros.org/getting_started.html
 - https://github.com/ros-controls/ros2_control
 - https://github.com/ros-controls/ros2_controllers
@@ -477,6 +490,7 @@ https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html
 - `ros2 topic pub -r 100 /joint1_velocity_controller/commands std_msgs/Float64MultiArray "data: [-1]"`
 
 ## Run ros2_control_demos
+
 - copy repo https://github.com/ros-controls/ros2_control_demos
 - create workspace folder, move demo repo folders under `src`
 - `cd ros2_control_demos/`
@@ -505,19 +519,23 @@ angular:
 - `ros2 run mouse_teleop mouse_teleop --ros-args -r /mouse_vel:=/diff_drive_controller/cmd_vel_unstamped`
 
 ## Open VSCode from Ubuntu explorer context menu
+
 - Run the following in terminal
 - `wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash`
 
 ## Configure ssh
+
 - `ssh-keygen -t rsa` to create ssh key in `~/.ssh` if not already present
 - `cat ~/.ssh/id_rsa.pub` to get public key from computer that wants to access robot
 - add the public key to robot's `~/.ssh/authorized_keys` file
 - create `~/.ssh/config` file on the remote computer with contents like
+
 ```
 Host rosbot
     HostName rosbot
     User ubuntu
 ```
+
 - `ssh rosbot` to open ssh connection to robot using the configuration and ssh key
 
 ## Create package
