@@ -2,7 +2,10 @@
 
 ROS 2 based robot learning platform.
 
-[![ROSBOT introductory video](https://img.youtube.com/vi/t-1GAfGHRLs/0.jpg)](https://www.youtube.com/watch?v=t-1GAfGHRLs)
+[![ROSBOT introductory video](https://raw.githubusercontent.com/kallaspriit/rosbot/main/docs/render.jpg)](https://www.youtube.com/watch?v=t-1GAfGHRLs)
+
+[![Bill of materials](https://raw.githubusercontent.com/kallaspriit/rosbot/main/docs/bom.jpg)](https://docs.google.com/spreadsheets/d/122i1k6gkCbc3--f4KSbXqv0-GW25-VVfwCtphQCVFGo/edit?usp=sharing)
+
 
 ## Run main rosbot/ros workspace
 
