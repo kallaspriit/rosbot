@@ -8,6 +8,8 @@ _Click the image to video showing robot design and navigation in action_
 
 ## Bill of Materials
 
+The BOM has not been designed for easy replication but most all used components and alternatives considered are there with respective links of where were they purchased so maybe it helps someone putting together a similar build :)
+
 [![Bill of materials](https://raw.githubusercontent.com/kallaspriit/rosbot/main/docs/bom.jpg)](https://docs.google.com/spreadsheets/d/122i1k6gkCbc3--f4KSbXqv0-GW25-VVfwCtphQCVFGo/edit?usp=sharing)
 
 _Click the image to open BOM_
